@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promised Land Oita 2026 — Mobile Concept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+  <style>
+    :root {
+      --red:    #C5200A;
+      --black:  #0a0a0a;
+      --white:  #FAFAF8;
+      --pale:   #F2EFE9;
+      --ink:    #111;
+      --muted:  #888;
+      --line:   rgba(0,0,0,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d0d0d;
+      font-family: 'Pretendard', 'Inter', sans-serif;
+      padding: 72px 40px 96px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-top {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .page-top-ey {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: #444;
+      margin-bottom: 12px;
+    }
+    .page-top-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.1em;
+      color: #fff;
+    }
+    .page-top-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 14px;
+      background: rgba(197,32,10,0.14);
+      border: 1px solid rgba(197,32,10,0.3);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #e05a45;
+      letter-spacing: 0.1em;
+    }
+    .tag-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; }
+
+    /* ── ROW ── */
+    .row {
+      display: flex;
+      gap: 56px;
+      margin-bottom: 72px;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    /* ── PHONE WRAP ── */
+    .pw { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .pw-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #3a3a3a;
+    }
+
+    /* ── IPHONE 15 PRO FRAME ── */
+    .phone {
+      position: relative;
+      width: 375px;
+      height: 812px;
+      background: #1c1c1e;
+      border-radius: 54px;
+      box-shadow:
+        0 0 0 1px #2c2c2e,
+        0 0 0 2.5px #111,
+        0 56px 112px rgba(0,0,0,0.75),
+        0 20px 40px rgba(0,0,0,0.4),
+        inset 0 0 0 1px rgba(255,255,255,0.04);
+      flex-shrink: 0;
+    }
+    /* titanium sheen */
+    .phone::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 54px;
+      background: linear-gradient(140deg, rgba(255,255,255,0.07) 0%, transparent 45%);
+      pointer-events: none; z-index: 30;
+    }
+    /* left buttons */
+    .phone::after {
+      content: '';
+      position: absolute;
+      left: -3px; top: 134px;
+      width: 3px; height: 32px;
+      background: #2c2c2e;
+      border-radius: 2px 0 0 2px;
+      box-shadow: 0 46px 0 #2c2c2e, 0 88px 0 #2c2c2e;
+    }
+    /* power button */
+    .pwr {
+      position: absolute;
+      right: -3px; top: 172px;
+      width: 3px; height: 64px;
+      background: #2c2c2e;
+      border-radius: 0 2px 2px 0;
+    }
+    /* screen */
+    .screen {
+      position: absolute;
+      inset: 5px;
+      border-radius: 49px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    /* dynamic island */
+    .di {
+      position: absolute;
+      top: 12px; left: 50%;
+      transform: translateX(-50%);
+      width: 120px; height: 34px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 30;
+    }
+
+    /* ── STATUS BAR ── */
+    .sb {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 54px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 26px 8px;
+      z-index: 25;
+    }
+    .sb-t { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; }
+    .sb-i { display: flex; align-items: center; gap: 6px; }
+    .sb.w .sb-t, .sb.w .sb-i svg * { color: #fff; stroke: rgba(255,255,255,0.88) !important; fill: rgba(255,255,255,0.88) !important; }
+    .sb.d .sb-t { color: var(--ink); }
+    .sb.d .sb-i svg * { stroke: var(--ink) !important; fill: var(--ink) !important; }
+
+    /* ── BOTTOM TAB BAR ── */
+    .tabs {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 82px;
+      background: rgba(250,250,248,0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      padding-top: 10px;
+      z-index: 20;
+    }
+    .tabs.dark {
+      background: rgba(10,10,10,0.96);
+      border-top-color: rgba(255,255,255,0.05);
+    }
+    .tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .tab-ic { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+    .tab-ic svg { width: 22px; height: 22px; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .tab-lb { font-family: 'Pretendard', sans-serif; font-size: 10px; font-weight: 600; }
+    .tab.on .tab-ic svg { stroke: var(--red); }
+    .tab.on .tab-lb { color: var(--red); }
+    .tab.off .tab-ic svg { stroke: #c0bdb8; }
+    .tab.off .tab-lb { color: #c0bdb8; }
+    .tabs.dark .tab.off .tab-ic svg { stroke: #444; }
+    .tabs.dark .tab.off .tab-lb { color: #444; }
+
+    /* ══════════════════════════
+       SCREEN 1 — 홈
+    ══════════════════════════ */
+    .s1 { background: var(--white); }
+
+    .s1-hero {
+      height: 495px;
+      background: var(--red);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    /* subtle noise on red */
+    .s1-hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      opacity: 1;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .s1-top {
+      position: relative; z-index: 2;
+      padding: 58px 22px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .s1-top-left { }
+    .s1-event-name {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.4;
+    }
+    .s1-event-date {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      margin-top: 3px;
+    }
+    .s1-countdown {
+      text-align: right;
+    }
+    .s1-cd-label {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.45);
+      text-align: right;
+      margin-bottom: 3px;
+    }
+    .s1-cd-nums {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .s1-cd-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 34px;
+      letter-spacing: 0.02em;
+      color: #fff;
+      line-height: 1;
+    }
+    .s1-cd-sep {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      color: rgba(255,255,255,0.4);
+    }
+    .s1-cd-units {
+      display: flex;
+      gap: 6px;
+      margin-top: 2px;
+      justify-content: flex-end;
+    }
+    .s1-cd-unit {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.05em;
+      min-width: 34px;
+      text-align: center;
+    }
+    .s1-cd-unit:first-child { min-width: 30px; }
+
+    /* BIG TYPE BLOCK */
+    .s1-bigtype {
+      position: relative; z-index: 2;
+      padding: 0 16px;
+      margin-top: auto;
+      margin-bottom: -6px;
+    }
+    .s1-bigtype-main {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 102px;
+      letter-spacing: 0.01em;
+      line-height: 0.88;
+      color: #fff;
+      /* bleed slightly past left edge like the reference */
+      margin-left: -4px;
+    }
+
+    /* BOTTOM INFO */
+    .s1-hero-bottom {
+      position: relative; z-index: 2;
+      padding: 16px 22px 20px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .s1-venue {
+      font-family: 'Pretendard', sans-serif;
+    }
+    .s1-venue-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+    .s1-venue-addr {
+      font-size: 10px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+      margin-top: 2px;
+    }
+    .s1-cta {
+      background: #fff;
+      color: var(--red);
+      font-family: 'Pretendard', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 10px 18px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* HOME BOTTOM — quick tiles */
+    .s1-bottom {
+      padding: 18px 16px 0;
+      background: var(--white);
+    }
+    .s1-b-label {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 10px;
+      padding: 0 2px;
+    }
+    .s1-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .s1-tile {
+      background: var(--pale);
+      border-radius: 12px;
+      padding: 14px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .s1-tile.red { background: var(--red); }
+    .s1-tile-name {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .s1-tile.red .s1-tile-name { color: #fff; }
+    .s1-tile-sub {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      color: #aaa;
+    }
+    .s1-tile.red .s1-tile-sub { color: rgba(255,255,255,0.55); }
+    .s1-tile-arr {
+      align-self: flex-end;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.06);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px;
+    }
+    .s1-tile.red .s1-tile-arr { background: rgba(0,0,0,0.2); }
+    .s1-tile-arr::after {
+      content: '';
+      width: 5px; height: 5px;
+      border-right: 1.5px solid var(--ink);
+      border-top: 1.5px solid var(--ink);
+      transform: rotate(45deg) translate(-1px, 1px);
+    }
+    .s1-tile.red .s1-tile-arr::after { border-color: rgba(255,255,255,0.8); }
+
+    /* ══════════════════════════
+       SCREEN 2 — 행사안내
+    ══════════════════════════ */
+    .s2 { background: var(--white); }
+
+    .s2-header {
+      height: 120px;
+      background: var(--red);
+      padding: 0 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .s2-header-ghost {
+      position: absolute;
+      right: -8px; bottom: -14px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 80px;
+      color: rgba(0,0,0,0.1);
+      letter-spacing: 0.01em;
+      line-height: 1;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .s2-ey {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 4px;
+    }
+    .s2-ttl {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 38px; letter-spacing: 0.05em;
+      color: #fff; line-height: 1;
+    }
+
+    .s2-list { padding: 4px 0 0; }
+    .s2-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 15px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .s2-row:last-child { border-bottom: none; }
+    .s2-row-left { flex: 1; }
+    .s2-row-name {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 15px; font-weight: 700;
+      color: var(--ink);
+    }
+    .s2-row-sub {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 11px; color: var(--muted);
+      margin-top: 2px;
+    }
+    .s2-row-arr {
+      width: 8px; height: 8px;
+      border-right: 1.5px solid #ccc;
+      border-top: 1.5px solid #ccc;
+      transform: rotate(45deg);
+    }
+    .s2-row-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 600;
+      color: var(--red);
+      margin-right: 10px;
+    }
+
+    /* ══════════════════════════
+       SCREEN 3 — 스케줄
+    ══════════════════════════ */
+    .s3 { background: var(--white); }
+
+    .s3-header {
+      height: 104px;
+      background: var(--ink);
+      padding: 0 22px 16px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .s3-ey {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-bottom: 4px;
+    }
+    .s3-ttl {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px; letter-spacing: 0.06em;
+      color: #fff; line-height: 1;
+    }
+    .s3-day-bar {
+      display: flex;
+      border-bottom: 1px solid var(--line);
+    }
+    .s3-day {
+      flex: 1; padding: 12px 0 10px;
+      text-align: center;
+      position: relative;
+    }
+    .s3-day::after {
+      content: ''; position: absolute;
+      bottom: -1px; left: 10%; right: 10%;
+      height: 2px; border-radius: 1px;
+      background: transparent;
+    }
+    .s3-day.on::after { background: var(--red); }
+    .s3-dn {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #bbb;
+    }
+    .s3-day.on .s3-dn { color: var(--red); }
+    .s3-dnum {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; letter-spacing: 0.02em;
+      color: #ccc; margin-top: 2px; line-height: 1;
+    }
+    .s3-day.on .s3-dnum { color: var(--ink); }
+    .s3-ddate {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9px; color: #ccc; margin-top: 2px;
+    }
+    .s3-day.on .s3-ddate { color: #888; }
+
+    .s3-timeline { padding: 18px 22px 0; }
+    .s3-ev {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 18px;
+      position: relative;
+    }
+    .s3-ev::before {
+      content: '';
+      position: absolute;
+      left: 38px; top: 22px; bottom: 0;
+      width: 1px;
+      background: var(--line);
+    }
+    .s3-ev:last-child::before { display: none; }
+    .s3-t {
+      width: 34px; flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px; font-weight: 600;
+      color: var(--red); letter-spacing: 0.03em;
+      padding-top: 4px;
+      line-height: 1.3;
+    }
+    .s3-dot-col { width: 10px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 7px; }
+    .s3-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--red); background: var(--white); flex-shrink: 0; }
+    .s3-dot.dim { border-color: #ddd; }
+    .s3-ev-body { flex: 1; padding-top: 2px; }
+    .s3-ev-name {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 14px; font-weight: 700; color: var(--ink);
+    }
+    .s3-ev-sub {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 11px; color: var(--muted); margin-top: 2px;
+    }
+    .s3-ev-tag {
+      display: inline-block; margin-top: 5px;
+      background: rgba(197,32,10,0.08);
+      color: var(--red);
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px; font-weight: 700;
+      padding: 2px 7px; border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════
+       SCREEN 4 — 식사안내
+    ══════════════════════════ */
+    .s4 { background: var(--white); }
+
+    .s4-header {
+      height: 120px;
+      background: var(--red);
+      padding: 0 22px 16px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      position: relative; overflow: hidden;
+    }
+    .s4-header-ghost {
+      position: absolute; right: 14px; bottom: -8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 72px; color: rgba(0,0,0,0.1);
+      line-height: 1; pointer-events: none;
+    }
+    .s4-ey { font-family: 'Pretendard', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 4px; }
+    .s4-ttl { font-family: 'Bebas Neue', sans-serif; font-size: 38px; letter-spacing: 0.05em; color: #fff; line-height: 1; }
+    .s4-sub { font-family: 'Pretendard', sans-serif; font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; }
+
+    .s4-list { padding: 14px 16px 0; display: flex; flex-direction: column; gap: 9px; }
+    .s4-card { border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+    .s4-card-h {
+      padding: 11px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .s4-card-h.n1 { background: var(--ink); }
+    .s4-card-h.n2 { background: #1f1412; }
+    .s4-card-h.n3 { background: #121420; }
+    .s4-card-day { font-family: 'Pretendard', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .s4-card-meal { font-family: 'Bebas Neue', sans-serif; font-size: 21px; letter-spacing: 0.05em; color: #fff; margin-top: 1px; }
+    .s4-card-badge { background: var(--red); color: #fff; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; padding: 4px 9px; border-radius: 5px; letter-spacing: 0.04em; }
+    .s4-card-b { background: var(--white); padding: 13px 16px; display: flex; align-items: center; gap: 12px; }
+    .s4-emoji { font-size: 28px; line-height: 1; }
+    .s4-info { flex: 1; }
+    .s4-info-name { font-family: 'Pretendard', sans-serif; font-size: 14px; font-weight: 700; color: var(--ink); }
+    .s4-info-loc { font-family: 'Pretendard', sans-serif; font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ══════════════════════════
+       SCREEN 5 — 각층별안내
+    ══════════════════════════ */
+    .s5 { background: var(--white); }
+
+    .s5-header {
+      height: 104px;
+      background: var(--red);
+      padding: 0 22px 16px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .s5-ey { font-family: 'Pretendard', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 4px; }
+    .s5-ttl { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 0.05em; color: #fff; line-height: 1; }
+
+    .s5-tabs {
+      display: flex;
+      border-bottom: 1.5px solid var(--line);
+      background: var(--white);
+    }
+    .s5-tab {
+      flex: 1; padding: 11px 0 9px;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 800;
+      letter-spacing: 0.05em;
+      color: #ccc;
+      position: relative;
+    }
+    .s5-tab::after {
+      content: ''; position: absolute;
+      bottom: -1.5px; left: 15%; right: 15%;
+      height: 2px; border-radius: 1px;
+      background: transparent;
+    }
+    .s5-tab.on { color: var(--red); }
+    .s5-tab.on::after { background: var(--red); }
+
+    .s5-body { padding: 16px 16px 0; }
+    .s5-floor-ttl {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px; letter-spacing: 0.07em;
+      color: var(--ink); margin-bottom: 12px;
+    }
+    .s5-map {
+      border-radius: 12px;
+      background: var(--pale);
+      border: 1px solid rgba(0,0,0,0.06);
+      height: 176px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .s5-map svg { width: 100%; height: 100%; }
+
+    .s5-info { display: flex; flex-direction: column; gap: 7px; }
+    .s5-info-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 14px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .s5-rdot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+    .s5-rdot.g { background: #bbb; }
+    .s5-info-t {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 12px; font-weight: 500; color: #333;
+    }
+
+    /* ══════════════════════════
+       SCREEN 6 — 영상
+    ══════════════════════════ */
+    .s6 { background: var(--black); }
+
+    .s6-header {
+      height: 104px;
+      background: #0a0a0a;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 0 22px 16px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .s6-ey { font-family: 'Pretendard', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 4px; }
+    .s6-ttl { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 0.06em; color: #fff; line-height: 1; }
+
+    .s6-featured {
+      margin: 14px 16px 0;
+      height: 210px;
+      background: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .s6-feat-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #1a0606 0%, #060614 100%);
+    }
+    .s6-play-ring {
+      position: relative; z-index: 2;
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      background: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 8px rgba(197,32,10,0.15), 0 8px 24px rgba(197,32,10,0.4);
+    }
+    .s6-play-ring svg { width: 20px; height: 20px; fill: #fff; margin-left: 3px; }
+    .s6-feat-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 10px 14px 12px;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    }
+    .s6-feat-title { font-family: 'Pretendard', sans-serif; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.9); }
+    .s6-feat-sub { font-family: 'Pretendard', sans-serif; font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+    .s6-feat-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.08); }
+    .s6-feat-bar-fill { width: 30%; height: 100%; background: var(--red); }
+
+    .s6-list-head {
+      padding: 16px 16px 8px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: #444;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .s6-list-more { font-size: 11px; font-weight: 600; color: var(--red); letter-spacing: 0.04em; }
+    .s6-list { padding: 0 16px; display: flex; flex-direction: column; gap: 12px; }
+    .s6-row { display: flex; gap: 12px; align-items: center; }
+    .s6-thumb {
+      width: 96px; height: 60px;
+      background: #1a1a1a;
+      border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .s6-t-bg { position: absolute; inset: 0; }
+    .s6-t-play { position: relative; z-index: 2; width: 22px; height: 22px; background: rgba(197,32,10,0.75); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .s6-t-play svg { width: 9px; height: 9px; fill: #fff; margin-left: 1px; }
+    .s6-meta { flex: 1; }
+    .s6-meta-name { font-family: 'Pretendard', sans-serif; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); line-height: 1.35; }
+    .s6-meta-sub { font-family: 'Pretendard', sans-serif; font-size: 10px; color: #555; margin-top: 3px; }
+  </style>
+</head>
+<body>
+
+<div class="page-top">
+  <div class="page-top-ey">Mobile Design Concept</div>
+  <div class="page-top-title">PROMISED LAND JAPAN IN OITA 2026</div>
+  <div class="page-top-tag"><span class="tag-dot"></span>White &amp; Red · iOS-native · Pretendard</div>
+</div>
+
+<!-- SVG status bar icons helper -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden">
+  <symbol id="ic-signal" viewBox="0 0 17 12">
+    <rect x="0" y="7" width="3" height="5" rx="0.5"/>
+    <rect x="4.5" y="5" width="3" height="7" rx="0.5"/>
+    <rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/>
+    <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+  </symbol>
+  <symbol id="ic-wifi" viewBox="0 0 16 12" fill="none" stroke-width="1.4" stroke-linecap="round">
+    <path d="M1 4.5C4.5 1 11.5 1 15 4.5"/>
+    <path d="M3.5 7C6 4.8 10 4.8 12.5 7"/>
+    <path d="M6.2 9.5C7.3 8.5 8.7 8.5 9.8 9.5"/>
+    <circle cx="8" cy="11.5" r="0.7" stroke="none"/>
+  </symbol>
+  <symbol id="ic-batt" viewBox="0 0 25 12" fill="none" stroke-width="1.4" stroke-linecap="round">
+    <rect x="0.5" y="0.7" width="20" height="10.6" rx="2.2"/>
+    <rect x="1.5" y="1.7" width="14" height="8.6" rx="1.2" stroke="none"/>
+    <path d="M22 4v4" stroke-width="1.8"/>
+  </symbol>
+</svg>
+
+<!-- TAB BAR template -->
+<template id="tabs-light">
+  <div class="tabs">
+    <div class="tab on">
+      <div class="tab-ic"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="tab-lb">홈</div>
+    </div>
+    <div class="tab off">
+      <div class="tab-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="tab-lb">스케줄</div>
+    </div>
+    <div class="tab off">
+      <div class="tab-ic"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="15" y2="18"/></svg></div>
+      <div class="tab-lb">안내</div>
+    </div>
+    <div class="tab off">
+      <div class="tab-ic"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+      <div class="tab-lb">영상</div>
+    </div>
+  </div>
+</template>
+
+<!-- ═══════════════════════════
+     ROW 1: 홈 + 행사안내
+═══════════════════════════ -->
+<div class="row">
+
+  <!-- SCREEN 1 — 홈 -->
+  <div class="pw">
+    <div class="pw-label">01 · 홈</div>
+    <div class="phone">
+      <div class="pwr"></div>
+      <div class="screen s1">
+        <div class="di"></div>
+        <div class="sb w" style="background:transparent;position:absolute;z-index:26;">
+          <span class="sb-t">9:41</span>
+          <div class="sb-i">
+            <svg width="17" height="12"><use href="#ic-signal" fill="rgba(255,255,255,0.88)"/></svg>
+            <svg width="16" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-wifi"/></svg>
+            <svg width="25" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-batt"/><rect x="1.5" y="1.7" width="14" height="8.6" rx="1.2" fill="rgba(255,255,255,0.88)"/></svg>
+          </div>
+        </div>
+
+        <div class="s1-hero">
+          <!-- top info row -->
+          <div class="s1-top">
+            <div class="s1-top-left">
+              <div class="s1-event-name">PROMISED LAND JAPAN IN OITA 2026</div>
+              <div class="s1-event-date">2026년 11월 20일(금) — 22일(일)</div>
+            </div>
+            <div class="s1-countdown">
+              <div class="s1-cd-label">D-Day까지</div>
+              <div class="s1-cd-nums">
+                <span class="s1-cd-num">23</span>
+                <span class="s1-cd-sep">·</span>
+                <span class="s1-cd-num">17</span>
+                <span class="s1-cd-sep">·</span>
+                <span class="s1-cd-num">30</span>
+              </div>
+              <div class="s1-cd-units">
+                <span class="s1-cd-unit">일</span>
+                <span class="s1-cd-unit" style="min-width:30px">시간</span>
+                <span class="s1-cd-unit">분</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BIG TYPE — bleeds like the reference -->
+          <div class="s1-bigtype">
+            <div class="s1-bigtype-main">PROMISED<br>LAND</div>
+          </div>
+
+          <!-- venue + CTA -->
+          <div class="s1-hero-bottom">
+            <div class="s1-venue">
+              <div class="s1-venue-name">B-con Plaza (ビーコンプラザ)</div>
+              <div class="s1-venue-addr">벳부, 오이타, 일본</div>
+            </div>
+            <div class="s1-cta">일정 보기</div>
+          </div>
+        </div>
+
+        <!-- QUICK TILES -->
+        <div class="s1-bottom">
+          <div class="s1-b-label">빠른 이동</div>
+          <div class="s1-grid">
+            <div class="s1-tile red">
+              <div class="s1-tile-name">스케줄</div>
+              <div class="s1-tile-sub">3일 전체 일정</div>
+              <div class="s1-tile-arr"></div>
+            </div>
+            <div class="s1-tile">
+              <div class="s1-tile-name">조 편성</div>
+              <div class="s1-tile-sub">내 조 확인</div>
+              <div class="s1-tile-arr"></div>
+            </div>
+            <div class="s1-tile">
+              <div class="s1-tile-name">식사안내</div>
+              <div class="s1-tile-sub">7식 제공</div>
+              <div class="s1-tile-arr"></div>
+            </div>
+            <div class="s1-tile">
+              <div class="s1-tile-name">각층별안내</div>
+              <div class="s1-tile-sub">B-con Plaza</div>
+              <div class="s1-tile-arr"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+          <div class="tab on"><div class="tab-ic"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="tab-lb">홈</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="tab-lb">스케줄</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="15" y2="18"/></svg></div><div class="tab-lb">안내</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="tab-lb">영상</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2 — 행사안내 -->
+  <div class="pw">
+    <div class="pw-label">02 · 행사안내</div>
+    <div class="phone">
+      <div class="pwr"></div>
+      <div class="screen s2">
+        <div class="di"></div>
+        <div class="sb w" style="background:transparent;position:absolute;z-index:26;">
+          <span class="sb-t">9:41</span>
+          <div class="sb-i">
+            <svg width="17" height="12"><use href="#ic-signal" fill="rgba(255,255,255,0.88)"/></svg>
+            <svg width="16" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-wifi"/></svg>
+            <svg width="25" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-batt"/><rect x="1.5" y="1.7" width="14" height="8.6" rx="1.2" fill="rgba(255,255,255,0.88)"/></svg>
+          </div>
+        </div>
+
+        <div class="s2-header">
+          <div class="s2-header-ghost">INFO</div>
+          <div class="s2-ey">행사 정보</div>
+          <div class="s2-ttl">행사안내</div>
+        </div>
+
+        <div class="s2-list">
+          <div class="s2-row">
+            <div class="s2-row-left"><div class="s2-row-name">스케줄</div><div class="s2-row-sub">3일간 세션 시간표</div></div>
+            <div class="s2-row-arr"></div>
+          </div>
+          <div class="s2-row">
+            <div class="s2-row-left"><div class="s2-row-name">장소안내</div><div class="s2-row-sub">B-con Plaza · 벳부, 오이타</div></div>
+            <div class="s2-row-arr"></div>
+          </div>
+          <div class="s2-row">
+            <div class="s2-row-left"><div class="s2-row-name">조 편성</div><div class="s2-row-sub">참가자 조 확인</div></div>
+            <div class="s2-row-arr"></div>
+          </div>
+          <div class="s2-row">
+            <div class="s2-row-left"><div class="s2-row-name">식사안내</div><div class="s2-row-sub">3일 · 총 7식 제공</div></div>
+            <div class="s2-row-arr"></div>
+          </div>
+          <div class="s2-row">
+            <div class="s2-row-left"><div class="s2-row-name">각층별안내</div><div class="s2-row-sub">화장실 · 이동동선</div></div>
+            <div class="s2-row-arr"></div>
+          </div>
+          <div class="s2-row">
+            <div class="s2-row-left"><div class="s2-row-name">로비안내</div><div class="s2-row-sub">굿즈 · 의료부스</div></div>
+            <div class="s2-row-arr"></div>
+          </div>
+          <div class="s2-row">
+            <div class="s2-row-left"><div class="s2-row-name">FAQ</div><div class="s2-row-sub">자주 묻는 질문</div></div>
+            <div class="s2-row-arr"></div>
+          </div>
+          <div class="s2-row">
+            <div class="s2-row-left"><div class="s2-row-name">문의</div><div class="s2-row-sub">이메일 · 인스타그램</div></div>
+            <div class="s2-row-arr"></div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="tab-lb">홈</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="tab-lb">스케줄</div></div>
+          <div class="tab on"><div class="tab-ic"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="15" y2="18"/></svg></div><div class="tab-lb">안내</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="tab-lb">영상</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════
+     ROW 2: 스케줄 + 식사안내
+═══════════════════════════ -->
+<div class="row">
+
+  <!-- SCREEN 3 — 스케줄 -->
+  <div class="pw">
+    <div class="pw-label">03 · 스케줄</div>
+    <div class="phone">
+      <div class="pwr"></div>
+      <div class="screen s3">
+        <div class="di"></div>
+        <div class="sb w" style="background:transparent;position:absolute;z-index:26;">
+          <span class="sb-t">9:41</span>
+          <div class="sb-i">
+            <svg width="17" height="12"><use href="#ic-signal" fill="rgba(255,255,255,0.88)"/></svg>
+            <svg width="16" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-wifi"/></svg>
+            <svg width="25" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-batt"/><rect x="1.5" y="1.7" width="14" height="8.6" rx="1.2" fill="rgba(255,255,255,0.88)"/></svg>
+          </div>
+        </div>
+
+        <div class="s3-header">
+          <div class="s3-ey">일정</div>
+          <div class="s3-ttl">스케줄</div>
+        </div>
+
+        <div class="s3-day-bar">
+          <div class="s3-day on">
+            <div class="s3-dn">DAY 1</div>
+            <div class="s3-dnum">20</div>
+            <div class="s3-ddate">NOV · 금</div>
+          </div>
+          <div class="s3-day">
+            <div class="s3-dn">DAY 2</div>
+            <div class="s3-dnum">21</div>
+            <div class="s3-ddate">NOV · 토</div>
+          </div>
+          <div class="s3-day">
+            <div class="s3-dn">DAY 3</div>
+            <div class="s3-dnum">22</div>
+            <div class="s3-ddate">NOV · 일</div>
+          </div>
+        </div>
+
+        <div class="s3-timeline">
+          <div class="s3-ev">
+            <div class="s3-t">17:00</div>
+            <div class="s3-dot-col"><div class="s3-dot"></div></div>
+            <div class="s3-ev-body">
+              <div class="s3-ev-name">등록 · 접수</div>
+              <div class="s3-ev-sub">1F 로비</div>
+              <div class="s3-ev-tag">입장</div>
+            </div>
+          </div>
+          <div class="s3-ev">
+            <div class="s3-t">18:00</div>
+            <div class="s3-dot-col"><div class="s3-dot"></div></div>
+            <div class="s3-ev-body">
+              <div class="s3-ev-name">저녁 식사</div>
+              <div class="s3-ev-sub">지정 식사 구역</div>
+            </div>
+          </div>
+          <div class="s3-ev">
+            <div class="s3-t">19:30</div>
+            <div class="s3-dot-col"><div class="s3-dot"></div></div>
+            <div class="s3-ev-body">
+              <div class="s3-ev-name">오프닝 세션</div>
+              <div class="s3-ev-sub">대공연장</div>
+              <div class="s3-ev-tag">세션</div>
+            </div>
+          </div>
+          <div class="s3-ev">
+            <div class="s3-t">21:30</div>
+            <div class="s3-dot-col"><div class="s3-dot dim"></div></div>
+            <div class="s3-ev-body">
+              <div class="s3-ev-name">자유 시간</div>
+              <div class="s3-ev-sub"></div>
+            </div>
+          </div>
+          <div class="s3-ev">
+            <div class="s3-t">22:30</div>
+            <div class="s3-dot-col"><div class="s3-dot dim"></div></div>
+            <div class="s3-ev-body">
+              <div class="s3-ev-name">취침</div>
+              <div class="s3-ev-sub">각 객실</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="tab-lb">홈</div></div>
+          <div class="tab on"><div class="tab-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="tab-lb">스케줄</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="15" y2="18"/></svg></div><div class="tab-lb">안내</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="tab-lb">영상</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4 — 식사안내 -->
+  <div class="pw">
+    <div class="pw-label">04 · 식사안내</div>
+    <div class="phone">
+      <div class="pwr"></div>
+      <div class="screen s4">
+        <div class="di"></div>
+        <div class="sb w" style="background:transparent;position:absolute;z-index:26;">
+          <span class="sb-t">9:41</span>
+          <div class="sb-i">
+            <svg width="17" height="12"><use href="#ic-signal" fill="rgba(255,255,255,0.88)"/></svg>
+            <svg width="16" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-wifi"/></svg>
+            <svg width="25" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-batt"/><rect x="1.5" y="1.7" width="14" height="8.6" rx="1.2" fill="rgba(255,255,255,0.88)"/></svg>
+          </div>
+        </div>
+
+        <div class="s4-header">
+          <div class="s4-header-ghost">7食</div>
+          <div class="s4-ey">식사</div>
+          <div class="s4-ttl">식사안내</div>
+          <div class="s4-sub">3일 · 총 7식 제공</div>
+        </div>
+
+        <div class="s4-list">
+          <div class="s4-card">
+            <div class="s4-card-h n1">
+              <div><div class="s4-card-day">DAY 1 · NOV 20</div><div class="s4-card-meal">저녁</div></div>
+              <div class="s4-card-badge">18:00</div>
+            </div>
+            <div class="s4-card-b"><div class="s4-emoji">🍱</div><div class="s4-info"><div class="s4-info-name">도시락 제공</div><div class="s4-info-loc">지정 식사 구역에서 수령</div></div></div>
+          </div>
+          <div class="s4-card">
+            <div class="s4-card-h n2">
+              <div><div class="s4-card-day">DAY 2 · NOV 21</div><div class="s4-card-meal">아침 · 점심 · 저녁</div></div>
+              <div class="s4-card-badge">3식</div>
+            </div>
+            <div class="s4-card-b"><div class="s4-emoji">🍜</div><div class="s4-info"><div class="s4-info-name">일식 뷔페</div><div class="s4-info-loc">B1F 식당 · 시간 추후 공지</div></div></div>
+          </div>
+          <div class="s4-card">
+            <div class="s4-card-h n3">
+              <div><div class="s4-card-day">DAY 3 · NOV 22</div><div class="s4-card-meal">아침 · 점심</div></div>
+              <div class="s4-card-badge">2식</div>
+            </div>
+            <div class="s4-card-b"><div class="s4-emoji">🍙</div><div class="s4-info"><div class="s4-info-name">도시락 제공</div><div class="s4-info-loc">B1F 식당 · 시간 추후 공지</div></div></div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="tab-lb">홈</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="tab-lb">스케줄</div></div>
+          <div class="tab on"><div class="tab-ic"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="15" y2="18"/></svg></div><div class="tab-lb">안내</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="tab-lb">영상</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════
+     ROW 3: 각층별안내 + 영상
+═══════════════════════════ -->
+<div class="row">
+
+  <!-- SCREEN 5 — 각층별안내 -->
+  <div class="pw">
+    <div class="pw-label">05 · 각층별안내</div>
+    <div class="phone">
+      <div class="pwr"></div>
+      <div class="screen s5">
+        <div class="di"></div>
+        <div class="sb w" style="background:transparent;position:absolute;z-index:26;">
+          <span class="sb-t">9:41</span>
+          <div class="sb-i">
+            <svg width="17" height="12"><use href="#ic-signal" fill="rgba(255,255,255,0.88)"/></svg>
+            <svg width="16" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-wifi"/></svg>
+            <svg width="25" height="12" stroke="rgba(255,255,255,0.88)"><use href="#ic-batt"/><rect x="1.5" y="1.7" width="14" height="8.6" rx="1.2" fill="rgba(255,255,255,0.88)"/></svg>
+          </div>
+        </div>
+
+        <div class="s5-header">
+          <div class="s5-ey">층별 안내</div>
+          <div class="s5-ttl">각층별안내</div>
+        </div>
+
+        <div class="s5-tabs">
+          <div class="s5-tab on">1F</div>
+          <div class="s5-tab">2F</div>
+          <div class="s5-tab">3F</div>
+          <div class="s5-tab">B1</div>
+        </div>
+
+        <div class="s5-body">
+          <div class="s5-floor-ttl">1층 — 대회의실 / 로비</div>
+          <div class="s5-map">
+            <svg viewBox="0 0 343 176" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="343" height="176" fill="#F2EFE9"/>
+              <rect x="14" y="14" width="196" height="108" rx="6" fill="#fff" stroke="#E0DDD8" stroke-width="1.5"/>
+              <text x="112" y="74" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="15" fill="#C5200A" letter-spacing="2">대회의실</text>
+              <rect x="222" y="14" width="107" height="46" rx="6" fill="#fff" stroke="#E0DDD8" stroke-width="1.5"/>
+              <text x="275" y="42" text-anchor="middle" font-family="'Pretendard',sans-serif" font-size="11" fill="#aaa" font-weight="600">화장실</text>
+              <circle cx="275" cy="34" r="5" fill="#C5200A"/>
+              <rect x="222" y="72" width="48" height="50" rx="6" fill="#fff" stroke="#E0DDD8" stroke-width="1.5"/>
+              <text x="246" y="101" text-anchor="middle" font-family="'Pretendard',sans-serif" font-size="9" fill="#aaa" font-weight="600">엘리베이터</text>
+              <rect x="282" y="72" width="47" height="50" rx="6" fill="#fff" stroke="#E0DDD8" stroke-width="1.5"/>
+              <text x="305" y="101" text-anchor="middle" font-family="'Pretendard',sans-serif" font-size="9" fill="#aaa" font-weight="600">계단</text>
+              <rect x="14" y="136" width="315" height="26" rx="6" fill="rgba(197,32,10,0.07)" stroke="rgba(197,32,10,0.14)" stroke-width="1"/>
+              <text x="171" y="153" text-anchor="middle" font-family="'Pretendard',sans-serif" font-size="10" fill="#C5200A" font-weight="700" letter-spacing="3">LOBBY · 입구</text>
+            </svg>
+          </div>
+          <div class="s5-info">
+            <div class="s5-info-row"><div class="s5-rdot"></div><div class="s5-info-t">화장실 — 로비 정면 우측</div></div>
+            <div class="s5-info-row"><div class="s5-rdot g"></div><div class="s5-info-t">엘리베이터 — 메인 홀 좌측</div></div>
+            <div class="s5-info-row"><div class="s5-rdot g"></div><div class="s5-info-t">굿즈 · 의료 부스 — 로비</div></div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="tab-lb">홈</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="tab-lb">스케줄</div></div>
+          <div class="tab on"><div class="tab-ic"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="15" y2="18"/></svg></div><div class="tab-lb">안내</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="tab-lb">영상</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 6 — 영상 -->
+  <div class="pw">
+    <div class="pw-label">06 · 영상</div>
+    <div class="phone">
+      <div class="pwr"></div>
+      <div class="screen s6">
+        <div class="di"></div>
+        <div class="sb" style="background:transparent;position:absolute;z-index:26;">
+          <span class="sb-t" style="color:rgba(255,255,255,0.75);">9:41</span>
+          <div class="sb-i">
+            <svg width="17" height="12"><use href="#ic-signal" fill="rgba(255,255,255,0.55)"/></svg>
+            <svg width="16" height="12" stroke="rgba(255,255,255,0.55)"><use href="#ic-wifi"/></svg>
+            <svg width="25" height="12" stroke="rgba(255,255,255,0.55)"><use href="#ic-batt"/><rect x="1.5" y="1.7" width="14" height="8.6" rx="1.2" fill="rgba(255,255,255,0.55)"/></svg>
+          </div>
+        </div>
+
+        <div class="s6-header">
+          <div class="s6-ey">미디어</div>
+          <div class="s6-ttl">영상</div>
+        </div>
+
+        <div class="s6-featured">
+          <div class="s6-feat-bg"></div>
+          <div class="s6-play-ring"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div>
+          <div class="s6-feat-info">
+            <div class="s6-feat-title">Promised Land 2026 — 오프닝 영상</div>
+            <div class="s6-feat-sub">2:34 · 오이타 대공연장</div>
+          </div>
+          <div class="s6-feat-bar"><div class="s6-feat-bar-fill"></div></div>
+        </div>
+
+        <div class="s6-list-head">
+          <span>재생목록</span>
+          <span class="s6-list-more">전체보기</span>
+        </div>
+
+        <div class="s6-list">
+          <div class="s6-row">
+            <div class="s6-thumb"><div class="s6-t-bg" style="background:linear-gradient(135deg,#1a0606,#060614)"></div><div class="s6-t-play"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+            <div class="s6-meta"><div class="s6-meta-name">오프닝 세션 하이라이트</div><div class="s6-meta-sub">5:12 · DAY 1</div></div>
+          </div>
+          <div class="s6-row">
+            <div class="s6-thumb"><div class="s6-t-bg" style="background:linear-gradient(135deg,#0a1a0a,#1a0a1a)"></div><div class="s6-t-play"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+            <div class="s6-meta"><div class="s6-meta-name">워십 타임 — 저녁 세션</div><div class="s6-meta-sub">18:40 · DAY 2</div></div>
+          </div>
+          <div class="s6-row">
+            <div class="s6-thumb"><div class="s6-t-bg" style="background:linear-gradient(135deg,#060614,#1a1206)"></div><div class="s6-t-play"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+            <div class="s6-meta"><div class="s6-meta-name">클로징 세션 · 감사 인사</div><div class="s6-meta-sub">8:55 · DAY 3</div></div>
+          </div>
+          <div class="s6-row">
+            <div class="s6-thumb"><div class="s6-t-bg" style="background:linear-gradient(135deg,#1a0a06,#060a1a)"></div><div class="s6-t-play"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+            <div class="s6-meta"><div class="s6-meta-name">Joshua Generation 2026 티저</div><div class="s6-meta-sub">1:20 · 공식</div></div>
+          </div>
+        </div>
+
+        <div class="tabs dark">
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="tab-lb">홈</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="tab-lb">스케줄</div></div>
+          <div class="tab off"><div class="tab-ic"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="15" y2="18"/></svg></div><div class="tab-lb">안내</div></div>
+          <div class="tab on"><div class="tab-ic"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="tab-lb">영상</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

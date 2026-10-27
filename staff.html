@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스텝 안내 — Promised Land Japan in Oita 2026</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #0a0a0a;
+      --surface: #161616;
+      --surface2: #1f1f1f;
+      --ink:     #ffffff;
+      --muted:   #666666;
+      --accent:  #D40000;
+      --pm:      clamp(24px, 4vw, 56px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Nav ── */
+    .main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px var(--pm);
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .main-nav .wordmark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.06em;
+    }
+    .main-nav .nav-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 5px 12px;
+    }
+    .main-nav .back-link {
+      font-size: 13px;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .main-nav .back-link:hover { opacity: 1; }
+
+    /* ── Hero ── */
+    .staff-hero {
+      background: var(--accent);
+      padding: 140px var(--pm) 72px;
+      position: relative;
+      overflow: hidden;
+    }
+    .staff-hero::before {
+      content: 'STAFF';
+      position: absolute;
+      right: -0.05em;
+      bottom: -0.15em;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(120px, 20vw, 260px);
+      line-height: 0.85;
+      letter-spacing: -0.04em;
+      color: rgba(0,0,0,0.15);
+      pointer-events: none;
+      user-select: none;
+    }
+    .staff-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 8vw, 96px);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+    }
+    .staff-hero p {
+      margin-top: 16px;
+      font-size: 16px;
+      opacity: 0.85;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Section base ── */
+    section {
+      padding: clamp(64px, 8vw, 112px) var(--pm);
+    }
+    .section-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      margin-bottom: clamp(36px, 4vw, 64px);
+    }
+    .section-heading .accent { color: var(--accent); }
+
+    /* ── Role cards ── */
+    #roles { background: var(--bg); }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3px;
+    }
+    .role-card {
+      background: var(--surface);
+      padding: 36px 32px 40px;
+    }
+    .role-card.featured {
+      background: var(--accent);
+    }
+    .role-icon {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 6vw, 72px);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .role-name {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .role-desc {
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.72);
+    }
+    .role-card.featured .role-desc { color: rgba(255,255,255,0.85); }
+    .role-duties {
+      margin-top: 20px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .role-duties li {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .role-duties li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    .role-card.featured .role-duties li { color: rgba(255,255,255,0.8); }
+    .role-card.featured .role-duties li::before { color: rgba(255,255,255,0.6); }
+
+    /* ── 조 편성 ── */
+    #groups {
+      background: var(--surface);
+    }
+    .groups-pending {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      border: 1px dashed rgba(255,255,255,0.15);
+      gap: 12px;
+    }
+    .groups-pending-icon {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .groups-pending-text {
+      font-size: 18px;
+      font-weight: 600;
+      opacity: 0.6;
+    }
+    .groups-pending-sub {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* ── 스텝 시간표 ── */
+    #schedule { background: var(--bg); }
+
+    .schedule-tabs {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 3px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: var(--surface);
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(20px, 2.5vw, 28px);
+      letter-spacing: 0.04em;
+      padding: 20px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .tab-btn:hover:not(.active) {
+      background: var(--surface2);
+      color: rgba(255,255,255,0.8);
+    }
+    .day-panel { display: none; }
+    .day-panel.active { display: block; }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .schedule-table th {
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      padding: 14px 16px;
+      background: var(--surface2);
+    }
+    .schedule-table td {
+      padding: 18px 16px;
+      font-size: 15px;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .schedule-table tr:last-child td { border-bottom: none; }
+    .schedule-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .time-cell {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      width: 100px;
+    }
+    .event-cell { font-weight: 600; }
+    .role-cell {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .role-tag {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      background: var(--surface2);
+      color: rgba(255,255,255,0.7);
+      white-space: nowrap;
+    }
+    .role-tag.r-outside  { background: rgba(212,0,0,0.2);  color: #ff8080; }
+    .role-tag.r-inside   { background: rgba(0,100,212,0.2); color: #80b4ff; }
+    .role-tag.r-lobby    { background: rgba(0,180,100,0.2); color: #80ffb4; }
+    .role-tag.r-hospi    { background: rgba(200,150,0,0.2); color: #ffd980; }
+    .note-cell {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── Notice ── */
+    #notice {
+      background: var(--surface);
+    }
+    .notice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .notice-item {
+      background: var(--bg);
+      padding: 24px 28px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .notice-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      color: var(--accent);
+      flex-shrink: 0;
+      width: 28px;
+      line-height: 1.2;
+    }
+    .notice-text {
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .notice-text strong { font-weight: 700; }
+
+    /* ── Footer ── */
+    .staff-footer {
+      background: var(--accent);
+      padding: clamp(40px, 5vw, 64px) var(--pm);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .staff-footer-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+    }
+    .staff-footer-info {
+      font-size: 14px;
+      opacity: 0.75;
+      line-height: 1.8;
+      text-align: right;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .roles-grid { grid-template-columns: 1fr; }
+      .schedule-table th:nth-child(4),
+      .schedule-table td:nth-child(4) { display: none; }
+    }
+    @media (max-width: 480px) {
+      :root { --pm: 20px; }
+      .staff-footer-info { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="main-nav" aria-label="Navigation">
+    <span class="wordmark">PROMISED LAND · OITA</span>
+    <div style="display:flex;gap:16px;align-items:center">
+      <a href="index.html" class="back-link">← 참가자 페이지</a>
+      <span class="nav-badge">STAFF ONLY</span>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="staff-hero">
+    <h1>스텝<br>안내</h1>
+    <p>Promised Land Japan in Oita 2026 · 2026.11.20–22</p>
+  </header>
+
+  <!-- 역할 안내 -->
+  <section id="roles" aria-labelledby="roles-heading">
+    <h2 class="section-heading" id="roles-heading">역할 <span class="accent">안내</span></h2>
+    <div class="roles-grid">
+
+      <div class="role-card featured">
+        <div class="role-icon">외부</div>
+        <p class="role-name">외부 스텝</p>
+        <p class="role-desc">B-con Plaza 외부 구역을 담당합니다. 참가자들이 행사장에 도착했을 때 가장 먼저 만나는 팀입니다.</p>
+        <ul class="role-duties">
+          <li>입구 안내 및 동선 유도</li>
+          <li>주차장 안내</li>
+          <li>외부 질서 유지</li>
+          <li>버스/택시 하차 구역 안내</li>
+        </ul>
+      </div>
+
+      <div class="role-card">
+        <div class="role-icon">내부</div>
+        <p class="role-name">내부 스텝</p>
+        <p class="role-desc">행사장 내부 전반을 담당합니다. 예배 공간의 질서와 참가자 편의를 책임집니다.</p>
+        <ul class="role-duties">
+          <li>좌석 안내 및 배치</li>
+          <li>행사장 내 질서 유지</li>
+          <li>세션 중 통로 관리</li>
+          <li>긴급 상황 대응</li>
+        </ul>
+      </div>
+
+      <div class="role-card">
+        <div class="role-icon">로비</div>
+        <p class="role-name">로비 스텝</p>
+        <p class="role-desc">B-con Plaza 로비 구역을 담당합니다. 참가자들의 첫 접점이자 정보 허브 역할을 합니다.</p>
+        <ul class="role-duties">
+          <li>등록 데스크 운영</li>
+          <li>안내 부스 운영</li>
+          <li>물품 관리 및 배포</li>
+          <li>분실물 접수</li>
+        </ul>
+      </div>
+
+      <div class="role-card">
+        <div class="role-icon">하스피</div>
+        <p class="role-name">Hospitality 스텝</p>
+        <p class="role-desc">참가자들의 편안한 경험을 위한 환대와 돌봄을 담당합니다.</p>
+        <ul class="role-duties">
+          <li>식사 배식 및 운영 지원</li>
+          <li>특별 게스트 의전</li>
+          <li>통역 지원 (필요 시)</li>
+          <li>참가자 케어 및 기도</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 조 편성 -->
+  <section id="groups" aria-labelledby="groups-heading">
+    <h2 class="section-heading" id="groups-heading">조 <span class="accent">편성</span></h2>
+    <div class="groups-pending">
+      <div class="groups-pending-icon">!</div>
+      <p class="groups-pending-text">추후 공지 예정</p>
+      <p class="groups-pending-sub">조 편성이 확정되면 업데이트됩니다.</p>
+    </div>
+  </section>
+
+  <!-- 스텝 시간표 -->
+  <section id="schedule" aria-labelledby="schedule-heading">
+    <h2 class="section-heading" id="schedule-heading">스텝 <span class="accent">시간표</span></h2>
+
+    <div class="schedule-tabs" role="tablist">
+      <button class="tab-btn active" role="tab" aria-selected="true" onclick="showDay('day1',this)">DAY 1 · 11/20 (금)</button>
+      <button class="tab-btn" role="tab" aria-selected="false" onclick="showDay('day2',this)">DAY 2 · 11/21 (토)</button>
+      <button class="tab-btn" role="tab" aria-selected="false" onclick="showDay('day3',this)">DAY 3 · 11/22 (일)</button>
+    </div>
+
+    <!-- Day 1 -->
+    <div id="day1" class="day-panel active">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>시간</th>
+            <th>내용</th>
+            <th>담당 역할</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">14:00</td>
+            <td class="event-cell">스텝 집결 및 오리엔테이션</td>
+            <td><div class="role-cell"><span class="role-tag r-outside">외부</span><span class="role-tag r-inside">내부</span><span class="role-tag r-lobby">로비</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell">전체 스텝 필참</td>
+          </tr>
+          <tr>
+            <td class="time-cell">15:00</td>
+            <td class="event-cell">구역별 점검 및 세팅</td>
+            <td><div class="role-cell"><span class="role-tag r-outside">외부</span><span class="role-tag r-inside">내부</span><span class="role-tag r-lobby">로비</span></div></td>
+            <td class="note-cell">각 구역 담당자 배치</td>
+          </tr>
+          <tr>
+            <td class="time-cell">17:00</td>
+            <td class="event-cell">참가자 등록 시작</td>
+            <td><div class="role-cell"><span class="role-tag r-lobby">로비</span><span class="role-tag r-outside">외부</span></div></td>
+            <td class="note-cell">등록 데스크 오픈</td>
+          </tr>
+          <tr>
+            <td class="time-cell">18:30</td>
+            <td class="event-cell">입장 안내 시작</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span><span class="role-tag r-lobby">로비</span></div></td>
+            <td class="note-cell">좌석 안내 시작</td>
+          </tr>
+          <tr>
+            <td class="time-cell">19:00</td>
+            <td class="event-cell">Worship Session 1 · 저녁집회</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell">집회 중 통로 유지</td>
+          </tr>
+          <tr>
+            <td class="time-cell">23:00</td>
+            <td class="event-cell">집회 종료 · 퇴장 안내</td>
+            <td><div class="role-cell"><span class="role-tag r-outside">외부</span><span class="role-tag r-inside">내부</span><span class="role-tag r-lobby">로비</span></div></td>
+            <td class="note-cell">참가자 숙소 이동 안내</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Day 2 -->
+    <div id="day2" class="day-panel">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>시간</th>
+            <th>내용</th>
+            <th>담당 역할</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">07:30</td>
+            <td class="event-cell">스텝 모닝 브리핑</td>
+            <td><div class="role-cell"><span class="role-tag r-outside">외부</span><span class="role-tag r-inside">내부</span><span class="role-tag r-lobby">로비</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell">전체 스텝</td>
+          </tr>
+          <tr>
+            <td class="time-cell">08:30</td>
+            <td class="event-cell">참가자 입장 안내</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span><span class="role-tag r-outside">외부</span></div></td>
+            <td class="note-cell"></td>
+          </tr>
+          <tr>
+            <td class="time-cell">오전</td>
+            <td class="event-cell">Worship Session 2 · 오전집회</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell"></td>
+          </tr>
+          <tr>
+            <td class="time-cell">점심</td>
+            <td class="event-cell">점심 식사 운영</td>
+            <td><div class="role-cell"><span class="role-tag r-hospi">하스피</span><span class="role-tag r-lobby">로비</span></div></td>
+            <td class="note-cell">배식 및 동선 관리</td>
+          </tr>
+          <tr>
+            <td class="time-cell">오후</td>
+            <td class="event-cell">특별 순서</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell">세부 내용 추후 공지</td>
+          </tr>
+          <tr>
+            <td class="time-cell">오후</td>
+            <td class="event-cell">Worship Session 3 · 오후집회</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell"></td>
+          </tr>
+          <tr>
+            <td class="time-cell">저녁</td>
+            <td class="event-cell">저녁 식사 운영</td>
+            <td><div class="role-cell"><span class="role-tag r-hospi">하스피</span><span class="role-tag r-lobby">로비</span></div></td>
+            <td class="note-cell"></td>
+          </tr>
+          <tr>
+            <td class="time-cell">저녁</td>
+            <td class="event-cell">Worship Session 4 · 저녁집회</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell"></td>
+          </tr>
+          <tr>
+            <td class="time-cell">집회 후</td>
+            <td class="event-cell">퇴장 안내 · 정리</td>
+            <td><div class="role-cell"><span class="role-tag r-outside">외부</span><span class="role-tag r-inside">내부</span></div></td>
+            <td class="note-cell"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Day 3 -->
+    <div id="day3" class="day-panel">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>시간</th>
+            <th>내용</th>
+            <th>담당 역할</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">07:30</td>
+            <td class="event-cell">스텝 모닝 브리핑</td>
+            <td><div class="role-cell"><span class="role-tag r-outside">외부</span><span class="role-tag r-inside">내부</span><span class="role-tag r-lobby">로비</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell">전체 스텝</td>
+          </tr>
+          <tr>
+            <td class="time-cell">08:30</td>
+            <td class="event-cell">참가자 입장 안내</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span></div></td>
+            <td class="note-cell"></td>
+          </tr>
+          <tr>
+            <td class="time-cell">오전</td>
+            <td class="event-cell">Worship Session 5 · 오전집회</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell"></td>
+          </tr>
+          <tr>
+            <td class="time-cell">점심</td>
+            <td class="event-cell">점심 식사 운영</td>
+            <td><div class="role-cell"><span class="role-tag r-hospi">하스피</span><span class="role-tag r-lobby">로비</span></div></td>
+            <td class="note-cell"></td>
+          </tr>
+          <tr>
+            <td class="time-cell">오후</td>
+            <td class="event-cell">Worship Session 6 · 오후집회 + 클로징</td>
+            <td><div class="role-cell"><span class="role-tag r-inside">내부</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell">클로징 포함</td>
+          </tr>
+          <tr>
+            <td class="time-cell">클로징 후</td>
+            <td class="event-cell">퇴장 안내 · 전체 정리</td>
+            <td><div class="role-cell"><span class="role-tag r-outside">외부</span><span class="role-tag r-inside">내부</span><span class="role-tag r-lobby">로비</span><span class="role-tag r-hospi">하스피</span></div></td>
+            <td class="note-cell">전체 스텝 마무리</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 스텝 공지 -->
+  <section id="notice" aria-labelledby="notice-heading">
+    <h2 class="section-heading" id="notice-heading">스텝 <span class="accent">공지</span></h2>
+    <div class="notice-list">
+      <div class="notice-item">
+        <span class="notice-num">1</span>
+        <p class="notice-text"><strong>집결 시간 엄수</strong> — Day 1 오후 2시, Day 2·3 오전 7시 30분까지 담당 구역 집결 부탁드립니다.</p>
+      </div>
+      <div class="notice-item">
+        <span class="notice-num">2</span>
+        <p class="notice-text"><strong>복장</strong> — 스텝 조끼/배지 착용 필수. 세부 복장 안내는 추후 공지됩니다.</p>
+      </div>
+      <div class="notice-item">
+        <span class="notice-num">3</span>
+        <p class="notice-text"><strong>긴급 연락</strong> — 현장 비상 상황 발생 시 즉시 팀장에게 보고 후 대응 절차에 따라 주세요.</p>
+      </div>
+      <div class="notice-item">
+        <span class="notice-num">4</span>
+        <p class="notice-text"><strong>세부 일정 변경</strong> — 본 시간표는 잠정 일정이며, 변경 사항은 별도 공지됩니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="staff-footer">
+    <div class="staff-footer-name">
+      JOSHUA<br>GENERATION
+    </div>
+    <div class="staff-footer-info">
+      <p>Promised Land Japan in Oita 2026</p>
+      <p>B-con Plaza · 벳부, 오이타</p>
+      <p>2026.11.20 — 22</p>
+    </div>
+  </footer>
+
+  <script>
+    function showDay(id, btn) {
+      document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected','true');
+    }
+  </script>
+</body>
+</html>
