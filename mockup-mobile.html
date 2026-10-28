@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile 공지 UI 목업 — Promised Land Oita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+<style>
+  :root {
+    --red: #D40000;
+    --red-deep: #A80000;
+    --white: #FFFFFF;
+    --paper: #F6F4F0;
+    --ink: #111111;
+    --muted: #6E6A64;
+    --line: #E7E3DC;
+    --font: 'Inter', 'Pretendard', sans-serif;
+    --display: 'Bebas Neue', 'Pretendard', sans-serif;
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    background: #E9E6E0;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    padding: 56px 16px 80px;
+  }
+  body::before { content: ''; position: fixed; inset: 0; background: var(--grain); opacity: .18; pointer-events: none; }
+
+  /* ── Presentation ── */
+  .intro { max-width: 1290px; margin: 0 auto 48px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; position: relative; }
+  .intro h1 { font-family: var(--display); font-size: 64px; line-height: .9; letter-spacing: -.01em; font-weight: 400; }
+  .intro h1 span { color: var(--red); }
+  .intro p { font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 46ch; }
+  .board { max-width: 1290px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(399px, 1fr)); gap: 64px 46px; justify-items: center; position: relative; }
+  figure { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  figcaption { width: 399px; max-width: 100%; display: grid; grid-template-columns: 40px 1fr; gap: 2px 8px; }
+  figcaption b { font-family: var(--display); font-size: 28px; color: var(--red); line-height: 1; grid-row: span 2; font-weight: 400; }
+  figcaption strong { font-size: 16px; }
+  figcaption span { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+  /* ── Device ── */
+  .phone { width: 399px; padding: 12px; background: #141414; border-radius: 60px; box-shadow: 0 1px 0 #3a3a3a inset, 0 30px 60px -30px rgba(0,0,0,.45), 0 8px 18px -8px rgba(0,0,0,.25); }
+  .screen { position: relative; width: 375px; height: 812px; border-radius: 48px; overflow: hidden; background: var(--white); }
+  .island { position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 120px; height: 34px; background: #000; border-radius: 20px; z-index: 50; }
+  .status { position: absolute; top: 0; left: 0; right: 0; height: 54px; display: flex; justify-content: space-between; align-items: center; padding: 6px 30px 0 34px; font-size: 16px; font-weight: 600; z-index: 40; }
+  .status.light { color: #fff; }
+  .status i { display: flex; gap: 6px; align-items: center; font-style: normal; }
+  .status svg { display: block; }
+  .home-ind { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; border-radius: 3px; background: #111; z-index: 60; }
+  .scroll { position: absolute; inset: 0; overflow: hidden; }
+
+  /* ── Tab bar ── */
+  .tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: 84px; background: rgba(255,255,255,.96); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, 1fr); padding-top: 9px; z-index: 30; }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #8A8680; }
+  .tab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: square; }
+  .tab.on { color: var(--red); }
+  .tab .dot { position: relative; }
+  .tab .dot::after { content: ''; position: absolute; top: -1px; right: -3px; width: 7px; height: 7px; background: var(--red); border: 2px solid #fff; }
+
+  /* ── Shared type ── */
+  .eyebrow { font-family: var(--display); font-size: 20px; letter-spacing: .04em; color: var(--red); line-height: 1; }
+  .page-title { font-size: 32px; font-weight: 700; letter-spacing: -.02em; line-height: 1.2; margin-top: 6px; }
+  .pad { padding: 0 20px; }
+  .head { padding: 70px 20px 20px; }
+  .row-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .row-head h3 { font-size: 19px; font-weight: 700; letter-spacing: -.01em; }
+  .row-head a { font-size: 14px; font-weight: 600; color: var(--muted); }
+  .muted { color: var(--muted); }
+  .arr { display: inline-block; width: 16px; height: 16px; vertical-align: -2px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+
+  /* ── Segmented ── */
+  .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border: 1.5px solid var(--ink); }
+  .seg > div { text-align: center; padding: 10px 4px; font-size: 15px; font-weight: 600; }
+  .seg > div + div { border-left: 1.5px solid var(--ink); }
+  .seg > .on { background: var(--ink); color: #fff; }
+  .seg em { font-style: normal; color: var(--red); margin-left: 3px; }
+  .seg > .on em { color: #ff8a8a; }
+
+  /* ── Red hero with grain + fine grid ── */
+  .redhero { position: relative; background: var(--red); color: #fff; padding: 74px 20px 0; overflow: hidden; }
+  .redhero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px); background-size: 24px 24px; }
+  .redhero::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: .22; mix-blend-mode: multiply; }
+  .redhero > * { position: relative; z-index: 1; }
+  .org { font-size: 13px; font-weight: 700; letter-spacing: .14em; opacity: .85; }
+  .wordmark { font-family: var(--display); font-size: 84px; line-height: .84; margin-top: 14px; letter-spacing: -.005em; }
+  .meta { font-size: 15px; line-height: 1.55; margin-top: 14px; opacity: .92; }
+  .strip { display: grid; grid-template-columns: 1fr 1fr 1fr; margin: 22px -20px 0; border-top: 1px solid rgba(255,255,255,.28); }
+  .strip > div { padding: 12px 20px 14px; }
+  .strip > div + div { border-left: 1px solid rgba(255,255,255,.28); }
+  .strip b { display: block; font-family: var(--display); font-size: 30px; font-weight: 400; line-height: 1; }
+  .strip small { font-size: 12px; font-weight: 600; opacity: .8; }
+
+  /* ── Home: tall hero (~60% of screen) + quick tiles ── */
+  .redhero.tall { height: 486px; padding: 62px 20px 24px; display: flex; flex-direction: column; }
+  .h-top { display: flex; justify-content: space-between; gap: 12px; }
+  .h-top .org { font-size: 12px; line-height: 1.4; letter-spacing: .1em; opacity: .7; }
+  .h-date { font-size: 14px; font-weight: 500; margin-top: 4px; }
+  .cd { text-align: right; flex-shrink: 0; }
+  .cd p { font-size: 12px; font-weight: 600; opacity: .75; }
+  .cd > div { display: flex; align-items: flex-start; gap: 6px; margin-top: 2px; }
+  .cd span { display: flex; flex-direction: column; align-items: center; font-size: 12px; opacity: .9; }
+  .cd b { font-family: var(--display); font-size: 40px; font-weight: 400; line-height: .95; }
+  .cd i { font-style: normal; font-family: var(--display); font-size: 26px; opacity: .5; line-height: 1.3; }
+  .wordmark.big { font-size: 108px; margin: auto 0 0; }
+  .h-bot { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-top: 28px; }
+  .h-bot strong { display: block; font-size: 15px; }
+  .h-bot small { font-size: 13px; opacity: .8; }
+  .h-cta { background: #fff; color: var(--red); font-size: 15px; font-weight: 700; padding: 12px 18px; flex-shrink: 0; }
+  .quick-label { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: .06em; padding: 18px 20px 10px; }
+  .quick { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 20px; }
+  .q { position: relative; background: var(--paper); height: 92px; padding: 14px 14px; display: flex; flex-direction: column; gap: 3px; }
+  .q b { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+  .q small { font-size: 13px; color: var(--muted); }
+  .q.red { background: var(--red); color: #fff; }
+  .q.red small { color: rgba(255,255,255,.75); }
+  .q-arr { position: absolute; right: 12px; bottom: 12px; width: 26px; height: 26px; display: grid; place-items: center; background: rgba(17,17,17,.08); }
+  .q-arr .arr { width: 14px; height: 14px; }
+  .q.red .q-arr { background: rgba(0,0,0,.2); }
+
+  /* ── Now card ── */
+  .now { margin: 20px 20px 0; border: 1.5px solid var(--ink); }
+  .now-top { padding: 16px 16px 16px; border-left: 6px solid var(--red); }
+  .now-label { display: flex; align-items: center; gap: 8px; font-family: var(--display); font-size: 20px; color: var(--red); line-height: 1; }
+  .now-label i { width: 8px; height: 8px; background: var(--red); box-shadow: 0 0 0 4px rgba(212,0,0,.15); }
+  .now-label span { font-family: var(--font); font-size: 14px; font-weight: 600; color: var(--muted); margin-left: auto; }
+  .now h2 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin-top: 10px; }
+  .now p { font-size: 15px; color: var(--muted); margin-top: 4px; }
+  .next { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-top: 1.5px solid var(--ink); font-size: 15px; font-weight: 600; }
+  .next b { font-family: var(--display); font-size: 18px; font-weight: 400; color: var(--muted); }
+  .next .arr { margin-left: auto; }
+
+  /* ── Notice rows ── */
+  .pinned { background: var(--paper); border-left: 6px solid var(--red); padding: 14px 16px; }
+  .cat { font-size: 13px; font-weight: 700; color: var(--red); }
+  .cat.g { color: var(--muted); }
+  .n-title { font-size: 16px; font-weight: 600; line-height: 1.45; margin-top: 4px; letter-spacing: -.01em; }
+  .n-meta { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .nlist li { list-style: none; display: grid; grid-template-columns: 1fr 10px; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .unread { width: 8px; height: 8px; background: var(--red); margin-top: 6px; }
+  .redpin { background: var(--red); color: #fff; padding: 16px 18px; position: relative; overflow: hidden; }
+  .redpin::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: .18; mix-blend-mode: multiply; }
+  .redpin .cat { color: #fff; opacity: .85; }
+  .redpin .n-meta { color: rgba(255,255,255,.75); }
+
+  /* ── Teaser ── */
+  .teaser { margin: 0 20px; position: relative; aspect-ratio: 16/9; background: #1a0000 url(images/poster-1-sm.jpg) center 30% / cover; color: #fff; display: flex; align-items: flex-end; }
+  .teaser::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,.1) 70%); }
+  .teaser > * { position: relative; }
+  .teaser-in { display: flex; align-items: center; gap: 12px; padding: 14px; width: 100%; }
+  .play { width: 44px; height: 44px; background: var(--red); display: grid; place-items: center; flex-shrink: 0; }
+  .teaser b { display: block; font-size: 16px; }
+  .teaser small { font-size: 13px; opacity: .8; }
+
+  /* ── Detail ── */
+  .navbar { position: absolute; top: 54px; left: 0; right: 0; height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; font-size: 16px; font-weight: 600; background: #fff; z-index: 20; border-bottom: 1px solid var(--line); }
+  .navbar span { display: flex; align-items: center; gap: 2px; }
+  .navbar svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+  .article { padding: 122px 20px 0; }
+  .article h1 { font-size: 25px; line-height: 1.35; font-weight: 700; letter-spacing: -.02em; margin-top: 8px; }
+  .article .by { font-size: 14px; color: var(--muted); margin-top: 10px; padding-bottom: 20px; border-bottom: 1.5px solid var(--ink); }
+  .article p.body { font-size: 16px; line-height: 1.75; margin-top: 20px; }
+  .facts { background: var(--paper); margin-top: 22px; }
+  .facts div { display: grid; grid-template-columns: 64px 1fr; padding: 13px 16px; font-size: 15px; }
+  .facts div + div { border-top: 1px solid var(--line); }
+  .facts dt { color: var(--muted); font-weight: 500; }
+  .facts dd { font-weight: 600; }
+  .btn { display: flex; justify-content: center; align-items: center; gap: 8px; height: 54px; font-size: 16px; font-weight: 700; }
+  .btn.red { background: var(--red); color: #fff; }
+  .btn.line { border: 1.5px solid var(--ink); }
+
+  /* ── Timeline ── */
+  .tl { list-style: none; margin-top: 8px; }
+  .tl li { display: grid; grid-template-columns: 58px 1fr; position: relative; }
+  .tl time { font-family: var(--display); font-size: 20px; line-height: 1; padding-top: 18px; color: var(--ink); }
+  .tl .ev { padding: 15px 0 15px 18px; border-left: 1.5px solid var(--line); position: relative; }
+  .tl .ev::before { content: ''; position: absolute; left: -5px; top: 21px; width: 8px; height: 8px; background: #fff; border: 1.5px solid #B5B0A8; }
+  .tl .ev b { font-size: 17px; font-weight: 700; display: block; letter-spacing: -.01em; }
+  .tl .ev small { font-size: 14px; color: var(--muted); }
+  .tl li.past time, .tl li.past .ev b { color: #ADA8A0; }
+  .tl li.past .ev::before { background: #B5B0A8; }
+  .tl li.cur .ev { background: var(--red); color: #fff; border-left-color: var(--red); margin-left: -1px; padding-right: 14px; }
+  .tl li.cur .ev::before { display: none; }
+  .tl li.cur .ev small { color: rgba(255,255,255,.82); }
+  .tl li.cur time { color: var(--red); }
+  .nowtag { font-family: var(--display); font-size: 16px; float: right; letter-spacing: .04em; }
+
+  /* ── Floor plan ── */
+  .plan { margin: 16px 20px 0; height: 230px; position: relative; background-color: var(--paper); background-image: linear-gradient(rgba(17,17,17,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(17,17,17,.06) 1px, transparent 1px); background-size: 16px 16px; border: 1.5px solid var(--ink); }
+  .room { position: absolute; border: 1.5px solid var(--ink); background: #fff; display: grid; place-items: center; font-size: 14px; font-weight: 700; text-align: center; line-height: 1.3; }
+  .room.hall { background: var(--red); color: #fff; border-color: var(--red); }
+  .wc { position: absolute; width: 30px; height: 26px; background: var(--ink); color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; }
+  .entry { position: absolute; bottom: -1.5px; font-size: 12px; font-weight: 700; background: var(--ink); color: #fff; padding: 3px 8px; }
+  .cells { margin: 0 20px; }
+  .cell { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .cell b { font-size: 16px; font-weight: 600; grid-column: 1; }
+  .cell .arr, .cell .yes { grid-column: 2; grid-row: 1 / span 2; }
+  .cell small { font-size: 14px; color: var(--muted); grid-column: 1; }
+  .cell .arr { grid-row: 1 / span 2; align-self: center; color: #ADA8A0; }
+  .cell .yes { font-size: 14px; font-weight: 700; color: var(--red); grid-row: 1 / span 2; align-self: center; }
+
+  /* ── Map + sheet ── */
+  .map { position: absolute; inset: 0 0 auto 0; height: 470px; background-color: #EFECE6; background-image: linear-gradient(rgba(17,17,17,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(17,17,17,.05) 1px, transparent 1px); background-size: 20px 20px; overflow: hidden; }
+  .map::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: .14; }
+  .map svg { position: absolute; inset: 0; }
+  .pin { position: absolute; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; z-index: 2; }
+  .pin span { background: var(--red); color: #fff; font-size: 14px; font-weight: 700; padding: 6px 10px; white-space: nowrap; }
+  .pin i { width: 2px; height: 14px; background: var(--red); }
+  .pin.st span { background: var(--ink); }
+  .pin.st i { background: var(--ink); }
+  .mapbtn { position: absolute; top: 62px; left: 16px; width: 44px; height: 44px; background: #fff; border: 1.5px solid var(--ink); display: grid; place-items: center; z-index: 3; }
+  .sheet { position: absolute; left: 0; right: 0; bottom: 0; top: 400px; background: #fff; box-shadow: 0 -12px 30px -12px rgba(0,0,0,.25); padding: 10px 20px 0; z-index: 4; }
+  .grab { width: 40px; height: 5px; background: #D5D0C8; margin: 0 auto 14px; border-radius: 3px; }
+  .sheet h2 { font-family: var(--display); font-size: 40px; font-weight: 400; line-height: .9; }
+  .sheet .addr { font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  .steps { list-style: none; margin-top: 14px; }
+  .steps li { display: grid; grid-template-columns: 26px 1fr auto; gap: 0 10px; padding: 11px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .steps li > b { font-family: var(--display); font-size: 20px; color: var(--red); font-weight: 400; }
+  .steps strong { font-size: 15px; display: block; }
+  .steps small { font-size: 13px; color: var(--muted); }
+  .steps em { font-style: normal; font-family: var(--display); font-size: 18px; color: var(--muted); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<header class="intro">
+  <h1>Promised Land Oita<br><span>Mobile</span> 공지 UI</h1>
+  <p>PC 디자인의 레드·Bebas 아이덴티티를 가져오되, 모바일은 참가자가 <b>지금 필요한 정보</b>를 바로 찾도록 구성했습니다. 행사 당일(Day 2) 상태 기준이며 시간·공지 내용은 예시입니다.</p>
+</header>
+
+<main class="board">
+
+  <!-- 1. 홈 -->
+  <figure>
+    <div class="phone"><div class="screen">
+      <div class="island"></div>
+      <div class="status light"><span>9:41</span><i>
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="#fff"><rect x="0" y="8" width="3" height="4"/><rect x="5" y="5" width="3" height="7"/><rect x="10" y="2" width="3" height="10"/><rect x="15" y="0" width="3" height="12"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="#fff" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#fff"/><rect x="24" y="4" width="2" height="4" fill="#fff" opacity=".5"/></svg>
+      </i></div>
+      <div class="scroll">
+        <section class="redhero tall">
+          <div class="h-top">
+            <div>
+              <p class="org">PROMISED LAND JAPAN<br>IN OITA 2026</p>
+              <p class="h-date">11월 20일(금) — 22일(일)</p>
+            </div>
+            <div class="cd">
+              <p>D-Day까지</p>
+              <div><span><b>23</b>일</span><i>·</i><span><b>17</b>시간</span><i>·</i><span><b>30</b>분</span></div>
+            </div>
+          </div>
+          <p class="wordmark big">PROMISED<br>LAND</p>
+          <div class="h-bot">
+            <div><strong>B-con Plaza (ビーコンプラザ)</strong><small>벳부, 오이타, 일본</small></div>
+            <a class="h-cta">일정 보기</a>
+          </div>
+        </section>
+
+        <p class="quick-label">빠른 이동</p>
+        <nav class="quick">
+          <a class="q red"><b>스케줄</b><small>3일 전체 일정</small><span class="q-arr"><svg class="arr" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+          <a class="q"><b>조 편성</b><small>내 조 확인</small><span class="q-arr"><svg class="arr" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+          <a class="q"><b>식사안내</b><small>3식 제공</small><span class="q-arr"><svg class="arr" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+          <a class="q"><b>각층별안내</b><small>B-con Plaza</small><span class="q-arr"><svg class="arr" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+        </nav>
+      </div>
+      <nav class="tabbar">
+        <div class="tab on"><svg viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg>홈</div>
+        <div class="tab"><span class="dot"><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3l8 4.5v-14L7 9.5z"/><path d="M18 9.5c1.2.7 1.2 4.3 0 5"/></svg></span>공지</div>
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 6h16v14H4z"/><path d="M4 10h16M8 3.5V7M16 3.5V7"/></svg>일정</div>
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M12 11v5M12 7.5v.5"/></svg>안내</div>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+    <figcaption><b>01</b><strong>홈</strong><span>상단 브랜드 영역(화면의 약 60%) + 빠른 이동 4칸. 모서리는 PC처럼 각지게.</span></figcaption>
+  </figure>
+
+  <!-- 2. 공지 목록 -->
+  <figure>
+    <div class="phone"><div class="screen">
+      <div class="island"></div>
+      <div class="status"><span>9:41</span><i>
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="8" width="3" height="4"/><rect x="5" y="5" width="3" height="7"/><rect x="10" y="2" width="3" height="10"/><rect x="15" y="0" width="3" height="12"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#111"/><rect x="24" y="4" width="2" height="4" fill="#111" opacity=".4"/></svg>
+      </i></div>
+      <div class="scroll">
+        <div class="head">
+          <p class="eyebrow">NOTICE</p>
+          <h1 class="page-title">공지</h1>
+        </div>
+        <div class="pad">
+          <div class="seg"><div class="on">전체</div><div>필독<em>2</em></div><div>변경</div><div>안내</div></div>
+        </div>
+        <div class="pad" style="margin-top:18px">
+          <div class="redpin">
+            <p class="cat">필독 · 변경</p>
+            <p class="n-title">Day 2 점심 장소가 2층 식사 공간으로 변경되었습니다</p>
+            <p class="n-meta">오늘 09:12</p>
+          </div>
+          <ul class="nlist">
+            <li><div><p class="cat">필독</p><p class="n-title">오후 특별 순서는 메인홀에서 진행됩니다. 지정석에 착석해 주세요</p><p class="n-meta">오늘 08:40</p></div><i class="unread"></i></li>
+            <li><div><p class="cat g">안내</p><p class="n-title">굿즈 부스 운영 시간 안내 (1층 로비)</p><p class="n-meta">어제 21:05</p></div><i></i></li>
+            <li><div><p class="cat g">안내</p><p class="n-title">분실물은 1층 등록 데스크에서 보관 중입니다</p><p class="n-meta">어제 18:30</p></div><i></i></li>
+            <li><div><p class="cat g">안내</p><p class="n-title">조 편성이 확정되었습니다</p><p class="n-meta">11.19</p></div><i></i></li>
+          </ul>
+        </div>
+      </div>
+      <nav class="tabbar">
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg>홈</div>
+        <div class="tab on"><span class="dot"><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3l8 4.5v-14L7 9.5z"/><path d="M18 9.5c1.2.7 1.2 4.3 0 5"/></svg></span>공지</div>
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 6h16v14H4z"/><path d="M4 10h16M8 3.5V7M16 3.5V7"/></svg>일정</div>
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M12 11v5M12 7.5v.5"/></svg>안내</div>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+    <figcaption><b>02</b><strong>공지 목록</strong><span>필독은 빨간 블록으로 고정. 안 읽은 공지는 빨간 점, 탭바에도 표시됩니다.</span></figcaption>
+  </figure>
+
+  <!-- 3. 공지 상세 -->
+  <figure>
+    <div class="phone"><div class="screen">
+      <div class="island"></div>
+      <div class="status"><span>9:41</span><i>
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="8" width="3" height="4"/><rect x="5" y="5" width="3" height="7"/><rect x="10" y="2" width="3" height="10"/><rect x="15" y="0" width="3" height="12"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#111"/><rect x="24" y="4" width="2" height="4" fill="#111" opacity=".4"/></svg>
+      </i></div>
+      <div class="navbar"><span><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>공지</span><svg viewBox="0 0 24 24"><path d="M12 4v11M7.5 8.5L12 4l4.5 4.5M5 13v7h14v-7"/></svg></div>
+      <div class="scroll">
+        <article class="article">
+          <p class="cat">필독 · 변경</p>
+          <h1>Day 2 점심 장소가 2층 식사 공간으로 변경되었습니다</h1>
+          <p class="by">11월 21일 (토) 09:12 · 운영팀</p>
+          <p class="body">오전 집회 후 점심 식사는 1층 로비가 아닌 <b>2층 식사 공간</b>에서 진행됩니다. 메인홀 2층 계단 또는 엘리베이터를 이용해 주세요.</p>
+          <dl class="facts">
+            <div><dt>시간</dt><dd>12:30 – 13:30</dd></div>
+            <div><dt>장소</dt><dd>2층 식사 공간</dd></div>
+            <div><dt>대상</dt><dd>전체 참가자 (조별 순서)</dd></div>
+          </dl>
+          <div style="margin-top:24px; display:grid; gap:8px">
+            <a class="btn red">2층 위치 보기 <svg class="arr" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="btn line">목록으로</a>
+          </div>
+        </article>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <figcaption><b>03</b><strong>공지 상세</strong><span>시간·장소·대상만 표로 정리하고, 바로 해당 층별 안내로 연결합니다.</span></figcaption>
+  </figure>
+
+  <!-- 4. 일정 -->
+  <figure>
+    <div class="phone"><div class="screen">
+      <div class="island"></div>
+      <div class="status"><span>9:41</span><i>
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="8" width="3" height="4"/><rect x="5" y="5" width="3" height="7"/><rect x="10" y="2" width="3" height="10"/><rect x="15" y="0" width="3" height="12"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#111"/><rect x="24" y="4" width="2" height="4" fill="#111" opacity=".4"/></svg>
+      </i></div>
+      <div class="scroll">
+        <div class="head">
+          <p class="eyebrow">SCHEDULE</p>
+          <h1 class="page-title">일정</h1>
+        </div>
+        <div class="pad">
+          <div class="seg" style="font-family:var(--display)">
+            <div style="padding:9px 4px"><span style="font-family:var(--display);font-size:24px;font-weight:400;line-height:1">FRI 20</span></div>
+            <div class="on" style="padding:9px 4px"><span style="font-family:var(--display);font-size:24px;font-weight:400;line-height:1">SAT 21</span></div>
+            <div style="padding:9px 4px"><span style="font-family:var(--display);font-size:24px;font-weight:400;line-height:1">SUN 22</span></div>
+          </div>
+          <ul class="tl" style="margin-top:18px">
+            <li class="past"><time>08:00</time><div class="ev"><b>아침 식사</b><small>미제공 · 개별 해결</small></div></li>
+            <li class="cur"><time>10:00</time><div class="ev"><span class="nowtag">NOW</span><b>Worship Session 2</b><small>오전 집회 · 메인홀</small></div></li>
+            <li><time>12:30</time><div class="ev"><b>점심 식사</b><small>2층 식사 공간 · 변경됨</small></div></li>
+            <li><time>14:00</time><div class="ev"><b>특별 순서</b><small>메인홀 · 세부 내용 공지 예정</small></div></li>
+            <li><time>16:00</time><div class="ev"><b>Worship Session 3</b><small>오후 집회 · 메인홀</small></div></li>
+            <li><time>18:00</time><div class="ev"><b>저녁 식사</b><small>2층 식사 공간</small></div></li>
+            <li><time>19:30</time><div class="ev"><b>Worship Session 4</b><small>저녁 집회 · 메인홀</small></div></li>
+          </ul>
+        </div>
+      </div>
+      <nav class="tabbar">
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg>홈</div>
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3l8 4.5v-14L7 9.5z"/><path d="M18 9.5c1.2.7 1.2 4.3 0 5"/></svg>공지</div>
+        <div class="tab on"><svg viewBox="0 0 24 24"><path d="M4 6h16v14H4z"/><path d="M4 10h16M8 3.5V7M16 3.5V7"/></svg>일정</div>
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M12 11v5M12 7.5v.5"/></svg>안내</div>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+    <figcaption><b>04</b><strong>일정</strong><span>요일을 Bebas 탭으로 전환. 지나간 순서는 흐리게, 지금 순서는 빨간 블록.</span></figcaption>
+  </figure>
+
+  <!-- 5. 안내 (층별) -->
+  <figure>
+    <div class="phone"><div class="screen">
+      <div class="island"></div>
+      <div class="status"><span>9:41</span><i>
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="8" width="3" height="4"/><rect x="5" y="5" width="3" height="7"/><rect x="10" y="2" width="3" height="10"/><rect x="15" y="0" width="3" height="12"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#111"/><rect x="24" y="4" width="2" height="4" fill="#111" opacity=".4"/></svg>
+      </i></div>
+      <div class="scroll">
+        <div class="head" style="padding-bottom:16px">
+          <p class="eyebrow">GUIDE</p>
+          <h1 class="page-title">안내</h1>
+        </div>
+        <div class="pad">
+          <div class="seg"><div class="on">1F</div><div>2F</div><div>3F</div><div>B1</div></div>
+        </div>
+        <div class="plan">
+          <div class="room hall" style="left:16px; top:16px; width:200px; height:140px">메인홀<br><span style="font-weight:500;font-size:13px">1층 지정석</span></div>
+          <div class="room" style="left:230px; top:16px; width:98px; height:66px">굿즈<br>부스</div>
+          <div class="room" style="left:230px; top:94px; width:98px; height:62px">의료<br>부스</div>
+          <div class="room" style="left:16px; top:170px; width:200px; height:40px">로비 · 등록 데스크</div>
+          <div class="wc" style="left:230px; top:176px">WC</div>
+          <div class="wc" style="left:184px; top:126px">WC</div>
+          <span class="entry" style="left:94px">정문 ↑</span>
+        </div>
+        <div class="cells" style="margin-top:8px">
+          <div class="cell"><b>화장실</b><small>정문 로비 우측 · 메인홀 입구 좌측</small></div>
+          <div class="cell"><b>등록 데스크</b><small>1층 정문 로비 · Day 1 17:00 ~</small><svg class="arr" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+          <div class="cell"><b>오늘 식사</b><small>점심 · 저녁 2층 식사 공간</small><span class="yes">2끼 제공</span></div>
+          <div class="cell"><b>오는 길</b><small>벳부역에서 약 10분</small><svg class="arr" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+        </div>
+      </div>
+      <nav class="tabbar">
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg>홈</div>
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3l8 4.5v-14L7 9.5z"/><path d="M18 9.5c1.2.7 1.2 4.3 0 5"/></svg>공지</div>
+        <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 6h16v14H4z"/><path d="M4 10h16M8 3.5V7M16 3.5V7"/></svg>일정</div>
+        <div class="tab on"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M12 11v5M12 7.5v.5"/></svg>안내</div>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+    <figcaption><b>05</b><strong>안내 · 층별</strong><span>층을 고르면 간단한 평면도와 화장실·부스 위치. 식사·오는 길도 이 탭에 모았습니다.</span></figcaption>
+  </figure>
+
+  <!-- 6. 오는 길 -->
+  <figure>
+    <div class="phone"><div class="screen">
+      <div class="island"></div>
+      <div class="status"><span>9:41</span><i>
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="8" width="3" height="4"/><rect x="5" y="5" width="3" height="7"/><rect x="10" y="2" width="3" height="10"/><rect x="15" y="0" width="3" height="12"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#111"/><rect x="24" y="4" width="2" height="4" fill="#111" opacity=".4"/></svg>
+      </i></div>
+      <div class="map">
+        <svg viewBox="0 0 375 470" preserveAspectRatio="none">
+          <path d="M-10 330 C80 300 140 320 210 250 S330 150 390 160" stroke="#fff" stroke-width="16" fill="none"/>
+          <path d="M60 -10 L120 480" stroke="#fff" stroke-width="12" fill="none"/>
+          <path d="M-10 120 L390 90" stroke="#fff" stroke-width="10" fill="none"/>
+          <path d="M290 -10 L250 480" stroke="#fff" stroke-width="8" fill="none"/>
+          <path d="M300 340 C250 300 230 250 175 200" stroke="#D40000" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="square" fill="none"/>
+        </svg>
+        <div class="pin" style="left:175px; top:200px"><span>B-con Plaza</span><i></i></div>
+        <div class="pin st" style="left:300px; top:345px"><span>벳부역</span><i></i></div>
+      </div>
+      <div class="mapbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="square"><path d="M15 5l-7 7 7 7"/></svg></div>
+      <div class="sheet">
+        <div class="grab"></div>
+        <h2>B-CON PLAZA</h2>
+        <p class="addr">ビーコンプラザ · 12-1 Yamanotecho, Beppu, Oita</p>
+        <ul class="steps">
+          <li><b>1</b><div><strong>벳부역 → B-con Plaza</strong><small>서쪽 출구에서 택시 · 노선버스</small></div><em>10분</em></li>
+          <li><b>2</b><div><strong>주차</strong><small>지하 1층 주차장</small></div><em>B1</em></li>
+          <li><b>3</b><div><strong>등록 데스크</strong><small>1층 정문 로비</small></div><em>17:00~</em></li>
+        </ul>
+        <div class="two">
+          <a class="btn red">Google 지도</a>
+          <a class="btn line">주소 복사</a>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <figcaption><b>06</b><strong>오는 길</strong><span>지도 위로 시트가 올라오는 구조. 길 찾기와 주소 복사(택시 기사에게 보여주기)가 한 번에.</span></figcaption>
+  </figure>
+
+</main>
+</body>
+</html>

@@ -2,23 +2,27 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#D40000">
   <title>Promised Land Japan in Oita — Joshua Generation 2026</title>
-  <meta name="description" content="2026년 11월 20–22일, 일본 오이타 벳부 B-con Plaza. Joshua Generation 예배 컨퍼런스 1,200명.">
+  <meta name="description" content="2026년 11월 20–22일, 일본 오이타 벳부 B-con Plaza. Joshua Generation 예배 컨퍼런스 1,500명.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
   <style>
     /* ── Tokens ── */
     :root {
-      --bg:      #0a0a0a;
-      --surface: #161616;
-      --ink:     #ffffff;
-      --muted:   #666666;
+      --bg:      #fafaf8;
+      --surface: #f2efe9;
+      --ink:     #111111;
+      --muted:   #6e6a64;
       --accent:  #D40000;
       --cream:   #F5EFE0;
       --pm:      clamp(24px, 4vw, 56px);
+      /* 영문 Inter (제목은 Bebas Neue), 한글은 Pretendard로 폴백 */
+      --font:    'Inter', 'Pretendard', sans-serif;
+      --grain:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
     /* ── Reset ── */
@@ -27,7 +31,7 @@
     body {
       background: var(--bg);
       color: var(--ink);
-      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-family: var(--font);
       font-size: 16px;
       line-height: 1.6;
       overflow-x: hidden;
@@ -44,7 +48,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 22px var(--pm);
-      background: rgba(10, 10, 10, 0.88);
+      background: rgba(250, 250, 248, 0.92);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
@@ -52,7 +57,7 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: 20px;
       letter-spacing: 0.06em;
-      color: #fff;
+      color: var(--ink);
     }
     .main-nav .nav-links {
       display: flex;
@@ -61,7 +66,7 @@
       font-weight: 500;
       letter-spacing: 0.05em;
       list-style: none;
-      color: #fff;
+      color: var(--ink);
     }
     .main-nav .nav-links a { opacity: 0.7; transition: opacity 0.2s; }
     .main-nav .nav-links a:hover { opacity: 1; }
@@ -94,6 +99,7 @@
     .hero {
       position: relative;
       background: var(--accent);
+      color: #fff;
       min-height: 100svh;
       display: flex;
       flex-direction: column;
@@ -242,7 +248,7 @@
       flex-shrink: 0;
     }
     .hero-cta:hover {
-      background: var(--bg);
+      background: #111;
       color: #fff;
     }
 
@@ -263,7 +269,7 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(14px, 1.6vw, 18px);
       letter-spacing: 0.25em;
-      color: rgba(255,255,255,0.45);
+      color: rgba(0,0,0,0.25);
       padding-right: 40px;
     }
     .marquee-divider-accent {
@@ -284,11 +290,6 @@
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
-    }
-    /* Fallback: show everything if JS/observer doesn't fire */
-    .no-js .reveal,
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; transition: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1; transform: none; transition: none; }
@@ -315,7 +316,7 @@
       background: var(--surface);
       padding: 36px 28px 40px;
     }
-    .day-col.day-1 { background: var(--accent); }
+    .day-col.day-1 { background: var(--accent); color: #fff; }
 
     .day-date {
       font-family: 'Bebas Neue', sans-serif;
@@ -387,8 +388,9 @@
     @media (max-width: 900px) {
       .poster-band { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width: 500px) {
-      .poster-band { grid-template-columns: 1fr 1fr; gap: 2px; }
+    /* 모바일은 공지 확인 용도라 포스터 생략 (lazy 이미지라 다운로드도 안 됨) */
+    @media (max-width: 600px) {
+      .poster-band { display: none; }
     }
 
     /* ── 조 편성 ── */
@@ -410,7 +412,7 @@
     .groups-pending-label {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(32px, 5vw, 64px);
-      color: rgba(255,255,255,0.2);
+      color: rgba(0,0,0,0.15);
       letter-spacing: -0.02em;
       line-height: 0.92;
     }
@@ -448,7 +450,7 @@
     .venue-address-text {
       font-size: 15px;
       line-height: 1.85;
-      color: rgba(255,255,255,0.7);
+      color: rgba(0,0,0,0.62);
     }
     .venue-map-link {
       display: inline-block;
@@ -456,7 +458,7 @@
       font-size: 14px;
       font-weight: 600;
       color: var(--ink);
-      border-bottom: 1px solid rgba(255,255,255,0.3);
+      border-bottom: 1px solid rgba(0,0,0,0.25);
       padding-bottom: 2px;
       transition: border-color 0.2s, color 0.2s;
     }
@@ -470,7 +472,7 @@
       align-items: baseline;
       padding: 24px 12px;
     }
-    .venue-route-row:nth-child(even) { background: rgba(255,255,255,0.03); }
+    .venue-route-row:nth-child(even) { background: rgba(0,0,0,0.02); }
     .venue-route-row:first-child { padding-top: 24px; }
     .venue-step-num {
       font-family: 'Bebas Neue', sans-serif;
@@ -493,7 +495,7 @@
     .venue-step-duration {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 18px;
-      color: rgba(255,255,255,0.3);
+      color: rgba(0,0,0,0.25);
       text-align: right;
       white-space: nowrap;
     }
@@ -560,7 +562,7 @@
       padding: 4px 0 28px;
       font-size: 16px;
       line-height: 1.8;
-      color: rgba(255,255,255,0.72);
+      color: rgba(0,0,0,0.68);
       max-width: 60ch;
     }
 
@@ -603,7 +605,7 @@
       justify-content: space-between;
       align-items: flex-end;
       font-size: 15px;
-      color: rgba(0,0,0,0.5);
+      color: rgba(255,255,255,0.45);
       flex-wrap: wrap;
       gap: 16px;
     }
@@ -657,7 +659,7 @@
       line-height: 1.15;
     }
     .footer-place small {
-      font-family: 'Noto Sans KR', sans-serif;
+      font-family: var(--font);
       font-size: 0.42em;
       font-weight: 400;
       letter-spacing: 0.05em;
@@ -764,7 +766,8 @@
       padding: 32px 28px 36px;
     }
     #lobby .info-col,
-    #floors .info-col { background: var(--surface2, #1f1f1f); }
+    #floors .info-col { background: var(--bg); }
+    #seating .info-col { background: var(--surface); }
     .info-col-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(22px, 2.5vw, 32px);
@@ -781,7 +784,7 @@
       gap: 16px;
       font-size: 15px;
     }
-    .info-row:nth-child(even) { background: rgba(255,255,255,0.03); }
+    .info-row:nth-child(even) { background: rgba(0,0,0,0.025); }
     .info-row-label { font-weight: 600; flex-shrink: 0; }
     .info-row-val { color: var(--muted); font-size: 14px; text-align: right; line-height: 1.5; }
 
@@ -791,7 +794,7 @@
       display: grid;
       grid-template-columns: 80px 1fr 1fr 1fr;
       gap: 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
     }
     .meal-row.header .meal-cell {
       font-size: 13px;
@@ -827,7 +830,7 @@
       padding: 28px 20px;
       background: var(--bg);
     }
-    #floors .floor-row { background: rgba(255,255,255,0.03); }
+    #floors .floor-row { background: var(--bg); }
     @media (max-width: 600px) {
       .floor-list { grid-template-columns: 1fr; gap: 2px; }
     }
@@ -844,9 +847,39 @@
       .info-cols { grid-template-columns: 1fr; }
       .meal-row { grid-template-columns: 56px 1fr 1fr 1fr; }
       .meal-cell { padding: 12px 6px 12px 0; font-size: 13px; }
-      .meal-row.header .meal-cell { font-size: 11px; padding: 10px 4px; }
+      .meal-row.header .meal-cell { font-size: 13px; padding: 10px 4px; }
       .meal-day { font-size: 16px; }
     }
+
+    /* ── 영상 (YouTube: 썸네일만 먼저, 누르면 재생) ── */
+    /* 영상: 분위기 전환용 블랙 (PC·모바일 공통). 지금 보는 줄은 빨강 */
+    #teaser { background: #0f0f0f !important; color: #fff; --ink: #fff; --muted: rgba(255,255,255,0.55); }
+    /* PC: 왼쪽 큰 플레이어 + 오른쪽 목록 (3칸 같은 카드 대신) */
+    .vid-wrap { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; align-items: start; }
+    .vid-frame {
+      position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; overflow: hidden;
+      background: #111 center / cover; color: #fff; border: 0; padding: 0; cursor: pointer; font: inherit;
+    }
+    .vid-frame.empty { cursor: default; background: var(--accent); }
+    .vid-frame.empty::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: 0.2; mix-blend-mode: multiply; }
+    /* 푸터 타이포 느낌: 큰 Bebas 제목, 목록은 큰 Bebas 이름 + 옆에 작은 설명 */
+    .vid-big { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: clamp(88px, 12vw, 172px); line-height: 0.85; letter-spacing: -0.01em; color: #fff; }
+    .vid-sub { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 2.8vw, 38px); line-height: 1; color: #fff; margin: 18px 0 32px; }
+    .vid-sub small { font-family: var(--font); font-size: 14px; color: rgba(255,255,255,0.6); margin-left: 10px; }
+    .vid-list { list-style: none; }
+    .vid-list li + li { border-top: 1px solid rgba(255,255,255,0.12); }
+    .vid-row { width: 100%; display: flex; align-items: baseline; gap: 12px; padding: 14px 0; background: none; border: 0; color: #fff; font: inherit; text-align: left; cursor: pointer; transition: color 0.15s; }
+    .vid-row b { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 40px; line-height: 1; }
+    .vid-row small { font-size: 14px; color: rgba(255,255,255,0.55); }
+    .vid-row.on { color: var(--accent); }
+    .vid-row.on small { color: rgba(255,255,255,0.85); }
+    .vid-row[disabled] { cursor: default; opacity: 0.4; }
+    .vid-row:not([disabled]):active { transform: translateX(4px); }
+    .vid-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .vid-play { position: absolute; left: 14px; bottom: 14px; z-index: 1; width: 48px; height: 48px; display: grid; place-items: center; background: var(--accent); transition: transform 0.15s; }
+    .vid-frame:not(.empty):active .vid-play { transform: scale(0.92); }
+    .vid-frame.empty .vid-play { background: rgba(0,0,0,0.2); }
+    .vid-soon { position: absolute; left: 74px; bottom: 26px; z-index: 1; font-size: 14px; font-weight: 600; }
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
@@ -895,38 +928,233 @@
     .mob-home-grid { display: none; }
     .mob-hero-display { display: none; }
     .hero-location-short { display: none; }
+    .mob-org, .mob-date, .mob-quick, .countdown-sep { display: none; }
+    .now-title, .now-place { display: none; }
+    .countdown.is-live .countdown-digits { display: none; }
+    .countdown.is-live .now-title, .countdown.is-live .now-place { display: block; }
+    .now-title { font-size: 20px; font-weight: 600; }
+
+    /* ── 좌석·로비 칸 (PC·모바일 공통): 굵은 항목 + 아래 작은 설명, 연회색 칸 4px 간격 ── */
+    .info-row, .info-row:nth-child(even) { display: block; background: var(--surface); padding: 14px 16px; }
+    .info-row + .info-row { margin-top: 4px; }
+    .info-row-label { display: block; font-size: 16px; font-weight: 600; color: var(--ink); }
+    .info-row-val { display: block; text-align: left; font-size: 14px; line-height: 1.5; color: var(--muted) !important; margin-top: 2px; }
+    @media (min-width: 601px) {
+      .info-cols { gap: 40px; }
+      .info-col, #seating .info-col, #lobby .info-col, #floors .info-col { background: none; padding: 0; }
+      .info-col-title { font-family: var(--font); font-size: 14px; font-weight: 600; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 10px; }
+      .h-sub { display: block; font-family: var(--font); font-size: 18px; font-weight: 500; letter-spacing: 0; color: var(--muted); margin-top: 10px; }
+    }
+
+    /* ── PC 공지: 다른 PC 섹션처럼 왼쪽 큰 제목 + 오른쪽 내용 ──
+       (모바일 전용인 "안내" 칸과 행사안내 묶음은 PC에선 숨김: 바로 위 "행사안내 바로가기"와 중복) */
+    @media (min-width: 601px) {
+      #notice, #notice-view { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: clamp(40px, 6vw, 96px); align-items: start; }
+      #notice > .n-heading { grid-row: 1 / span 2; margin: 0; }
+      #notice > #notice-seg, #notice > .n-list, #notice-view > * { grid-column: 2; }
+      #notice-seg { max-width: 320px; }
+      #notice-seg [data-go] { display: none; }
+      .n-list { max-width: none; }
+      .n-list .n-group, .n-list .n-group ~ .n-row { display: none; }
+    }
+
+    /* ── PC 화이트 테마: 흐린 글자 대비 보강 ── */
+    @media (min-width: 601px) {
+      .countdown-label, .countdown-lbl { opacity: 0.85; }
+      .day-col.day-1 .day-name, .day-col.day-1 .event-time,
+      .day-col.day-1 .event-sub, .day-col.day-1 .event-note { opacity: 0.88; }
+      .event-time { opacity: 0.7; }
+      .groups-pending-label { color: rgba(0,0,0,0.4); }
+      .venue-step-duration { color: rgba(0,0,0,0.5); }
+      .contact-social a { opacity: 0.75; }
+      .footer-place small { opacity: 0.85; }
+    }
+
+    /* ── 행사안내 머리 + 전체·필독·안내 (모바일 전용 머리) ── */
+    .g-head { display: none; }
+    @media (max-width: 600px) {
+      .g-head { display: block; margin-bottom: 20px; }
+      #notice > .n-heading { display: none; }
+      .g-eb { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 6px; }
+      .g-title { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: #111; }
+      /* 층 탭: 위의 칸 탭과 겹치지 않게 밑줄형 보조 탭 */
+      .floor-tabs { display: flex; gap: 22px; margin-top: 22px; border-bottom: 1px solid #e7e3dc; }
+      .floor-tabs button { background: none; border: 0; padding: 0 2px 8px; margin-bottom: -1px; font-family: 'Bebas Neue', sans-serif; font-size: 26px; line-height: 1; color: #ada8a0; border-bottom: 2.5px solid transparent; cursor: pointer; }
+      .floor-tabs button.on { color: #111; border-bottom-color: #111; }
+    }
+
+    /* ── 안내: 모바일 (mockup 05) — PC에선 숨김 ── */
+    .guide-m { display: none; }
+    .plan {
+      position: relative; aspect-ratio: 16 / 10; margin-top: 16px; border: 1.5px solid #111;
+      background-color: #f6f4f0;
+      background-image: linear-gradient(rgba(17,17,17,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(17,17,17,0.06) 1px, transparent 1px);
+      background-size: 16px 16px;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 16px; overflow: hidden;
+    }
+    .plan img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; }
+    .plan-f { font-family: 'Bebas Neue', sans-serif; font-size: 72px; line-height: 0.85; color: var(--accent); }
+    .plan-name { font-size: 15px; font-weight: 700; margin-top: 8px; }
+    .plan-soon { position: absolute; top: 14px; right: 14px; font-size: 12px; font-weight: 600; background: #111; color: #fff; padding: 4px 8px; }
+    .cells { --line: #e7e3dc; }
+    .cell { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 14px 0; border-bottom: 1px solid var(--line); color: inherit; }
+    .cell b { font-size: 16px; font-weight: 600; grid-column: 1; }
+    .cell small { font-size: 14px; color: var(--muted); grid-column: 1; line-height: 1.5; }
+    .cell-arr, .cell-yes { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+    .cell-arr { color: #ada8a0; font-size: 16px; }
+    .cell-yes { font-size: 14px; font-weight: 700; color: var(--accent); }
+    .guide-sub { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: var(--muted); margin-top: 32px; }
+
+    .venue-m { display: none; }
+
+    /* ── 식사: 모바일 — PC에선 숨김 ── */
+    .meal-m { display: none; }
+    .n-pin.meal-sum { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .meal-sum-n { font-family: 'Bebas Neue', sans-serif; font-size: 64px; line-height: 0.85; position: relative; z-index: 1; }
+    .meal-day-row { padding: 16px 0; border-bottom: 1px solid #e7e3dc; }
+    .meal-day-label { font-family: 'Bebas Neue', sans-serif; font-size: 22px; line-height: 1; margin-bottom: 10px; }
+    .meal-day-label em { font-style: normal; font-size: 16px; color: var(--accent); margin-left: 8px; }
+    .meal-day-row.today .meal-day-label { color: var(--accent); }
+    .meal-cells { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid #111; }
+    .meal-c { padding: 11px 4px 10px; text-align: center; font-size: 15px; font-weight: 600; color: #ada8a0; }
+    .meal-c + .meal-c { border-left: 1.5px solid #111; }
+    .meal-c small { display: block; font-size: 12px; font-weight: 500; margin-top: 2px; }
+    .meal-c.on { background: #111; color: #fff; }
+    .meal-c.on small { color: rgba(255,255,255,0.75); }
+    .meal-day-note { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+    /* ── 일정: 모바일 타임라인 (mockup 04) — PC에선 숨김 ── */
+    .sch-m { display: none; }
+    .n-seg.sch-seg button { font-family: 'Bebas Neue', sans-serif; font-size: 24px; font-weight: 400; line-height: 1; padding: 10px 4px 8px; }
+    /* 날짜 머리: 면 대신 타이포만 (빨강은 NOW 전용) */
+    .sch-head { display: flex; align-items: flex-end; gap: 14px; margin: 24px 0 16px; }
+    .sch-day { font-family: 'Bebas Neue', sans-serif; font-size: 48px; line-height: 0.8; }
+    .sch-meta { font-size: 14px; line-height: 1.45; color: var(--muted); }
+    .sch-meta b { color: var(--ink); font-weight: 600; }
+    /* 시간대 = 한 묶음. 구분선은 묶음 사이에만, 집회는 검정 칸, 지금 순서는 빨간 칸 */
+    .tl { list-style: none; }
+    /* 모든 칸 같은 높이 (제목+설명 2줄이 들어가는 높이), 내용은 세로 가운데 */
+    /* 모든 순서 = 칸 (식사안내와 같은 언어): 기본 연회색, 집회 검정, 지금 빨강. 칸 끝선 = 요일 탭 끝선 */
+    .tl li { box-sizing: border-box; display: grid; grid-template-columns: 58px 1fr; align-items: center; min-height: 72px; padding: 12px 14px; background: #f2efe9; }
+    .tl li + li { margin-top: 4px; }
+    .tl time { font-family: 'Bebas Neue', sans-serif; font-size: 22px; line-height: 1; }
+    .tl time.ko { font-family: var(--font); font-size: 14px; font-weight: 700; }
+    .tl time small { display: block; font-size: 15px; opacity: 0.55; margin-top: 3px; } /* 끝나는 시간 */
+    .tl .ev b { display: block; font-size: 17px; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; }
+    .tl .ev small { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
+    .tl .ev .tl-note { font-size: 13px; }
+    .tl li.main { background: #111; color: #fff; }
+    .tl li.main small { color: rgba(255,255,255,0.7); }
+    .tl li.cur { background: var(--accent); color: #fff; }
+    .tl li.cur small { color: rgba(255,255,255,0.85); }
+    .tl li.past { opacity: 0.4; }
+    .nowtag { float: right; font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 0.04em; }
+    .sch-day-note { font-size: 13px; color: var(--muted); margin-top: 12px; }
+    .sch-day-note:empty { display: none; }
+
+    /* ── 공지 (mockup 02 목록 / 03 상세) ── */
+    #notice, #notice-view { background: var(--bg); --line: rgba(128,128,128,0.22); }
+    #notice-view { padding-top: 0; scroll-margin-top: 100px; } /* PC: below the fixed nav */
+    .n-seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border: 1.5px solid var(--ink); margin-bottom: 18px; max-width: 560px; }
+    .n-seg button { background: none; border: 0; color: var(--ink); font: 600 15px var(--font); padding: 10px 4px; cursor: pointer; }
+    .n-seg button + button { border-left: 1.5px solid var(--ink); }
+    .n-seg button.on { background: var(--ink); color: var(--bg); }
+    .n-seg em { font-style: normal; color: var(--accent); margin-left: 3px; }
+    .n-seg .on em { color: #ff8a8a; }
+    .n-list { max-width: 760px; }
+    .n-pin { display: block; position: relative; overflow: hidden; background: var(--accent); color: #fff; padding: 16px 18px; margin-bottom: 4px; }
+    .n-pin::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: 0.18; mix-blend-mode: multiply; pointer-events: none; }
+    .n-cat { display: block; font-size: 13px; font-weight: 700; color: var(--accent); }
+    .n-cat.g { color: var(--muted); }
+    .n-pin .n-cat { color: #fff; opacity: 0.85; }
+    .n-title { display: block; font-size: 16px; font-weight: 600; line-height: 1.45; margin-top: 4px; letter-spacing: -0.01em; }
+    .n-meta { display: block; font-size: 13px; color: var(--muted); margin-top: 6px; }
+    .n-pin .n-meta { color: rgba(255,255,255,0.75); }
+    /* 글자 시작선을 빨간 필독 칸(좌우 18px)과 맞춤 */
+    .n-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .n-go { font-style: normal; color: #ada8a0; align-self: center; }
+    .n-group { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: var(--muted); margin: 32px 0 4px; padding: 0 18px; }
+    .n-empty { padding-left: 18px; }
+    .n-unread { width: 8px; height: 8px; background: var(--accent); margin-top: 6px; }
+    .n-empty { padding: 24px 0; color: var(--muted); font-size: 15px; }
+    .n-view { max-width: 760px; }
+    .nv-title { font-size: 25px; line-height: 1.35; font-weight: 700; letter-spacing: -0.02em; margin-top: 8px; }
+    .nv-by { font-size: 14px; color: var(--muted); margin-top: 10px; padding-bottom: 20px; border-bottom: 1.5px solid var(--ink); }
+    .nv-body { font-size: 16px; line-height: 1.75; margin-top: 20px; }
+    .nv-facts { background: var(--surface); margin-top: 22px; }
+    .nv-facts div { display: grid; grid-template-columns: 64px 1fr; padding: 13px 16px; font-size: 15px; }
+    .nv-facts div + div { border-top: 1px solid var(--line); }
+    .nv-facts dt { color: var(--muted); font-weight: 500; }
+    .nv-facts dd { font-weight: 600; }
+    .nv-btns { display: grid; gap: 8px; margin-top: 24px; }
+    .nv-btn { display: flex; justify-content: center; align-items: center; height: 54px; font-size: 16px; font-weight: 700; }
+    .nv-btn.red { background: var(--accent); color: #fff; }
+    .nv-btn.line { border: 1.5px solid var(--ink); }
 
     /* ══════════════════════════════════════════════════
        MOBILE — White & Red theme  (≤600px overrides)
     ══════════════════════════════════════════════════ */
     @media (max-width: 600px) {
-      body { font-family: 'Pretendard', 'Inter', 'Noto Sans KR', sans-serif; background: #fafaf8; color: #111; padding-bottom: 82px; }
+      body { font-family: var(--font); background: #fafaf8; color: #111; padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
       :root { --bg: #fafaf8; --surface: #f2efe9; --ink: #111111; --muted: #888888; }
       .main-nav { display: none !important; }
 
-      /* Hero */
-      .hero { height: calc(100svh - 82px - 186px); min-height: 340px; justify-content: space-between; }
-      .hero-top { flex-direction: row !important; gap: 10px !important; padding-top: 28px !important; align-items: flex-start; }
+      /* Hero — ~60% of the screen; hero + quick tiles (label 41 + 2×92 + 8 + 16) fill one screen above the tab bar */
+      .hero { height: calc(100svh - 64px - env(safe-area-inset-bottom) - 249px); min-height: 400px; justify-content: space-between; color: #fff; padding-top: env(safe-area-inset-top); }
+      /* fine grid (slow drift) + grain on the red hero */
+      .hero::before, .hero::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+      .hero::before {
+        background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+        background-size: 24px 24px;
+        animation: grid-drift 14s linear infinite;
+      }
+      .hero::after { background: var(--grain); opacity: 0.22; mix-blend-mode: multiply; }
+      @keyframes grid-drift { to { background-position: 24px 24px; } }
+
+      .hero-top { flex-direction: row !important; gap: 10px !important; padding-top: 20px !important; align-items: flex-start; }
       .hero-info { flex: 1; min-width: 0; }
-      .hero-title { display: none !important; }
-      .hero-dates { font-size: 11px; opacity: 0.85; line-height: 1.7; font-weight: 500; }
+      .hero-title, .hero-dates { display: none !important; }
+      .mob-org { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; line-height: 1.4; opacity: 0.7; }
+      .mob-date { display: block; font-size: 14px; font-weight: 500; margin-top: 4px; }
       .countdown { text-align: right !important; flex-shrink: 0; }
-      .countdown-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; opacity: 0.6; margin-bottom: 6px; }
-      .countdown-digits { justify-content: flex-end !important; gap: 8px !important; }
-      .countdown-unit { text-align: center; }
-      .countdown-num { font-size: clamp(28px, 8vw, 36px) !important; }
-      .countdown-lbl { font-size: 9px; opacity: 0.5; }
+      .countdown-label { font-size: 12px; font-weight: 600; opacity: 0.75; margin-bottom: 2px; }
+      .countdown-digits { justify-content: flex-end !important; align-items: flex-start; gap: 6px !important; }
+      .countdown-unit { text-align: center; display: flex; flex-direction: column; align-items: center; }
+      .countdown-sep { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 26px; line-height: 1.3; opacity: 0.5; }
+      .countdown-num { font-size: 40px !important; line-height: 0.95; }
+      .countdown-num.tick { animation: tick 0.35s cubic-bezier(.2,.8,.2,1); }
+      @keyframes tick { from { transform: translateY(-40%); opacity: 0; } }
+      .countdown-lbl { font-size: 12px; opacity: 0.9; }
+      /* 행사 당일: 카운트다운 자리에 지금 순서 */
+      .countdown.is-live .countdown-digits { display: none !important; }
+      .now-title { font-size: 17px; font-weight: 700; line-height: 1.3; max-width: 11em; margin-left: auto; }
+      .now-place { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+      .live-dot { display: inline-block; width: 8px; height: 8px; background: #fff; margin-right: 6px; vertical-align: 1px; animation: pulse 1.4s ease-in-out infinite; }
+      @keyframes pulse { 50% { opacity: 0.25; } }
 
       .marquee-wrap { display: none !important; }
-      .mob-hero-display { display: flex; align-items: center; flex: 1; padding: 0 clamp(14px, 4vw, 24px); }
-      .mob-hero-display-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(82px, 25vw, 112px); line-height: 0.85; letter-spacing: -0.01em; color: #fff; }
+      .mob-hero-display { display: flex; align-items: flex-end; flex: 1; padding: 0 var(--pm) 4px; position: relative; z-index: 1; }
+      .mob-hero-display-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(84px, 28vw, 120px); line-height: 0.85; letter-spacing: -0.005em; color: #fff; }
+      .mob-hero-display-text .ln { display: block; }
 
-      .hero-bottom { flex-direction: row !important; align-items: flex-end !important; justify-content: space-between !important; gap: 12px !important; padding-top: 0 !important; padding-bottom: 24px !important; }
-      .hero-location { font-size: 11px; opacity: 0.8; }
-      .hero-location strong { font-size: 14px; font-weight: 700; display: block; margin-bottom: 2px; }
+      .hero-bottom { flex-direction: row !important; align-items: flex-end !important; justify-content: space-between !important; gap: 12px !important; padding-top: 24px !important; padding-bottom: 24px !important; }
+      .hero-location { font-size: 13px; opacity: 1; }
+      .hero-location-short { opacity: 0.8 !important; }
+      .hero-location strong { font-size: 15px; font-weight: 700; display: block; margin-bottom: 2px; }
       .hero-location-full { display: none; }
-      .hero-location-short { display: block; font-size: 11px; opacity: 0.75; }
-      .hero-cta { width: auto !important; text-align: center; background: #fff; color: var(--accent); font-size: 13px; font-weight: 700; padding: 12px 20px; flex-shrink: 0; border-radius: 0 !important; }
+      .hero-location-short { display: block; font-size: 13px; opacity: 0.85; }
+      .hero-cta { width: auto !important; text-align: center; background: #fff; color: var(--accent); font-size: 15px; font-weight: 700; padding: 12px 18px; flex-shrink: 0; border-radius: 0 !important; }
+      /* ── 버튼 누름 반응 ── */
+      * { -webkit-tap-highlight-color: transparent; }
+      .hero-cta { transition: transform 0.12s, background 0.12s, color 0.12s; }
+      .hero-cta:active, .hero-cta.is-pressed { transform: scale(0.95); background: #111; color: #fff; }
+      /* 일정 보기 누름: 빨간 화면이 16px 살짝 내려감 */
+      .hero.nudge { animation: hero-nudge 0.26s cubic-bezier(.3,.7,.4,1) forwards; }
+      @keyframes hero-nudge { to { height: calc(100svh - 64px - env(safe-area-inset-bottom) - 233px); } }
+      .mob-tab-ic { transition: transform 0.12s; }
+      .mob-tab:active .mob-tab-ic { transform: scale(0.82); }
+      .mob-tab.is-active .mob-tab-ic { animation: tab-pop 0.35s cubic-bezier(.3,1.6,.5,1); }
+      @keyframes tab-pop { 50% { transform: scale(1.18); } }
       a, button, input, select, textarea { border-radius: 0 !important; }
 
       /* Marquee divider */
@@ -935,7 +1163,9 @@
       .marquee-divider-accent { color: var(--accent) !important; opacity: 1; }
 
       /* Quicknav */
-      #quicknav { background: #fafaf8; }
+      #quicknav { background: #fff; --muted: #6e6a64; }
+      .guide-m { display: block; }
+      #quicknav .quicknav-heading, #quicknav .quicknav-list { display: none; }
       .quicknav-heading { color: rgba(0,0,0,0.15); }
       .quicknav-item { border-bottom: 1px solid rgba(0,0,0,0.06); }
       .quicknav-item a { color: #111; }
@@ -943,7 +1173,12 @@
       .qn-arrow { color: #ccc !important; opacity: 1 !important; }
 
       /* Schedule */
-      #schedule { background: #fafaf8; }
+      #schedule { background: #fff; --muted: #6e6a64; }
+      #schedule .schedule-heading, #schedule .schedule-grid { display: none; }
+      .sch-m { display: block; }
+      /* 안내 문구: 같은 기호(※), 같은 크기·색, 줄 간격만 */
+      #schedule .sch-day-note { margin-top: 18px; }
+      #schedule .schedule-note { margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.7; }
       .schedule-heading { color: #111; }
       .day-col { background: #f2efe9; }
       .day-col .day-date { color: #111; }
@@ -985,7 +1220,9 @@
       #lobby .info-col { background: #fafaf8 !important; }
 
       /* Meals */
-      #meals { background: #fafaf8; }
+      #meals { background: #fff; --muted: #6e6a64; }
+      .meal-m { display: block; }
+      #meals > .info-heading, #meals .meal-pc { display: none; }
       .meal-row { border-bottom-color: rgba(0,0,0,0.06); }
       .meal-row.header .meal-cell { color: #aaa; }
       .meal-cell { color: #111; }
@@ -997,6 +1234,11 @@
       #floors .floor-row { background: #fafaf8 !important; }
       .floor-name { color: #111; }
       .floor-desc { color: #888; }
+
+      /* Teaser */
+      /* 모바일: 플레이어는 화면 끝까지, 목록 줄은 좌우 12px 바깥으로 (글자선 = 제목선) */
+      .vid-wrap { grid-template-columns: 1fr; gap: 24px; }
+      .vid-stage .vid-frame { width: calc(100% + 2 * var(--pm)); margin: 0 calc(-1 * var(--pm)); }
 
       /* FAQ */
       #faq { background: #fafaf8; }
@@ -1017,55 +1259,149 @@
       .photo-credits p { color: #ccc; }
 
       /* Footer */
-      .footer-place small { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; }
+      .footer-place small { font-family: var(--font); font-size: 13px; }
 
       /* Quick tiles */
-      .mob-home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; background: #e0ddd8; padding: 3px; }
-      .mob-home-tile { background: #f2efe9; padding: 20px 18px 16px; min-height: 100px; display: flex; flex-direction: column; gap: 3px; text-decoration: none; color: #111; }
+      .mob-quick { display: block; background: #fafaf8; padding: 0 var(--pm); height: 249px; } /* must match the 249px in .hero height */
+      .mob-quick-label { font-size: 13px; line-height: 17px; font-weight: 600; letter-spacing: 0.06em; color: #6e6a64; padding: 16px 0 10px; }
+      .mob-home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .mob-home-tile { position: relative; background: #f2efe9; padding: 14px; height: 92px; display: flex; flex-direction: column; gap: 3px; text-decoration: none; color: #111; transition: transform 0.15s; }
+      .mob-home-tile:active { transform: scale(0.97); }
       .mob-home-tile.red { background: #D40000; color: #fff; }
-      .mob-home-tile-name { font-family: 'Pretendard', sans-serif; font-size: 16px; font-weight: 700; }
-      .mob-home-tile-sub { font-family: 'Pretendard', sans-serif; font-size: 12px; color: #999; margin-top: 2px; }
-      .mob-home-tile.red .mob-home-tile-sub { color: rgba(255,255,255,0.55); }
-      .mob-home-tile-arr { margin-top: 8px; font-size: 14px; opacity: 0.4; align-self: flex-end; }
-      .mob-home-tile.red .mob-home-tile-arr { opacity: 0.7; }
+      .mob-home-tile-name { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+      .mob-home-tile-sub { font-size: 13px; color: #6e6a64; }
+      .mob-home-tile.red .mob-home-tile-sub { color: rgba(255,255,255,0.78); }
+      .mob-home-tile-arr { position: absolute; right: 12px; bottom: 12px; width: 26px; height: 26px; display: grid; place-items: center; font-size: 14px; background: rgba(17,17,17,0.08); transition: transform 0.2s; }
+      .mob-home-tile.red .mob-home-tile-arr { background: rgba(0,0,0,0.2); }
+      .mob-home-tile:active .mob-home-tile-arr { transform: translateX(3px); }
+
+      /* Notice */
+      #notice, #notice-view { background: #fff; --line: #e7e3dc; --muted: #6e6a64; --surface: #f6f4f0; }
+      body.mob-nav-active #notice-view.mob-page-current { padding-top: calc(70px + env(safe-area-inset-top)) !important; }
+      body.mob-tab-root .mob-back-btn { display: none !important; }
+      body.mob-tab-root section.mob-page-current { padding-top: calc(28px + env(safe-area-inset-top)) !important; }
+      /* mockup: 작은 Bebas "NOTICE" + 굵은 "공지" */
+      .n-heading { font-family: var(--font); font-size: 32px; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: #111; margin-bottom: 20px; }
+      .n-heading .accent { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 20px; font-weight: 400; letter-spacing: 0.04em; line-height: 1; margin-bottom: 6px; }
+      .n-heading br { display: none; }
+
+      /* 모바일은 앱처럼 화면이 바로 보이게 (스크롤 등장 효과 끔) */
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+
+      /* ══ 행사안내 세부 화면 (좌석·로비·층별·오는 길·FAQ·문의): 일정·식사와 같은 언어 ══
+         흰 바탕 · 작은 빨간 GUIDE + 굵은 제목 · 연회색 칸(4px 간격) · 검정 버튼 */
+      #seating, #lobby, #floors, #venue, #faq, #contact { background: #fff !important; --muted: #6e6a64; }
+      #seating .info-heading, #lobby .info-heading, #floors .info-heading, .venue-heading, .faq-heading, #contact .contact-intro {
+        font-family: var(--font); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: #111; margin-bottom: 24px; max-width: none;
+      }
+      #seating .info-heading::before, #lobby .info-heading::before, #floors .info-heading::before, .venue-heading::before, .faq-heading::before, #contact .contact-intro::before {
+        content: 'GUIDE'; display: block; font-family: 'Bebas Neue', sans-serif; font-size: 20px; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 6px;
+      }
+      #seating .info-heading br, #lobby .info-heading br, #floors .info-heading br, .faq-heading br { display: none; }
+      .h-sub { display: block; font-size: 15px; font-weight: 500; letter-spacing: 0; color: var(--muted); margin-top: 6px; }
+
+      /* 좌석·로비: 묶음 이름 + 연회색 칸 */
+      #seating .info-col, #lobby .info-col { background: none !important; padding: 0; }
+      .info-col + .info-col { margin-top: 28px; }
+      .info-col-title { font-family: var(--font); font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: var(--muted) !important; margin-bottom: 8px; }
+      .info-row, .info-row:nth-child(even) { background: #f2efe9 !important; padding: 14px; }
+
+      /* 층별 */
+      .floor-list { gap: 4px !important; }
+      #floors .floor-row { background: #f2efe9 !important; padding: 16px 14px; gap: 14px; }
+      .floor-num { font-size: 34px; }
+      .floor-desc { color: var(--muted) !important; }
+
+      /* 오는 길: mockup 06 — 지도 위로 시트가 올라온 구성 */
+      #venue .venue-heading, #venue .venue-layout { display: none; }
+      .venue-m { display: block; margin: -12px calc(-1 * var(--pm)) 0; }
+      .vm-map { position: relative; height: 340px; overflow: hidden; background: #e9e6e0; }
+      .vm-map iframe { position: absolute; inset: -40px 0 0; width: 100%; height: calc(100% + 80px); border: 0; filter: grayscale(1) contrast(0.95) brightness(1.04); pointer-events: none; }
+      .vm-pin { position: absolute; left: 50%; top: calc(50% - 4px); transform: translate(-50%, -100%); background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; padding: 6px 10px; white-space: nowrap; }
+      .vm-pin::after { content: ''; position: absolute; left: 50%; top: 100%; width: 2px; height: 14px; background: var(--accent); }
+      .vm-sheet { position: relative; margin-top: -20px; background: #fff; padding: 10px var(--pm) 8px; box-shadow: 0 -12px 30px -14px rgba(0,0,0,0.25); }
+      .vm-grab { display: block; width: 40px; height: 5px; border-radius: 3px; background: #d5d0c8; margin: 0 auto 16px; }
+      .vm-name { font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 0.9; }
+      .vm-addr { font-size: 14px; color: var(--muted); margin-top: 8px; }
+      .vm-steps { list-style: none; margin-top: 16px; }
+      .vm-steps li { display: grid; grid-template-columns: 28px 1fr auto; gap: 0 10px; align-items: baseline; padding: 13px 0; border-top: 1px solid #e7e3dc; }
+      .vm-steps li > b { font-family: 'Bebas Neue', sans-serif; font-size: 22px; font-weight: 400; color: var(--accent); }
+      .vm-steps strong { display: block; font-size: 15px; }
+      .vm-steps small { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
+      .vm-steps em { font-style: normal; font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--muted); }
+      .vm-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+      .vm-btns .nv-btn { font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; background: none; }
+      .vm-btns .nv-btn.red { background: var(--accent); }
+
+      /* (PC 오는 길 구성은 아래 규칙 그대로) */
+      .venue-layout { gap: 28px; }
+      .venue-place-name { font-size: 44px; margin-bottom: 10px; }
+      .venue-address-text { color: var(--muted) !important; font-size: 15px; }
+      .venue-map-link { display: flex; justify-content: center; align-items: center; height: 54px; margin-top: 18px; padding: 0; border: 0; background: #111; color: #fff !important; font-size: 16px; font-weight: 700; }
+      .venue-route-row, .venue-route-row:nth-child(even) { background: #f2efe9 !important; padding: 16px 14px; }
+      .venue-route-row + .venue-route-row { margin-top: 4px; }
+      .venue-step-duration { color: var(--muted) !important; }
+
+      /* FAQ: 펼치는 연회색 칸 */
+      #faq details { background: #f2efe9; border: 0; margin: 0; padding: 0 14px; }
+      #faq details + details { margin-top: 4px; }
+      #faq details[open] { margin: 0; padding: 0 14px; background: #f2efe9; }
+      #faq details + details[open], #faq details[open] + details { margin-top: 4px; }
+      #faq summary { font-size: 16px; padding: 18px 0; }
+      #faq .faq-answer { font-size: 15px; padding: 0 0 18px; color: #3d3a36; }
+
+      /* 문의: 흰 화면 + 검정 메일 칸 */
+      #contact { color: #111; justify-content: flex-start !important; }
+      #contact .contact-intro { font-size: 22px; }
+      #contact .contact-email-wrap { flex: none; padding-bottom: 0; }
+      #contact .contact-email { display: block; width: 100%; background: #111; color: #fff; padding: 18px 14px; font-size: 26px; }
+      #contact .contact-bottom { margin-top: 20px; color: var(--muted); align-items: flex-start; }
+      #contact .contact-social a { color: #111; opacity: 0.75; }
 
       /* Page navigation */
       .mob-back-btn { display: none; }
       body.mob-nav-active .mob-back-btn {
         display: flex;
         position: fixed; top: 0; left: 0; right: 0;
-        height: 52px; z-index: 500;
+        height: calc(52px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top) !important; z-index: 500;
         background: rgba(250,250,248,0.97);
         backdrop-filter: blur(16px);
         border-bottom: 1px solid rgba(0,0,0,0.07);
         align-items: center; padding: 0 20px; gap: 8px;
-        font-family: 'Pretendard', sans-serif;
+        font-family: var(--font);
         font-size: 14px; font-weight: 600; color: #111;
         cursor: pointer;
         border-top: none; border-left: none; border-right: none;
       }
       body.mob-nav-active .hero,
-      body.mob-nav-active .mob-home-grid,
+      body.mob-nav-active .mob-quick,
       body.mob-nav-active .marquee-divider,
       body.mob-nav-active .poster-band,
       body.mob-nav-active footer { display: none !important; }
       body.mob-nav-active section:not(.mob-page-current) { display: none !important; }
+      /* 홈은 히어로 + 빠른 이동까지만 (나머지는 탭/타일로 이동) */
+      body:not(.mob-nav-active) > :not(.hero):not(.mob-quick):not(.mob-tabs):not(script) { display: none !important; }
       body.mob-nav-active section.mob-page-current {
-        padding-top: 64px !important;
-        min-height: calc(100svh - 82px) !important;
+        padding-top: calc(76px + env(safe-area-inset-top)) !important;
+        min-height: calc(100svh - 64px) !important;
       }
     }
 
     /* Bottom tab bar */
     .mob-tabs { display: none; }
     @media (max-width: 600px) {
-      .mob-tabs { display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 82px; background: rgba(250,250,248,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(0,0,0,0.07); z-index: 300; padding-top: 10px; }
+      .mob-tabs { display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: calc(64px + env(safe-area-inset-bottom)); background: rgba(250,250,248,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(0,0,0,0.07); z-index: 300; padding: 10px 0 env(safe-area-inset-bottom); }
       .mob-tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; }
       .mob-tab-ic { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
-      .mob-tab-ic svg { width: 22px; height: 22px; fill: none; stroke: #c0bdb8; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-      .mob-tab-lb { font-family: 'Pretendard', 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #c0bdb8; }
+      .mob-tab-ic svg { width: 22px; height: 22px; fill: none; stroke: #8a8782; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+      .mob-tab-lb { font-family: var(--font); font-size: 12px; font-weight: 600; color: #8a8782; }
       .mob-tab.is-active .mob-tab-ic svg { stroke: #D40000; }
       .mob-tab.is-active .mob-tab-lb { color: #D40000; }
+      .mob-tab-ic { position: relative; }
+      .mob-tab-badge { position: absolute; top: -2px; right: -4px; width: 8px; height: 8px; background: #D40000; border: 2px solid #fafaf8; box-sizing: content-box; }
+    }
+    @media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
 
   </style>
@@ -1075,7 +1411,7 @@
   <!-- Mobile back button (page navigation) -->
   <button class="mob-back-btn" id="mob-back-btn" aria-label="뒤로 가기">
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-    홈으로
+    <span id="mob-back-label">뒤로</span>
   </button>
 
   <!-- Nav -->
@@ -1101,23 +1437,29 @@
           2026년 11월 20일(금) — 22일(일)<br>
           B-con Plaza · 벳부, 오이타, 일본
         </p>
+        <p class="mob-org">PROMISED LAND JAPAN<br>IN OITA 2026</p>
+        <p class="mob-date">11월 20일(금) — 22일(일)</p>
       </div>
       <div class="countdown" aria-label="이벤트까지 남은 시간">
-        <p class="countdown-label">D-Day까지</p>
+        <p class="countdown-label" id="cd-label">D-Day까지</p>
         <div class="countdown-digits">
           <div class="countdown-unit">
             <span class="countdown-num" id="cd-days">–</span>
             <span class="countdown-lbl">일</span>
           </div>
+          <span class="countdown-sep" aria-hidden="true">·</span>
           <div class="countdown-unit">
             <span class="countdown-num" id="cd-hours">–</span>
             <span class="countdown-lbl">시간</span>
           </div>
+          <span class="countdown-sep" aria-hidden="true">·</span>
           <div class="countdown-unit">
             <span class="countdown-num" id="cd-mins">–</span>
             <span class="countdown-lbl">분</span>
           </div>
         </div>
+        <a href="#schedule" class="now-title" id="now-title"></a>
+        <span class="now-place" id="now-place"></span>
       </div>
     </div>
 
@@ -1145,7 +1487,7 @@
 
     <!-- Mobile: static big type -->
     <div class="mob-hero-display" aria-hidden="true">
-      <span class="mob-hero-display-text">PROMISED<br>LAND</span>
+      <span class="mob-hero-display-text"><span class="ln"><span>PROMISED</span></span><span class="ln"><span>LAND</span></span></span>
     </div>
 
     <div class="hero-bottom">
@@ -1159,15 +1501,18 @@
   </header>
 
   <!-- Mobile quick tiles (hidden on desktop) -->
+  <div class="mob-quick">
+  <p class="mob-quick-label">빠른 이동</p>
   <nav class="mob-home-grid" aria-label="빠른 이동">
     <a href="#schedule" class="mob-home-tile red">
       <span class="mob-home-tile-name">스케줄</span>
       <span class="mob-home-tile-sub">3일 전체 일정</span>
       <span class="mob-home-tile-arr">→</span>
     </a>
-    <a href="#groups" class="mob-home-tile">
-      <span class="mob-home-tile-name">조 편성</span>
-      <span class="mob-home-tile-sub">내 조 확인</span>
+    <!-- 조 편성이 확정되면 이 타일을 #groups "조 편성 / 내 조 확인"으로 되돌리기 -->
+    <a href="#notice" class="mob-home-tile">
+      <span class="mob-home-tile-name">공지</span>
+      <span class="mob-home-tile-sub" id="notice-count">공지사항</span>
       <span class="mob-home-tile-arr">→</span>
     </a>
     <a href="#meals" class="mob-home-tile">
@@ -1175,24 +1520,25 @@
       <span class="mob-home-tile-sub">3식 제공</span>
       <span class="mob-home-tile-arr">→</span>
     </a>
-    <a href="#floors" class="mob-home-tile">
+    <a href="#quicknav" class="mob-home-tile">
       <span class="mob-home-tile-name">각층별안내</span>
       <span class="mob-home-tile-sub">B-con Plaza</span>
       <span class="mob-home-tile-arr">→</span>
     </a>
   </nav>
+  </div>
 
   <!-- Divider 1 -->
   <div class="marquee-divider" aria-hidden="true">
     <div class="marquee-divider-track">
       <span class="marquee-divider-text">INTERNATIONAL CHURCH</span>
-      <span class="marquee-divider-text marquee-divider-accent">1,200명</span>
+      <span class="marquee-divider-text marquee-divider-accent">1,500명</span>
       <span class="marquee-divider-text">2 NIGHTS · 3 DAYS</span>
       <span class="marquee-divider-text marquee-divider-accent">大分 · OITA</span>
       <span class="marquee-divider-text">한국 교회</span>
       <span class="marquee-divider-text marquee-divider-accent">日本教会</span>
       <span class="marquee-divider-text">INTERNATIONAL CHURCH</span>
-      <span class="marquee-divider-text marquee-divider-accent">1,200명</span>
+      <span class="marquee-divider-text marquee-divider-accent">1,500명</span>
       <span class="marquee-divider-text">2 NIGHTS · 3 DAYS</span>
       <span class="marquee-divider-text marquee-divider-accent">大分 · OITA</span>
       <span class="marquee-divider-text">한국 교회</span>
@@ -1202,8 +1548,25 @@
 
   <!-- 행사안내 바로가기 -->
   <section id="quicknav" aria-labelledby="quicknav-heading">
+    <!-- Mobile: mockup 05 (내용은 맨 아래 스크립트의 FLOORS / MEALS) -->
+    <div class="guide-m">
+      <div class="g-head"><p class="g-eb">GUIDE</p><p class="g-title">행사안내</p></div>
+      <div class="n-seg" id="guide-seg">
+        <button type="button" data-f="전체">전체</button>
+        <button type="button" data-f="필독">필독<em class="pin-n"></em></button>
+        <button type="button" class="on">안내</button>
+      </div>
+      <div class="floor-tabs" id="floor-seg"></div>
+      <div class="plan" id="floor-plan"></div>
+      <div class="cells" id="floor-cells"></div>
+      <p class="guide-sub">행사 안내</p>
+      <div class="cells" id="guide-cells"></div>
+    </div>
     <h2 class="quicknav-heading" id="quicknav-heading">행사안내<br>바로가기</h2>
     <ul class="quicknav-list">
+      <li class="quicknav-item">
+        <a href="#notice"><span>공지</span><span class="qn-arrow">→</span></a>
+      </li>
       <li class="quicknav-item">
         <a href="#schedule"><span>스케줄</span><span class="qn-arrow">→</span></a>
       </li>
@@ -1220,9 +1583,42 @@
         <a href="#floors"><span>각층별안내</span><span class="qn-arrow">→</span></a>
       </li>
       <li class="quicknav-item">
+        <a href="#venue"><span>오는 길</span><span class="qn-arrow">→</span></a>
+      </li>
+      <li class="quicknav-item">
         <a href="#faq"><span>자주묻는 질문</span><span class="qn-arrow">→</span></a>
       </li>
+      <li class="quicknav-item">
+        <a href="#contact"><span>문의</span><span class="qn-arrow">→</span></a>
+      </li>
     </ul>
+  </section>
+
+  <!-- 공지 — 내용은 맨 아래 스크립트의 NOTICES 목록에서 수정 -->
+  <section id="notice" aria-labelledby="notice-heading">
+    <h2 class="info-heading n-heading" id="notice-heading"><span class="accent">Notice</span><br>공지</h2>
+    <!-- Mobile 머리: 행사안내 (전체·필독 = 공지 목록 / 안내 = 층별·식사 화면) -->
+    <div class="g-head"><p class="g-eb">GUIDE</p><p class="g-title">행사안내</p></div>
+    <div class="n-seg" id="notice-seg">
+      <button type="button" data-f="전체" class="on">전체</button>
+      <button type="button" data-f="필독">필독<em class="pin-n"></em></button>
+      <button type="button" data-go="quicknav">안내</button>
+    </div>
+    <div class="n-list" id="notice-list"></div>
+  </section>
+
+  <!-- 공지 상세 (#notice-view/번호) -->
+  <section id="notice-view" class="n-view" aria-live="polite" hidden></section>
+
+  <!-- 티저 영상 -->
+  <section id="teaser" aria-labelledby="teaser-heading">
+    <h2 class="vid-big" id="teaser-heading">PROMISED<br>LAND</h2>
+    <p class="vid-sub">THE B TEASER<small>티저 영상 3편</small></p>
+    <!-- 내용은 맨 아래 스크립트의 VIDEOS 목록에서 수정 -->
+    <div class="vid-wrap">
+      <div class="vid-stage" id="vid-stage"></div>
+      <ol class="vid-list" id="vid-list"></ol>
+    </div>
   </section>
 
   <!-- Schedule -->
@@ -1232,107 +1628,35 @@
       in Oita
     </h2>
 
-    <div class="schedule-grid">
-      <!-- Day 1 -->
-      <div class="day-col day-1 reveal">
-        <p class="day-date">FRI</p>
-        <p class="day-name">11월 20일 (금) — Day 1</p>
-        <ul class="day-events">
-          <li class="day-event">
-            <p class="event-time">17:00</p>
-            <p class="event-name">등록 시작</p>
-            <p class="event-sub">Registration Opens</p>
-          </li>
-          <li class="day-event">
-            <p class="event-time">19:00 — 23:00</p>
-            <p class="event-name">Worship Session 1</p>
-            <p class="event-sub">저녁 집회</p>
-            <p class="event-note">※ Day 1 저녁식사 미제공</p>
-          </li>
-          <li class="day-event">
-            <p class="event-time">집회 후</p>
-            <p class="event-name">정리 및 숙소 이동</p>
-          </li>
-        </ul>
-      </div>
+    <!-- 내용은 맨 아래 스크립트의 SCHEDULE 목록에서 수정 -->
+    <div class="schedule-grid" id="schedule-grid"></div>
 
-      <!-- Day 2 -->
-      <div class="day-col reveal" style="transition-delay:0.1s">
-        <p class="day-date">SAT</p>
-        <p class="day-name">11월 21일 (토) — Day 2</p>
-        <ul class="day-events">
-          <li class="day-event">
-            <p class="event-time">오전</p>
-            <p class="event-name">Worship Session 2</p>
-            <p class="event-sub">오전 집회</p>
-          </li>
-          <li class="day-event">
-            <p class="event-time">오후</p>
-            <p class="event-name">점심 식사</p>
-          </li>
-          <li class="day-event">
-            <p class="event-time">오후</p>
-            <p class="event-name">특별 순서</p>
-            <p class="event-note">※ 세부 내용 추후 공지</p>
-          </li>
-          <li class="day-event">
-            <p class="event-time">오후</p>
-            <p class="event-name">Worship Session 3</p>
-            <p class="event-sub">오후 집회</p>
-          </li>
-          <li class="day-event">
-            <p class="event-time">저녁</p>
-            <p class="event-name">저녁 식사 + Worship Session 4</p>
-            <p class="event-sub">저녁 집회</p>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Day 3 -->
-      <div class="day-col reveal" style="transition-delay:0.2s">
-        <p class="day-date">SUN</p>
-        <p class="day-name">11월 22일 (일) — Day 3</p>
-        <ul class="day-events">
-          <li class="day-event">
-            <p class="event-time">오전</p>
-            <p class="event-name">Worship Session 5</p>
-            <p class="event-sub">오전 집회</p>
-          </li>
-          <li class="day-event">
-            <p class="event-time">오후</p>
-            <p class="event-name">점심 식사</p>
-          </li>
-          <li class="day-event">
-            <p class="event-time">오후</p>
-            <p class="event-name">Worship Session 6</p>
-            <p class="event-sub">오후 집회</p>
-          </li>
-          <li class="day-event">
-            <p class="event-time">클로징</p>
-            <p class="event-name">Closing</p>
-          </li>
-        </ul>
-      </div>
+    <!-- Mobile: mockup 04 -->
+    <div class="sch-m">
+      <h2 class="n-heading"><span class="accent">Schedule</span><br>일정</h2>
+      <div class="n-seg sch-seg" id="sch-seg"></div>
+      <div class="sch-head" id="sch-sum"></div>
+      <ul class="tl" id="sch-tl"></ul>
+      <p class="sch-day-note" id="sch-day-note"></p>
     </div>
     <p class="schedule-note reveal">
-      * 위 일정은 잠정 일정으로 일부 변경될 수 있습니다.<br>
-      * 세부 시간 및 특별 순서는 추후 공지됩니다.
+      ※ 위 일정은 현장 상황에 따라 일부 변경될 수 있습니다.
     </p>
   </section>
 
   <!-- Poster band -->
   <div class="poster-band" aria-label="행사 포스터">
     <div class="poster-band-item">
-      <img src="images/poster-1.png" alt="Promised Land Japan in Oita 2026 — 포스터 1" width="600" height="800" loading="lazy">
+      <img src="images/poster-1-sm.jpg" alt="Promised Land Japan in Oita 2026 — 포스터 1" width="600" height="849" loading="lazy">
     </div>
     <div class="poster-band-item">
-      <img src="images/poster-2.png" alt="Promised Land Japan in Oita 2026 — 포스터 2" width="600" height="800" loading="lazy">
+      <img src="images/poster-2-sm.jpg" alt="Promised Land Japan in Oita 2026 — 포스터 2" width="600" height="849" loading="lazy">
     </div>
     <div class="poster-band-item">
-      <img src="images/poster-stamp-1.jpg" alt="Promised Land Japan in Oita 2026 — 우표 포스터 1" width="600" height="800" loading="lazy">
+      <img src="images/poster-stamp-1-sm.jpg" alt="Promised Land Japan in Oita 2026 — 우표 포스터 1" width="600" height="849" loading="lazy">
     </div>
     <div class="poster-band-item">
-      <img src="images/poster-stamp-2.jpg" alt="Promised Land Japan in Oita 2026 — 우표 포스터 2" width="600" height="800" loading="lazy">
+      <img src="images/poster-stamp-2-sm.jpg" alt="Promised Land Japan in Oita 2026 — 우표 포스터 2" width="600" height="849" loading="lazy">
     </div>
   </div>
 
@@ -1348,6 +1672,27 @@
   <!-- 오는 길 -->
   <section id="venue" aria-labelledby="venue-heading">
     <h2 class="venue-heading reveal" id="venue-heading">오는 길</h2>
+    <!-- Mobile: mockup 06 (지도 위로 올라온 시트). 지도는 실제 Google 지도, 누르기는 막고 버튼으로 열기 -->
+    <div class="venue-m">
+      <div class="vm-map">
+        <iframe src="https://www.google.com/maps?q=B-con+Plaza+Beppu+Oita&z=14&output=embed" loading="lazy" tabindex="-1" aria-hidden="true" title="B-con Plaza 지도"></iframe>
+        <span class="vm-pin">B-con Plaza</span>
+      </div>
+      <div class="vm-sheet">
+        <span class="vm-grab"></span>
+        <p class="vm-name">B-CON PLAZA</p>
+        <p class="vm-addr">ビーコンプラザ · 12-1 Yamanotecho, Beppu, Oita</p>
+        <ol class="vm-steps">
+          <li><b>1</b><div><strong>벳부역 → B-con Plaza</strong><small>서쪽 출구에서 택시 · 노선버스</small></div><em>10분</em></li>
+          <li><b>2</b><div><strong>주차</strong><small>지하 1층 주차장</small></div><em>B1</em></li>
+          <li><b>3</b><div><strong>등록 데스크</strong><small>1층 정문 로비</small></div><em>17:00~</em></li>
+        </ol>
+        <div class="vm-btns">
+          <a class="nv-btn red" href="https://maps.google.com/?q=B-con+Plaza+Beppu+Oita" target="_blank" rel="noopener">Google 지도</a>
+          <button type="button" class="nv-btn line" id="copy-addr">주소 복사</button>
+        </div>
+      </div>
+    </div>
     <div class="venue-layout">
 
       <div class="venue-address-block reveal">
@@ -1430,7 +1775,7 @@
 
   <!-- 로비안내 -->
   <section id="lobby" aria-labelledby="lobby-heading">
-    <h2 class="info-heading reveal" id="lobby-heading">로비안내<br>(부스)</h2>
+    <h2 class="info-heading reveal" id="lobby-heading">로비안내<br><span class="h-sub">등록 데스크 · 부스</span></h2>
     <div class="reveal" style="transition-delay:0.1s">
       <div class="info-cols">
         <div class="info-col">
@@ -1478,7 +1823,13 @@
   <!-- 식사안내 -->
   <section id="meals" aria-labelledby="meals-heading">
     <h2 class="info-heading reveal" id="meals-heading">식사안내</h2>
-    <div class="reveal" style="transition-delay:0.1s">
+    <!-- Mobile: 다른 페이지와 같은 구성 (내용은 스크립트의 MEALS) -->
+    <div class="meal-m">
+      <h2 class="n-heading"><span class="accent">Meals</span><br>식사안내</h2>
+      <div id="meal-m"></div>
+      <p class="sch-day-note">※ 세부 메뉴 및 식사 장소는 추후 공지됩니다.</p>
+    </div>
+    <div class="reveal meal-pc" style="transition-delay:0.1s">
       <div class="meal-table">
         <div class="meal-row header">
           <div class="meal-cell"></div>
@@ -1511,7 +1862,7 @@
 
   <!-- 각층별안내 -->
   <section id="floors" aria-labelledby="floors-heading">
-    <h2 class="info-heading reveal" id="floors-heading">각층별안내<br>(화장실 · 이동동선)</h2>
+    <h2 class="info-heading reveal" id="floors-heading">각층별안내<br><span class="h-sub">화장실 · 이동동선</span></h2>
     <div class="reveal" style="transition-delay:0.1s">
       <ul class="floor-list">
         <li class="floor-row">
@@ -1660,15 +2011,15 @@
       <span class="mob-tab-ic"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
       <span class="mob-tab-lb">홈</span>
     </a>
+    <a href="#notice" class="mob-tab" data-target="notice">
+      <span class="mob-tab-ic"><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3l8 4.5v-14L7 9.5z"/><path d="M18 9.5c1.2.7 1.2 4.3 0 5"/></svg><i class="mob-tab-badge" id="notice-badge" hidden></i></span>
+      <span class="mob-tab-lb">행사안내</span>
+    </a>
     <a href="#schedule" class="mob-tab" data-target="schedule">
       <span class="mob-tab-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
-      <span class="mob-tab-lb">스케줄</span>
+      <span class="mob-tab-lb">일정</span>
     </a>
-    <a href="#quicknav" class="mob-tab" data-target="quicknav">
-      <span class="mob-tab-ic"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="15" y2="18"/></svg></span>
-      <span class="mob-tab-lb">안내</span>
-    </a>
-    <a href="#contact" class="mob-tab" data-target="contact">
+    <a href="#teaser" class="mob-tab" data-target="teaser">
       <span class="mob-tab-ic"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span>
       <span class="mob-tab-lb">영상</span>
     </a>
@@ -1689,21 +2040,289 @@
       });
     }
 
-    // Countdown
+    // ── 일정 ── PC 3단 / 모바일 타임라인 / 홈의 "지금 순서"가 모두 여기서 나옴
+    // t: 표시 시간 · name · sub: 보조 설명 · note: ※ 안내
+    // at: [시작, 끝] 정확한 시간이 정해지면 추가 → 그 시간에 NOW로 표시 (한국/일본 시간)
+    const SCHEDULE = [
+      { date: '2026-11-20', dow: 'FRI', label: '11월 20일 (금)', note: 'Day 1 저녁식사는 제공되지 않습니다.', items: [
+        { t: '17:00', at: ['17:00', '18:00'], name: '접수', sub: '1층 정문 로비 등록 데스크' },
+        { t: '18:00', at: ['18:00', '21:00'], name: 'Worship Session 1', sub: '저녁집회' },
+        { t: '집회 후', name: '정리 및 숙소 이동' },
+      ] },
+      { date: '2026-11-21', dow: 'SAT', label: '11월 21일 (토)', note: '특별 순서는 세부 내용 추후 안내 예정입니다.', items: [
+        { t: '09:00', at: ['09:00', '12:00'], name: 'Worship Session 2', sub: '오전집회' },
+        { t: '12:00', at: ['12:00', '14:00'], name: '점심 식사' },
+        { t: '14:00', at: ['14:00', '17:00'], name: 'Worship Session 3', sub: '오후집회' },
+        { t: '17:00', at: ['17:00', '18:00'], name: '저녁 식사' },
+        { t: '18:00', at: ['18:00', '21:00'], name: 'Worship Session 4', sub: '저녁집회' },
+        { t: '집회 후', name: '정리 및 숙소 이동' },
+      ] },
+      { date: '2026-11-22', dow: 'SUN', label: '11월 22일 (일)', items: [
+        { t: '09:00', at: ['09:00', '12:00'], name: 'Worship Session 5', sub: '오전집회' },
+        { t: '12:00', at: ['12:00', '13:00'], name: '점심 식사' },
+        { t: '13:00', at: ['13:00', '17:00'], name: 'Worship Session 6', sub: '오후집회 · 클로징' },
+      ] },
+    ];
+    const kst = s => new Date(s + ':00+09:00');
+    // [시작, 끝, 순서 이름, 설명] — 홈의 NOW 표시용
+    const TIMETABLE = SCHEDULE.flatMap(d => d.items.filter(i => i.at)
+      .map(i => [`${d.date}T${i.at[0]}`, `${d.date}T${i.at[1]}`, i.name, i.sub || '']));
+    const isNow = (d, i) => i.at && kst(`${d.date}T${i.at[0]}`) <= new Date() && new Date() < kst(`${d.date}T${i.at[1]}`);
+    const todayKST = () => new Date(new Date().getTime() + 9 * 3600000).toISOString().slice(0, 10);
+    const isClock = t => /^\d/.test(t);
+
+    // PC: 기존 3단 디자인
+    document.getElementById('schedule-grid').innerHTML = SCHEDULE.map((d, n) => `
+      <div class="day-col${n === 0 ? ' day-1' : ''} reveal" style="transition-delay:${n / 10}s">
+        <p class="day-date">${d.dow}</p>
+        <p class="day-name">${d.label} — Day ${n + 1}</p>
+        <ul class="day-events">${d.items.map(i => `
+          <li class="day-event">
+            <p class="event-time">${i.at ? i.at.join(' - ') : i.t}</p>
+            <p class="event-name">${i.name}</p>
+            ${i.sub ? `<p class="event-sub">${i.sub}</p>` : ''}
+            ${i.note ? `<p class="event-note">※ ${i.note}</p>` : ''}
+          </li>`).join('')}
+        </ul>
+        ${d.note ? `<p class="event-note" style="margin-top:28px">※ ${d.note}</p>` : ''}
+      </div>`).join('');
+
+    // 모바일: 요일 탭 + 타임라인 (행사 기간엔 오늘 날짜가 기본)
+    let schDay = Math.max(0, SCHEDULE.findIndex(d => d.date === todayKST()));
+    function renderSchedule() {
+      const d = SCHEDULE[schDay], today = todayKST();
+      document.getElementById('sch-seg').innerHTML = SCHEDULE.map((x, n) =>
+        `<button type="button" data-n="${n}"${n === schDay ? ' class="on"' : ''}>${x.dow} ${x.date.slice(8)}</button>`).join('');
+      // 한 줄 = 한 순서. 시간대(t)가 바뀌는 줄(gs)에만 시간 표시 + 묶음 구분선
+      // 집회 줄은 시간 칸까지 통째로 검정, 지금 순서는 빨강
+      document.getElementById('sch-tl').innerHTML = d.items.map((i, n) => {
+        const gs = !n || d.items[n - 1].t !== i.t;
+        const c = isNow(d, i) ? 'cur' : i.name.startsWith('Worship') ? 'main' : '';
+        return `<li class="${c}${gs ? ' gs' : ''}${d.date < today ? ' past' : ''}"><time class="${isClock(i.t) ? '' : 'ko'}">${gs ? i.t : ''}${gs && i.at ? `<small>~${i.at[1]}</small>` : ''}</time><div class="ev">${c === 'cur' ? '<span class="nowtag">NOW</span>' : ''}<b>${i.name}</b>${i.sub ? `<small>${i.sub}</small>` : ''}${i.note ? `<small class="tl-note">※ ${i.note}</small>` : ''}</div></li>`;
+      }).join('');
+      document.getElementById('sch-day-note').textContent = d.note ? `※ ${d.note}` : '';
+      // 날짜 머리: DAY n + 날짜 + 그날 집회 번호
+      const ws = d.items.filter(i => i.name.startsWith('Worship')).map(i => i.name.split(' ').pop());
+      document.getElementById('sch-sum').innerHTML = `<p class="sch-day">DAY ${schDay + 1}</p><p class="sch-meta">${d.label}<br><b>Worship Session ${ws.length > 1 ? `${ws[0]}-${ws.at(-1)}` : ws[0]}</b></p>`;
+    }
+    document.getElementById('sch-seg').addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (b) { schDay = +b.dataset.n; renderSchedule(); }
+    });
+    renderSchedule();
+    setInterval(renderSchedule, 60000);
+    const EVENT_START = kst('2026-11-20T17:00');
+    const EVENT_DAY1 = kst('2026-11-20T00:00');
+    const EVENT_END = kst('2026-11-23T00:00');
+
+    // Countdown → 당일엔 지금 순서
+    const cdBox = document.querySelector('.countdown');
+    function setNum(id, v) {
+      const el = document.getElementById(id);
+      if (el.textContent === v) return;
+      el.textContent = v;
+      el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick');
+    }
     function updateCountdown() {
-      const target = new Date('2026-11-20T17:00:00+09:00');
       const now = new Date();
-      const diff = target - now;
-      if (diff <= 0) {
-        ['cd-days','cd-hours','cd-mins'].forEach(id => document.getElementById(id).textContent = '0');
+      const diff = EVENT_START - now;
+      if (diff > 0) {
+        setNum('cd-days', String(Math.floor(diff / 86400000)));
+        setNum('cd-hours', String(Math.floor(diff % 86400000 / 3600000)).padStart(2, '0'));
+        setNum('cd-mins', String(Math.floor(diff % 3600000 / 60000)).padStart(2, '0'));
         return;
       }
-      document.getElementById('cd-days').textContent  = Math.floor(diff / 86400000);
-      document.getElementById('cd-hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
-      document.getElementById('cd-mins').textContent  = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+      cdBox.classList.add('is-live');
+      const label = document.getElementById('cd-label');
+      if (now >= EVENT_END) { label.textContent = 'Thank you'; return; }
+      const day = Math.floor((now - EVENT_DAY1) / 86400000) + 1;
+      const cur = TIMETABLE.find(([s, e]) => kst(s) <= now && now < kst(e));
+      label.innerHTML = `<i class="live-dot"></i>DAY ${day}${cur ? ' · NOW' : ''}`;
+      document.getElementById('now-title').textContent = cur ? cur[2] : '오늘 일정 보기 →';
+      document.getElementById('now-place').textContent = cur ? cur[3] : '';
     }
     updateCountdown();
-    setInterval(updateCountdown, 30000);
+    setInterval(updateCountdown, 1000);
+
+    // ── 안내 (모바일) ── 층별 안내: map에 안내도 이미지 경로를 넣으면 표시 (예: 'images/floor-1f.jpg')
+    const FLOORS = [
+      { f: '1F', name: '메인홀 · 등록 데스크 · 로비 부스', map: '', rows: [
+        ['화장실', '정문 로비 우측 · 메인홀 입구 좌측'],
+        ['이동동선', '정문 → 등록 데스크 → 메인홀'],
+        ['좌석', '메인홀 1층 지정석 (조별 배정)'],
+        ['로비 부스', '굿즈 · 의료 부스 (위치 추후 공지)'] ] },
+      { f: '2F', name: '메인홀 2층 자유석 · 식사 공간', map: '', rows: [
+        ['화장실', '계단 옆 복도'],
+        ['이동동선', '1층 계단 또는 엘리베이터'],
+        ['좌석', '메인홀 2층 자유석'] ] },
+      { f: '3F', name: '추후 공지', map: '', rows: [
+        ['안내', '세부 안내는 추후 업데이트됩니다.'] ] },
+      { f: 'B1', name: '주차장', map: '', rows: [
+        ['주차', 'B-con Plaza 지하 주차장'],
+        ['이동', '엘리베이터로 각 층 이동'] ] },
+    ];
+    // 행사안내 세부 화면 바로가기 [이동할 곳, 이름, 설명] — 안내 화면과 공지 "전체" 목록에서 같이 씀
+    const GUIDE_LINKS = [
+      ['#seating', '좌석', '1층 지정석 · 2층 자유석'],
+      ['#lobby', '로비 · 등록 데스크', 'Day 1 17:00부터 1층 정문 로비'],
+      ['#venue', '오는 길', '벳부역에서 약 10분'],
+      ['#faq', '자주 묻는 질문', '화장실 · 분실물 · 의료부스'],
+      ['#contact', '문의', 'info@joshuageneration.org'],
+    ];
+    // 날짜별 제공 식사
+    const MEALS = { '2026-11-20': [], '2026-11-21': ['점심', '저녁'], '2026-11-22': ['점심'] };
+    const ARR = '<span class="cell-arr">→</span>';
+    let floorN = 0;
+    function renderGuide() {
+      const fl = FLOORS[floorN];
+      document.getElementById('floor-seg').innerHTML = FLOORS.map((x, n) =>
+        `<button type="button" data-n="${n}"${n === floorN ? ' class="on"' : ''}>${x.f}</button>`).join('');
+      document.getElementById('floor-plan').innerHTML = fl.map
+        ? `<img src="${fl.map}" alt="${fl.f} 안내도">`
+        : `<span class="plan-f">${fl.f}</span><span class="plan-name">${fl.name}</span><span class="plan-soon">안내도 준비 중</span>`;
+      document.getElementById('floor-cells').innerHTML = fl.rows.map(([k, v]) =>
+        `<div class="cell"><b>${k}</b><small>${v}</small></div>`).join('');
+
+      const today = MEALS[todayKST()];
+      const meal = today
+        ? `<a class="cell" href="#meals"><b>오늘 식사</b><small>${today.length ? today.join(' · ') + ' 제공' : '제공되지 않습니다'}</small><span class="cell-yes">${today.length}끼 제공</span></a>`
+        : `<a class="cell" href="#meals"><b>식사</b><small>토 점심 · 저녁, 일 점심</small><span class="cell-yes">총 3끼</span></a>`;
+      document.getElementById('guide-cells').innerHTML = meal + GUIDE_LINKS
+        .map(([h, b, s]) => `<a class="cell" href="${h}"><b>${b}</b><small>${s}</small>${ARR}</a>`).join('');
+    }
+    // 식사 (모바일): 빨간 요약 + 날짜별 아침/점심/저녁 칸 (제공 = 검정 칸)
+    (function renderMeals() {
+      const total = Object.values(MEALS).flat().length;
+      const KINDS = ['아침', '점심', '저녁'];
+      document.getElementById('meal-m').innerHTML =
+        `<div class="n-pin meal-sum"><span class="meal-sum-n">${total}</span><span><span class="n-cat">총 ${total}끼 제공</span><span class="n-title">토 점심 · 저녁, 일 점심</span></span></div>`
+        + SCHEDULE.map(d => {
+          const got = MEALS[d.date] || [];
+          const isToday = d.date === todayKST();
+          return `<div class="meal-day-row${isToday ? ' today' : ''}"><p class="meal-day-label">${d.dow} ${d.date.slice(8)}${isToday ? '<em>TODAY</em>' : ''}</p><div class="meal-cells">${
+            KINDS.map(k => {
+              if (!got.includes(k)) return `<span class="meal-c">${k}<small>미제공</small></span>`;
+              const s = d.items.find(i => i.name === `${k} 식사` && i.at); // 일정에 시간이 있으면 시간 표시
+              return `<span class="meal-c on">${k}<small>${s ? s.at.join(' - ') : '제공'}</small></span>`;
+            }).join('')
+          }</div>${d.note ? `<p class="meal-day-note">※ ${d.note}</p>` : ''}</div>`;
+        }).join('');
+    })();
+
+    document.getElementById('floor-seg').addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (b) { floorN = +b.dataset.n; renderGuide(); }
+    });
+    renderGuide();
+
+    // 오는 길: 주소 복사 (택시 기사에게 보여주기 좋은 일본어 주소)
+    document.getElementById('copy-addr').addEventListener('click', async e => {
+      const addr = '〒874-0828 大分県別府市山の手町12-1 ビーコンプラザ';
+      try { await navigator.clipboard.writeText(addr); e.target.textContent = '복사됨'; }
+      catch { prompt('주소를 길게 눌러 복사하세요', addr); return; }
+      setTimeout(() => e.target.textContent = '주소 복사', 1500);
+    });
+
+    // ── 영상 ── YouTube에 "일부 공개"로 올린 뒤 링크를 yt에 붙여넣기 (비어 있으면 "공개 예정")
+    const VIDEOS = [
+      { title: 'THE B 티저 1', len: '0:32', yt: 'https://www.youtube.com/watch?v=3NejpQ1Af2Y' },
+      { title: 'THE B 티저 2', len: '0:46', yt: 'https://youtu.be/b-EbK3l8xeU' },
+      { title: 'THE B 티저 3', len: '1:14', yt: 'https://youtu.be/7chVRaoYvfU' },
+    ];
+    const ytId = url => (url.match(/(?:youtu\.be\/|v=|shorts\/|embed\/|live\/)([\w-]{11})/) || [])[1];
+    const PLAY = '<svg width="18" height="18" viewBox="0 0 16 16" fill="#fff" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>';
+    // 플레이어 + 목록: 위에서 크게 재생, 목록에서 고르면 위에서 재생 (지금 보는 줄은 검정)
+    // YouTube 플레이어는 누를 때만 불러옴 (페이지 로딩 가볍게)
+    const vids = VIDEOS.map(v => ({ ...v, id: ytId(v.yt) }));
+    const thumb = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    let vidCur = Math.max(0, vids.findIndex(v => v.id));
+    function renderVideo(play) {
+      const v = vids[vidCur];
+      const frame = !v.id
+        ? `<div class="vid-frame empty"><span class="vid-play">${PLAY}</span><span class="vid-soon">공개 예정</span></div>`
+        : play
+          ? `<div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&playsinline=1" title="${v.title}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`
+          : `<button type="button" class="vid-frame" data-play style="background-image:url(${thumb(v.id)})" aria-label="${v.title} 재생"><span class="vid-play">${PLAY}</span></button>`;
+      document.getElementById('vid-stage').innerHTML = frame;
+      // 목록: 푸터처럼 큰 Bebas 이름 + 옆에 작은 설명 (지금 보는 영상은 빨강)
+      document.getElementById('vid-list').innerHTML = vids.map((x, n) =>
+        `<li><button type="button" class="vid-row${n === vidCur ? ' on' : ''}" data-n="${n}"${x.id ? '' : ' disabled'} aria-label="${x.title}"><b>TEASER ${String(n + 1).padStart(2, '0')}</b><small>${x.id ? x.len : '공개 예정'}</small></button></li>`).join('');
+    }
+    document.getElementById('vid-stage').addEventListener('click', e => { if (e.target.closest('[data-play]')) renderVideo(true); });
+    document.getElementById('vid-list').addEventListener('click', e => {
+      const r = e.target.closest('.vid-row:not([disabled])');
+      if (!r) return;
+      vidCur = +r.dataset.n;
+      renderVideo(true);
+      document.getElementById('vid-stage').scrollIntoView({ block: 'nearest' });
+    });
+    renderVideo(false);
+
+    // ── 공지 ── 새 공지는 맨 위에 추가 (id는 겹치지 않게 1씩 증가)
+    // pin: 필독 고정 · cat: '변경' 또는 '안내' · facts: [항목, 내용] 표 · link: [이동할 곳, 버튼 이름]
+    const NOTICES = [
+      { id: 3, pin: true, cat: '안내', date: '10.28', title: '현장 등록은 불가합니다',
+        body: '사전에 등록을 완료하신 분만 입장 가능합니다. 등록 데스크에서 <b>사전 등록 확인증</b>을 보여주세요.',
+        facts: [['시간', 'Day 1(금) 17:00 ~'], ['장소', '1층 정문 로비 등록 데스크'], ['준비물', '사전 등록 확인증']],
+        link: ['#lobby', '로비 안내 보기'] },
+      { id: 2, cat: '안내', date: '10.28', title: 'Day 1(금) 저녁 식사는 제공되지 않습니다',
+        body: '식사는 총 3끼 제공됩니다. 세부 메뉴와 장소는 추후 공지됩니다.',
+        facts: [['제공', '토 점심 · 저녁, 일 점심']],
+        link: ['#meals', '식사 안내 보기'] },
+      { id: 1, cat: '안내', date: '10.28', title: '조 편성은 확정되는 대로 공지됩니다',
+        body: '조 편성이 확정되면 이 공지와 조 편성 페이지에 업데이트됩니다.',
+        link: ['#groups', '조 편성 보기'] },
+    ];
+    // 읽음 표시는 각자 휴대폰에만 저장
+    const read = (() => { try { return new Set(JSON.parse(localStorage.getItem('pl-read')) || []); } catch { return new Set(); } })();
+    const saveRead = () => { try { localStorage.setItem('pl-read', JSON.stringify([...read])); } catch {} };
+    const catLabel = n => n.pin ? `필독 · ${n.cat}` : n.cat;
+    let noticeFilter = '전체';
+
+    function renderNotices() {
+      const list = NOTICES.filter(n => noticeFilter === '전체' || (noticeFilter === '필독' ? n.pin : n.cat === noticeFilter));
+      document.getElementById('notice-list').innerHTML = list.map(n => n.pin
+        ? `<a class="n-pin" href="#notice-view/${n.id}"><span class="n-cat">${catLabel(n)}</span><span class="n-title">${n.title}</span><span class="n-meta">${n.date}</span></a>`
+        : `<a class="n-row" href="#notice-view/${n.id}"><span><span class="n-cat${n.cat === '안내' ? ' g' : ''}">${catLabel(n)}</span><span class="n-title">${n.title}</span><span class="n-meta">${n.date}</span></span>${read.has(n.id) ? '' : '<i class="n-unread"></i>'}</a>`
+      ).join('') || '<p class="n-empty">해당 공지가 없습니다.</p>';
+      // "전체"에는 행사안내 세부 화면도 함께 (식사는 공지에 이미 있어 제외)
+      if (noticeFilter === '전체') document.getElementById('notice-list').innerHTML +=
+        '<p class="n-group">행사안내</p>' + [['#quicknav', '층별 안내', '화장실 · 이동동선'], ...GUIDE_LINKS]
+          .map(([h, b, s]) => `<a class="n-row" href="${h}"><span><span class="n-title">${b}</span><span class="n-meta">${s}</span></span><i class="n-go">→</i></a>`).join('');
+      const unread = NOTICES.filter(n => !read.has(n.id)).length;
+      document.getElementById('notice-count').textContent = unread ? `새 공지 ${unread}건` : '공지사항';
+      document.getElementById('notice-badge').hidden = !unread;
+    }
+    function showNotice(id) {
+      const n = NOTICES.find(n => String(n.id) === id);
+      const box = document.getElementById('notice-view');
+      box.hidden = !n;
+      if (!n) return;
+      box.innerHTML = `<p class="n-cat">${catLabel(n)}</p><h2 class="nv-title">${n.title}</h2><p class="nv-by">${n.date} · 운영팀</p><p class="nv-body">${n.body}</p>`
+        + (n.facts ? `<dl class="nv-facts">${n.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : '')
+        + `<div class="nv-btns">${n.link ? `<a class="nv-btn red" href="${n.link[0]}">${n.link[1]} →</a>` : ''}<a class="nv-btn line" href="#notice">목록으로</a></div>`;
+      read.add(n.id); saveRead(); renderNotices();
+    }
+    document.querySelectorAll('.pin-n').forEach(e => e.textContent = NOTICES.filter(n => n.pin).length || '');
+    // 전체·필독 = 공지 목록 필터, 안내 = 행사안내(층별·식사) 화면. 화면 전환은 방문 기록에 쌓지 않음
+    function setNoticeFilter(f) {
+      noticeFilter = f;
+      document.querySelectorAll('#notice-seg button').forEach(x => x.classList.toggle('on', x.dataset.f === f));
+      renderNotices();
+    }
+    document.getElementById('notice-seg').addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      if (b.dataset.go) location.replace('#' + b.dataset.go);
+      else setNoticeFilter(b.dataset.f);
+    });
+    document.getElementById('guide-seg').addEventListener('click', e => {
+      const b = e.target.closest('button[data-f]');
+      if (!b) return;
+      setNoticeFilter(b.dataset.f);
+      location.replace('#notice');
+    });
+    renderNotices();
 
     // Marquee pause on hover
     document.querySelectorAll('.marquee-wrap, .marquee-divider').forEach(wrap => {
@@ -1713,63 +2332,49 @@
       wrap.addEventListener('mouseleave', () => track.style.animationPlayState = 'running');
     });
 
-    // Mobile page router
-    (function() {
-      if (window.innerWidth > 600) return;
-      var body = document.body;
-      var backBtn = document.getElementById('mob-back-btn');
-      var tabs = document.querySelectorAll('.mob-tab');
-
-      function navigateTo(id) {
-        document.querySelectorAll('section.mob-page-current').forEach(function(s){ s.classList.remove('mob-page-current'); });
-        var target = document.getElementById(id);
-        if (!target || target.tagName !== 'SECTION') return;
-        target.classList.add('mob-page-current');
-        body.classList.add('mob-nav-active');
-        window.scrollTo(0, 0);
-        tabs.forEach(function(t){ t.classList.toggle('is-active', t.dataset.target === id); });
-      }
-
-      function goHome() {
-        document.querySelectorAll('section.mob-page-current').forEach(function(s){ s.classList.remove('mob-page-current'); });
-        body.classList.remove('mob-nav-active');
-        window.scrollTo(0, 0);
-        tabs.forEach(function(t){ t.classList.toggle('is-active', t.dataset.target === 'top'); });
-      }
-
-      document.addEventListener('click', function(e) {
-        if (window.innerWidth > 600) return;
-        var link = e.target.closest('a[href^="#"]');
-        if (!link) return;
-        var id = link.getAttribute('href').slice(1);
-        if (!id) { e.preventDefault(); goHome(); return; }
-        var el = document.getElementById(id);
-        if (el && el.tagName === 'SECTION') { e.preventDefault(); navigateTo(id); }
-      }, true);
-
-      if (backBtn) backBtn.addEventListener('click', goHome);
-    })();
-
-    // Mobile bottom tab bar — active state
+    // Mobile page router — driven by the URL hash so the phone's back button works
     (function () {
+      const mq = matchMedia('(max-width: 600px)');
       const tabs = document.querySelectorAll('.mob-tab');
-      if (!tabs.length) return;
-      const anchors = ['schedule', 'quicknav', 'contact'];
-      function getActive() {
-        const mid = window.scrollY + window.innerHeight * 0.45;
-        let active = 'top';
-        anchors.forEach(id => {
-          const el = document.getElementById(id);
-          if (el && el.offsetTop <= mid + 80) active = id;
-        });
-        return active;
-      }
-      function updateTabs() {
-        const active = getActive();
+      const tabIds = [...tabs].map(t => t.dataset.target);
+      function route() {
+        const [id, arg] = location.hash.slice(1).split('/'); // e.g. #notice-view/2
+        if (id === 'notice-view') showNotice(arg);
+        const el = id && document.getElementById(id);
+        const page = mq.matches && el && el.tagName === 'SECTION' ? el : null;
+        document.querySelectorAll('.mob-page-current').forEach(s => s.classList.remove('mob-page-current'));
+        document.body.classList.toggle('mob-nav-active', !!page);
+        if (page) page.classList.add('mob-page-current');
+        if (mq.matches) window.scrollTo(0, 0);
+        else if (id === 'notice-view') el.scrollIntoView();
+        document.getElementById('mob-back-label').textContent = id === 'notice-view' ? '공지' : '뒤로';
+        document.body.classList.toggle('mob-tab-root', !!page && (tabIds.includes(id) || id === 'quicknav')); // 탭 화면엔 뒤로 바 없음
+        // 행사안내(quicknav)와 그 안의 세부 안내 화면들은 공지 탭 아래
+        const active = !page ? 'top' : tabIds.includes(id) ? id : 'notice';
         tabs.forEach(t => t.classList.toggle('is-active', t.dataset.target === active));
       }
-      window.addEventListener('scroll', updateTabs, { passive: true });
-      updateTabs();
+      let navigated = false; // only go back if we came from inside this page
+      document.getElementById('mob-back-btn').addEventListener('click', () => {
+        navigated ? history.back() : location.replace('#');
+      });
+      addEventListener('touchstart', () => {}, { passive: true }); // iOS Safari: enables :active press styles
+      // 일정 보기: 검정 눌림 + 빨간 화면이 살짝 내려간 뒤 이동 (짧게 탭해도 보이도록)
+      const cta = document.querySelector('.hero-cta');
+      const hero = document.querySelector('.hero');
+      cta.addEventListener('click', e => {
+        if (!mq.matches) return;
+        e.preventDefault();
+        cta.classList.add('is-pressed');
+        hero.classList.add('nudge');
+        setTimeout(() => {
+          cta.classList.remove('is-pressed');
+          hero.classList.remove('nudge');
+          location.hash = cta.getAttribute('href');
+        }, 280);
+      });
+      addEventListener('hashchange', () => { navigated = true; route(); });
+      mq.addEventListener('change', route);
+      route();
     })();
 
     // Section reveal on scroll
