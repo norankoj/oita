@@ -1830,33 +1830,8 @@
       <p class="sch-day-note">※ 세부 메뉴 및 식사 장소는 추후 공지됩니다.</p>
     </div>
     <div class="reveal meal-pc" style="transition-delay:0.1s">
-      <div class="meal-table">
-        <div class="meal-row header">
-          <div class="meal-cell"></div>
-          <div class="meal-cell">아침</div>
-          <div class="meal-cell">점심</div>
-          <div class="meal-cell">저녁</div>
-        </div>
-        <div class="meal-row">
-          <div class="meal-cell meal-day">FRI</div>
-          <div class="meal-cell"><span class="meal-none">미제공</span></div>
-          <div class="meal-cell"><span class="meal-none">미제공</span></div>
-          <div class="meal-cell"><span class="meal-none">미제공</span></div>
-        </div>
-        <div class="meal-row">
-          <div class="meal-cell meal-day">SAT</div>
-          <div class="meal-cell"><span class="meal-none">미제공</span></div>
-          <div class="meal-cell"><span class="meal-yes">제공</span></div>
-          <div class="meal-cell"><span class="meal-yes">제공</span></div>
-        </div>
-        <div class="meal-row">
-          <div class="meal-cell meal-day">SUN</div>
-          <div class="meal-cell"><span class="meal-none">미제공</span></div>
-          <div class="meal-cell"><span class="meal-yes">제공</span></div>
-          <div class="meal-cell"><span class="meal-none">미제공</span></div>
-        </div>
-      </div>
-      <p class="schedule-note" style="margin-top:24px">* 총 3끼 제공 (토요일 점심·저녁, 일요일 점심)<br>* 세부 메뉴 및 식사 장소는 추후 공지됩니다.</p>
+      <div class="meal-table" id="meal-table"></div>
+      <p class="schedule-note" style="margin-top:24px" id="meal-note"></p>
     </div>
   </section>
 
@@ -2043,7 +2018,7 @@
     // ── 일정 ── PC 3단 / 모바일 타임라인 / 홈의 "지금 순서"가 모두 여기서 나옴
     // t: 표시 시간 · name · sub: 보조 설명 · note: ※ 안내
     // at: [시작, 끝] 정확한 시간이 정해지면 추가 → 그 시간에 NOW로 표시 (한국/일본 시간)
-    const SCHEDULE = [
+    let SCHEDULE = [
       { date: '2026-11-20', dow: 'FRI', label: '11월 20일 (금)', note: 'Day 1 저녁식사는 제공되지 않습니다.', items: [
         { t: '17:00', at: ['17:00', '18:00'], name: '접수', sub: '1층 정문 로비 등록 데스크' },
         { t: '18:00', at: ['18:00', '21:00'], name: 'Worship Session 1', sub: '저녁집회' },
@@ -2065,15 +2040,16 @@
     ];
     const kst = s => new Date(s + ':00+09:00');
     // [시작, 끝, 순서 이름, 설명] — 홈의 NOW 표시용
-    const TIMETABLE = SCHEDULE.flatMap(d => d.items.filter(i => i.at)
+    const buildTimetable = () => SCHEDULE.flatMap(d => d.items.filter(i => i.at)
       .map(i => [`${d.date}T${i.at[0]}`, `${d.date}T${i.at[1]}`, i.name, i.sub || '']));
+    let TIMETABLE = buildTimetable();
     const isNow = (d, i) => i.at && kst(`${d.date}T${i.at[0]}`) <= new Date() && new Date() < kst(`${d.date}T${i.at[1]}`);
     const todayKST = () => new Date(new Date().getTime() + 9 * 3600000).toISOString().slice(0, 10);
     const isClock = t => /^\d/.test(t);
 
     // PC: 기존 3단 디자인
-    document.getElementById('schedule-grid').innerHTML = SCHEDULE.map((d, n) => `
-      <div class="day-col${n === 0 ? ' day-1' : ''} reveal" style="transition-delay:${n / 10}s">
+    const renderScheduleGrid = () => document.getElementById('schedule-grid').innerHTML = SCHEDULE.map((d, n) => `
+      <div class="day-col${n === 0 ? ' day-1' : ''} reveal visible" style="transition-delay:${n / 10}s">
         <p class="day-date">${d.dow}</p>
         <p class="day-name">${d.label} — Day ${n + 1}</p>
         <ul class="day-events">${d.items.map(i => `
@@ -2088,6 +2064,7 @@
       </div>`).join('');
 
     // 모바일: 요일 탭 + 타임라인 (행사 기간엔 오늘 날짜가 기본)
+    renderScheduleGrid();
     let schDay = Math.max(0, SCHEDULE.findIndex(d => d.date === todayKST()));
     function renderSchedule() {
       const d = SCHEDULE[schDay], today = todayKST();
@@ -2145,7 +2122,7 @@
     setInterval(updateCountdown, 1000);
 
     // ── 안내 (모바일) ── 층별 안내: map에 안내도 이미지 경로를 넣으면 표시 (예: 'images/floor-1f.jpg')
-    const FLOORS = [
+    let FLOORS = [
       { f: '1F', name: '메인홀 · 등록 데스크 · 로비 부스', map: '', rows: [
         ['화장실', '정문 로비 우측 · 메인홀 입구 좌측'],
         ['이동동선', '정문 → 등록 데스크 → 메인홀'],
@@ -2170,7 +2147,7 @@
       ['#contact', '문의', 'info@joshuageneration.org'],
     ];
     // 날짜별 제공 식사
-    const MEALS = { '2026-11-20': [], '2026-11-21': ['점심', '저녁'], '2026-11-22': ['점심'] };
+    let MEALS = { '2026-11-20': [], '2026-11-21': ['점심', '저녁'], '2026-11-22': ['점심'] };
     const ARR = '<span class="cell-arr">→</span>';
     let floorN = 0;
     function renderGuide() {
@@ -2186,16 +2163,25 @@
       const today = MEALS[todayKST()];
       const meal = today
         ? `<a class="cell" href="#meals"><b>오늘 식사</b><small>${today.length ? today.join(' · ') + ' 제공' : '제공되지 않습니다'}</small><span class="cell-yes">${today.length}끼 제공</span></a>`
-        : `<a class="cell" href="#meals"><b>식사</b><small>토 점심 · 저녁, 일 점심</small><span class="cell-yes">총 3끼</span></a>`;
+        : `<a class="cell" href="#meals"><b>식사</b><small>${mealSummary()}</small><span class="cell-yes">총 ${Object.values(MEALS).flat().length}끼</span></a>`;
       document.getElementById('guide-cells').innerHTML = meal + GUIDE_LINKS
         .map(([h, b, s]) => `<a class="cell" href="${h}"><b>${b}</b><small>${s}</small>${ARR}</a>`).join('');
     }
+    // "토 점심 · 저녁, 일 점심" — 일정 날짜 순서로 식사 목록에서 만듦
+    const mealSummary = () => SCHEDULE.filter(d => (MEALS[d.date] || []).length)
+      .map(d => `${d.label.slice(-2, -1)} ${MEALS[d.date].join(' · ')}`).join(', ');
     // 식사 (모바일): 빨간 요약 + 날짜별 아침/점심/저녁 칸 (제공 = 검정 칸)
-    (function renderMeals() {
+    function renderMeals() {
       const total = Object.values(MEALS).flat().length;
       const KINDS = ['아침', '점심', '저녁'];
+      // PC 표
+      document.getElementById('meal-table').innerHTML =
+        '<div class="meal-row header"><div class="meal-cell"></div>' + KINDS.map(k => `<div class="meal-cell">${k}</div>`).join('') + '</div>'
+        + SCHEDULE.map(d => `<div class="meal-row"><div class="meal-cell meal-day">${d.dow}</div>${KINDS.map(k => (MEALS[d.date] || []).includes(k)
+          ? '<div class="meal-cell"><span class="meal-yes">제공</span></div>' : '<div class="meal-cell"><span class="meal-none">미제공</span></div>').join('')}</div>`).join('');
+      document.getElementById('meal-note').innerHTML = `* 총 ${total}끼 제공 (${mealSummary()})<br>* 세부 메뉴 및 식사 장소는 추후 공지됩니다.`;
       document.getElementById('meal-m').innerHTML =
-        `<div class="n-pin meal-sum"><span class="meal-sum-n">${total}</span><span><span class="n-cat">총 ${total}끼 제공</span><span class="n-title">토 점심 · 저녁, 일 점심</span></span></div>`
+        `<div class="n-pin meal-sum"><span class="meal-sum-n">${total}</span><span><span class="n-cat">총 ${total}끼 제공</span><span class="n-title">${mealSummary()}</span></span></div>`
         + SCHEDULE.map(d => {
           const got = MEALS[d.date] || [];
           const isToday = d.date === todayKST();
@@ -2207,7 +2193,8 @@
             }).join('')
           }</div>${d.note ? `<p class="meal-day-note">※ ${d.note}</p>` : ''}</div>`;
         }).join('');
-    })();
+    }
+    renderMeals();
 
     document.getElementById('floor-seg').addEventListener('click', e => {
       const b = e.target.closest('button');
@@ -2224,7 +2211,7 @@
     });
 
     // ── 영상 ── YouTube에 "일부 공개"로 올린 뒤 링크를 yt에 붙여넣기 (비어 있으면 "공개 예정")
-    const VIDEOS = [
+    let VIDEOS = [
       { title: 'THE B 티저 1', len: '0:32', yt: 'https://www.youtube.com/watch?v=3NejpQ1Af2Y' },
       { title: 'THE B 티저 2', len: '0:46', yt: 'https://youtu.be/b-EbK3l8xeU' },
       { title: 'THE B 티저 3', len: '1:14', yt: 'https://youtu.be/7chVRaoYvfU' },
@@ -2233,7 +2220,7 @@
     const PLAY = '<svg width="18" height="18" viewBox="0 0 16 16" fill="#fff" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>';
     // 플레이어 + 목록: 위에서 크게 재생, 목록에서 고르면 위에서 재생 (지금 보는 줄은 검정)
     // YouTube 플레이어는 누를 때만 불러옴 (페이지 로딩 가볍게)
-    const vids = VIDEOS.map(v => ({ ...v, id: ytId(v.yt) }));
+    let vids = VIDEOS.map(v => ({ ...v, id: ytId(v.yt) }));
     const thumb = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
     let vidCur = Math.max(0, vids.findIndex(v => v.id));
     function renderVideo(play) {
@@ -2260,7 +2247,7 @@
 
     // ── 공지 ── 새 공지는 맨 위에 추가 (id는 겹치지 않게 1씩 증가)
     // pin: 필독 고정 · cat: '변경' 또는 '안내' · facts: [항목, 내용] 표 · link: [이동할 곳, 버튼 이름]
-    const NOTICES = [
+    let NOTICES = [
       { id: 3, pin: true, cat: '안내', date: '10.28', title: '현장 등록은 불가합니다',
         body: '사전에 등록을 완료하신 분만 입장 가능합니다. 등록 데스크에서 <b>사전 등록 확인증</b>을 보여주세요.',
         facts: [['시간', 'Day 1(금) 17:00 ~'], ['장소', '1층 정문 로비 등록 데스크'], ['준비물', '사전 등록 확인증']],
@@ -2376,6 +2363,33 @@
       mq.addEventListener('change', route);
       route();
     })();
+
+    // ── 구글 시트 내용 불러오기 (/api/content) ──
+    // 실패하거나 느리면(4초) 위에 적힌 기본 내용을 그대로 보여줌
+    fetch('/api/content', { signal: AbortSignal.timeout ? AbortSignal.timeout(4000) : undefined })
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(d => {
+        if (d.schedule?.length) {
+          SCHEDULE = d.schedule; TIMETABLE = buildTimetable();
+          schDay = Math.max(0, SCHEDULE.findIndex(x => x.date === todayKST()));
+          renderScheduleGrid(); renderSchedule(); updateCountdown();
+        }
+        if (d.floors?.length) { FLOORS = d.floors; floorN = Math.min(floorN, FLOORS.length - 1); }
+        if (d.meals && Object.keys(d.meals).length) MEALS = d.meals;
+        renderGuide(); renderMeals();
+        if (d.videos?.length) {
+          VIDEOS = d.videos; vids = VIDEOS.map(v => ({ ...v, id: ytId(v.yt) }));
+          vidCur = Math.max(0, vids.findIndex(v => v.id)); renderVideo(false);
+        }
+        if (d.notices?.length) {
+          NOTICES = d.notices;
+          document.querySelectorAll('.pin-n').forEach(e => e.textContent = NOTICES.filter(n => n.pin).length || '');
+          renderNotices();
+          const [id, arg] = location.hash.slice(1).split('/');
+          if (id === 'notice-view') showNotice(arg);
+        }
+      })
+      .catch(() => {});
 
     // Section reveal on scroll
     const reveals = document.querySelectorAll('.reveal');

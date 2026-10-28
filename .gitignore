@@ -2,3 +2,5 @@
 # 원본 영상은 YouTube에 올림 — 저장소에 넣지 않기
 *.mp4
 *.mov
+*.xlsx
+.claude/launch.json
