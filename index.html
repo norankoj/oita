@@ -566,57 +566,14 @@
       max-width: 60ch;
     }
 
-    /* ── Contact ── */
-    #contact {
-      background: var(--ink);
-      color: var(--bg);
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    @media (max-width: 900px) {
-      #contact { min-height: auto; }
-    }
-    .contact-intro {
-      font-size: clamp(17px, 2vw, 20px);
-      font-weight: 500;
-      line-height: 1.6;
-      max-width: 36ch;
-    }
-    .contact-email-wrap {
-      flex: 1;
-      display: flex;
-      align-items: flex-end;
-      padding-bottom: clamp(32px, 6vh, 72px);
-    }
-    .contact-email {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(28px, 5.5vw, 72px);
-      letter-spacing: -0.02em;
-      line-height: 1;
-      color: var(--bg);
-      word-break: break-all;
-      transition: color 0.2s;
-    }
-    .contact-email:hover { color: var(--accent); }
-    .contact-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      font-size: 15px;
-      color: rgba(255,255,255,0.45);
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .contact-meta { line-height: 1.85; }
-    .contact-social {
-      display: flex;
-      gap: 24px;
-      font-size: 14px;
-    }
-    .contact-social a { opacity: 0.5; transition: opacity 0.2s; }
-    .contact-social a:hover { opacity: 1; color: var(--accent); }
+    /* ── 문의: 제목 + 검정 칸(안내 문장 · 메일 · 장소) — PC·모바일 공통 ── */
+    #contact { color: var(--ink); }
+    .contact-title { font-size: clamp(32px, 3.4vw, 48px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 24px; }
+    .contact-box { display: block; background: #111; color: #fff; padding: clamp(24px, 3vw, 44px); transition: background 0.2s; }
+    .contact-box:hover { background: var(--accent); }
+    .contact-box .c-intro { font-size: 17px; font-weight: 600; line-height: 1.5; }
+    .contact-box .c-mail { display: block; font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px, 1.8vw, 36px); line-height: 1; margin-top: 22px; }
+    .contact-box .c-meta { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.65); margin-top: 18px; }
 
     /* ── Footer ── */
     footer {
@@ -910,14 +867,11 @@
       .main-nav.menu-open .nav-links { display: flex; }
       .hero-bottom { padding-bottom: 40px; }
       .footer-wordmark { font-size: clamp(40px, 16vw, 90px); }
-      .contact-email { font-size: clamp(22px, 7.5vw, 48px); }
       .hero-top { flex-direction: column; gap: 20px; padding-top: 80px; }
       .countdown { text-align: left; }
       .countdown-digits { justify-content: flex-start; }
       .hero-bottom { flex-direction: column; align-items: flex-start; gap: 20px; }
       .hero-cta { width: 100%; text-align: center; }
-      #contact { min-height: auto; padding-bottom: 60px; }
-      .contact-bottom { flex-direction: column; gap: 20px; }
       .footer-row { flex-direction: column; gap: 32px; }
       .footer-links { grid-template-columns: 1fr 1fr; }
       details[open] { margin: 0 -20px; padding: 0 20px; }
@@ -966,7 +920,6 @@
       .event-time { opacity: 0.7; }
       .groups-pending-label { color: rgba(0,0,0,0.4); }
       .venue-step-duration { color: rgba(0,0,0,0.5); }
-      .contact-social a { opacity: 0.75; }
       .footer-place small { opacity: 0.85; }
     }
 
@@ -1275,11 +1228,6 @@
       .faq-answer { color: rgba(0,0,0,0.68); }
 
       /* Contact */
-      #contact { background: #0f0f0f; color: #fff; }
-      .contact-intro { color: rgba(255,255,255,0.72); }
-      .contact-email { color: #fff; }
-      .contact-bottom { color: rgba(255,255,255,0.38); }
-      .contact-social a { color: rgba(255,255,255,0.6); }
 
       .photo-credits { background: #fafaf8; }
       .photo-credits p { color: #ccc; }
@@ -1317,10 +1265,10 @@
       /* ══ 행사안내 세부 화면 (좌석·로비·층별·오는 길·FAQ·문의): 일정·식사와 같은 언어 ══
          흰 바탕 · 작은 빨간 GUIDE + 굵은 제목 · 연회색 칸(4px 간격) · 검정 버튼 */
       #seating, #lobby, #floors, #venue, #faq, #contact { background: #fff !important; --muted: #6e6a64; }
-      #seating .info-heading, #lobby .info-heading, #floors .info-heading, .venue-heading, .faq-heading, #contact .contact-intro {
+      #seating .info-heading, #lobby .info-heading, #floors .info-heading, .venue-heading, .faq-heading, .contact-title {
         font-family: var(--font); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: #111; margin-bottom: 24px; max-width: none;
       }
-      #seating .info-heading::before, #lobby .info-heading::before, #floors .info-heading::before, .venue-heading::before, .faq-heading::before, #contact .contact-intro::before {
+      #seating .info-heading::before, #lobby .info-heading::before, #floors .info-heading::before, .venue-heading::before, .faq-heading::before, .contact-title::before {
         content: 'GUIDE'; display: block; font-family: 'Bebas Neue', sans-serif; font-size: 20px; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 6px;
       }
       #seating .info-heading br, #lobby .info-heading br, #floors .info-heading br, .faq-heading br { display: none; }
@@ -1377,12 +1325,6 @@
       #faq .faq-answer { font-size: 15px; padding: 0 0 18px; color: #3d3a36; }
 
       /* 문의: 흰 화면 + 검정 메일 칸 */
-      #contact { color: #111; justify-content: flex-start !important; }
-      #contact .contact-intro { font-size: 22px; }
-      #contact .contact-email-wrap { flex: none; padding-bottom: 0; }
-      #contact .contact-email { display: block; width: 100%; background: #111; color: #fff; padding: 18px 14px; font-size: 26px; }
-      #contact .contact-bottom { margin-top: 20px; color: var(--muted); align-items: flex-start; }
-      #contact .contact-social a { color: #111; opacity: 0.75; }
 
       /* Page navigation */
       .mob-back-btn { display: none; }
@@ -1450,7 +1392,7 @@
 
       /* 제목: 작은 빨간 Bebas 라벨 + 굵은 제목 */
       .pc-eb { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 22px; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 10px; }
-      .schedule-heading, #seating .info-heading, #lobby .info-heading, .groups-heading, .faq-heading, .n-heading {
+      .schedule-heading, #seating .info-heading, #lobby .info-heading, .groups-heading, .faq-heading, .n-heading, .contact-title {
         font-family: var(--font) !important; font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: var(--ink); margin-bottom: 32px;
       }
       .faq-heading br, .n-heading br { display: none; }
@@ -1462,7 +1404,13 @@
       .hero::before, .hero::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
       .hero::before { background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 32px 32px; }
       .hero::after { background: var(--grain); opacity: 0.22; mix-blend-mode: multiply; }
-      .hero-top { grid-column: 1 / -1; padding: 120px var(--pm) 0; }
+      .hero { min-height: 100svh; }
+      .hero-top { grid-column: 1 / -1; padding: 124px var(--pm) 0; }
+      /* 메뉴: 시안처럼 빨간 화면 위 흰 글씨 (고정하지 않고 첫 화면에 붙어 있음) */
+      .main-nav { position: absolute; height: 84px; padding: 0 var(--pm); background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: 1px solid rgba(255,255,255,0.25); }
+      .main-nav .wordmark, .main-nav .nav-links { color: #fff; }
+      .main-nav .nav-links { font-size: 15px; font-weight: 600; gap: 36px; }
+      .main-nav .nav-links a { opacity: 0.85; }
       .hero-dates, .marquee-wrap { display: none !important; }
       .mob-org { display: block; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; line-height: 1.5; opacity: 0.75; }
       .mob-date { display: block; font-size: 18px; font-weight: 500; margin-top: 6px; }
@@ -1472,7 +1420,8 @@
       .countdown-num { font-size: 72px; line-height: 0.9; }
       .countdown-sep { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 40px; line-height: 1.2; opacity: 0.5; }
       .mob-hero-display { display: flex; grid-column: 1; align-self: end; position: relative; z-index: 1; padding: 0 0 48px var(--pm); }
-      .mob-hero-display-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(160px, 21vw, 300px); line-height: 0.8; letter-spacing: -0.01em; color: #fff; }
+      /* 폭과 높이 중 작은 쪽에 맞춤 → 넓고 낮은 화면에서도 첫 화면 안에 다 들어옴 */
+      .mob-hero-display-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(120px, min(20vw, 30svh), 300px); line-height: 0.8; letter-spacing: -0.01em; color: #fff; }
       .mob-hero-display-text .ln { display: block; }
       .hero-bottom { grid-column: 2; align-self: end; flex-direction: column; align-items: flex-end; text-align: right; gap: 22px; padding: 0 var(--pm) 62px 0; }
       .hero-location strong { font-size: 20px; }
@@ -1574,13 +1523,6 @@
       #faq details + details[open], #faq details[open] + details { margin-top: 4px; }
       #faq summary { font-size: 17px; padding: 22px 0; }
       #faq .faq-answer { font-size: 16px; padding: 0 0 22px; color: #3d3a36; }
-      #contact { min-height: auto !important; display: block; color: var(--ink); }
-      #contact .contact-intro { font-size: 26px; font-weight: 700; line-height: 1.4; max-width: none; margin-bottom: 24px; }
-      #contact .contact-email-wrap { display: block; padding: 0; }
-      #contact .contact-email { display: block; background: var(--ink); color: #fff; padding: 28px 24px; font-size: clamp(20px, 2vw, 30px); word-break: normal; }
-      #contact .contact-email:hover { color: #fff; background: var(--accent); }
-      #contact .contact-bottom { margin-top: 16px; flex-direction: column; align-items: flex-start; gap: 12px; color: var(--muted); }
-      #contact .contact-social a { color: var(--ink); opacity: 0.75; }
     }
 
   </style>
@@ -2114,23 +2056,12 @@
 
   <!-- Contact -->
   <section id="contact" aria-labelledby="contact-heading">
-    <h2 id="contact-heading" class="contact-intro reveal"><span class="pc-eb">CONTACT</span>컨퍼런스 관련 문의는<br>아래로 연락주세요.</h2>
-    <div class="contact-email-wrap reveal" style="transition-delay:0.1s">
-      <a href="mailto:info@joshuageneration.org" class="contact-email">
-        info@<wbr>joshuageneration.org
-      </a>
-    </div>
-    <div class="contact-bottom reveal" style="transition-delay:0.15s">
-      <div class="contact-meta">
-        <p>B-con Plaza, Beppu, Oita, Japan</p>
-        <p>2026년 11월 20–22일</p>
-      </div>
-      <nav class="contact-social" aria-label="소셜">
-        <a href="#">Instagram</a>
-        <a href="#">YouTube</a>
-        <a href="#">KakaoTalk</a>
-      </nav>
-    </div>
+    <h2 id="contact-heading" class="contact-title reveal"><span class="pc-eb">CONTACT</span>문의</h2>
+    <a href="mailto:info@joshuageneration.org" class="contact-box reveal" style="transition-delay:0.1s">
+      <p class="c-intro">컨퍼런스 관련 문의는<br>아래로 연락주세요.</p>
+      <span class="c-mail">info@<wbr>joshuageneration.org</span>
+      <p class="c-meta">B-con Plaza, Beppu, Oita<br>2026년 11월 20-22일</p>
+    </a>
   </section>
 
   <!-- Footer -->
