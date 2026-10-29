@@ -573,6 +573,18 @@
     .contact-box:hover { background: var(--accent); }
     .contact-box .c-intro { font-size: 17px; font-weight: 600; line-height: 1.5; }
     .contact-box .c-mail { display: block; font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px, 1.8vw, 36px); line-height: 1; margin-top: 22px; }
+    /* 언어 선택: 첫 화면 날짜 아래 (모바일 · PC 공통) */
+    .lang-sw { display: flex; margin-top: 14px; }
+    .lang-sw button { font: inherit; font-size: 12px; font-weight: 600; line-height: 1; color: #fff; background: transparent; border: 1px solid rgba(255,255,255,0.55); padding: 7px 10px; cursor: pointer; }
+    .lang-sw button + button { margin-left: -1px; }
+    .lang-sw button[aria-pressed="true"] { background: #fff; color: var(--accent); border-color: #fff; }
+    .mob-quick-head { display: flex; justify-content: space-between; align-items: center; }
+    .mob-quick .lang-sw { margin: 0; }
+    .mob-quick .lang-sw button { font-size: 11px; padding: 4px 7px; color: #6e6a64; border-color: #d6d2cb; }
+    .mob-quick .lang-sw button[aria-pressed="true"] { background: #111; color: #fff; border-color: #111; }
+    /* 모바일은 빠른 이동 줄에, PC는 첫 화면 날짜 아래에 */
+    @media (max-width: 600px) { .hero .lang-sw { display: none; } }
+    @media (min-width: 601px) { .mob-quick .lang-sw { display: none; } }
     .contact-box .c-meta { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.65); margin-top: 18px; }
 
     /* ── Footer ── */
@@ -1563,23 +1575,24 @@
         </p>
         <p class="mob-org">PROMISED LAND JAPAN<br>IN OITA 2026</p>
         <p class="mob-date">11월 20일(금) — 22일(일)</p>
+        <p class="lang-sw" role="group" aria-label="Language"><button type="button" data-lang="ko" lang="ko">한국어</button><button type="button" data-lang="en" lang="en">English</button><button type="button" data-lang="ja" lang="ja">日本語</button></p>
       </div>
       <div class="countdown" aria-label="이벤트까지 남은 시간">
         <p class="countdown-label" id="cd-label">D-Day까지</p>
         <div class="countdown-digits">
           <div class="countdown-unit">
             <span class="countdown-num" id="cd-days">–</span>
-            <span class="countdown-lbl">일</span>
+            <span class="countdown-lbl" data-tk="cd.d">일</span>
           </div>
           <span class="countdown-sep" aria-hidden="true">·</span>
           <div class="countdown-unit">
             <span class="countdown-num" id="cd-hours">–</span>
-            <span class="countdown-lbl">시간</span>
+            <span class="countdown-lbl" data-tk="cd.h">시간</span>
           </div>
           <span class="countdown-sep" aria-hidden="true">·</span>
           <div class="countdown-unit">
             <span class="countdown-num" id="cd-mins">–</span>
-            <span class="countdown-lbl">분</span>
+            <span class="countdown-lbl" data-tk="cd.m">분</span>
           </div>
         </div>
         <a href="#schedule" class="now-title" id="now-title"></a>
@@ -1626,7 +1639,10 @@
 
   <!-- Mobile quick tiles (hidden on desktop) -->
   <div class="mob-quick">
-  <p class="mob-quick-label">빠른 이동</p>
+  <div class="mob-quick-head">
+    <p class="mob-quick-label">빠른 이동</p>
+    <p class="lang-sw" role="group" aria-label="Language"><button type="button" data-lang="ko" lang="ko">한국어</button><button type="button" data-lang="en" lang="en">English</button><button type="button" data-lang="ja" lang="ja">日本語</button></p>
+  </div>
   <nav class="mob-home-grid" aria-label="빠른 이동">
     <a href="#schedule" class="mob-home-tile red">
       <span class="mob-home-tile-name">스케줄</span>
@@ -2006,7 +2022,7 @@
 
   <!-- FAQ -->
   <section id="faq" aria-labelledby="faq-heading">
-    <h2 class="faq-heading reveal" id="faq-heading"><span class="pc-eb">FAQ</span>자주 묻는 <br>질문</h2>
+    <h2 class="faq-heading reveal" id="faq-heading" data-tk="faq.h"><span class="pc-eb">FAQ</span>자주 묻는 질문</h2>
     <div class="faq-list reveal" style="transition-delay:0.1s">
       <details>
         <summary>
@@ -2116,6 +2132,7 @@
     </a>
   </nav>
 
+  <script src="i18n.js"></script>
   <script>
     // Mobile nav toggle
     const navToggle = document.querySelector('.nav-toggle');
@@ -2324,7 +2341,7 @@
     document.getElementById('copy-addr').addEventListener('click', async e => {
       const addr = '〒874-0828 大分県別府市山の手町12-1 ビーコンプラザ';
       try { await navigator.clipboard.writeText(addr); e.target.textContent = '복사됨'; }
-      catch { prompt('주소를 길게 눌러 복사하세요', addr); return; }
+      catch { prompt(T('주소를 길게 눌러 복사하세요'), addr); return; }
       setTimeout(() => e.target.textContent = '주소 복사', 1500);
     });
 
@@ -2367,7 +2384,7 @@
     // pin: 필독 고정 · cat: '변경' 또는 '안내' · facts: [항목, 내용] 표 · link: [이동할 곳, 버튼 이름]
     let NOTICES = [
       { id: 3, pin: true, cat: '안내', date: '10.28', title: '현장 등록은 불가합니다',
-        body: '사전에 등록을 완료하신 분만 입장 가능합니다. 등록 데스크에서 <b>사전 등록 확인증</b>을 보여주세요.',
+        body: '사전에 등록을 완료하신 분만 입장 가능합니다. 등록 데스크에서 사전 등록 확인증을 보여주세요.',
         facts: [['시간', 'Day 1(금) 17:00 ~'], ['장소', '1층 정문 로비 등록 데스크'], ['준비물', '사전 등록 확인증']],
         link: ['#lobby', '로비 안내 보기'] },
       { id: 2, cat: '안내', date: '10.28', title: 'Day 1(금) 저녁 식사는 제공되지 않습니다',
@@ -2504,6 +2521,7 @@
     fetch('/api/content', { signal: AbortSignal.timeout ? AbortSignal.timeout(4000) : undefined })
       .then(r => r.ok ? r.json() : Promise.reject(r.status))
       .then(d => {
+        if (d.i18n?.length) addI18n(d.i18n);
         if (d.schedule?.length) {
           SCHEDULE = d.schedule; TIMETABLE = buildTimetable();
           schDay = Math.max(0, SCHEDULE.findIndex(x => x.date === todayKST()));

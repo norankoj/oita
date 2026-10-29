@@ -17,6 +17,7 @@ const CSV = {
   조편성: '조,이름,소속,역할\n10조,박하늘,○○교회,\n2조,김하나,○○교회,조장\n2조,<b>이름</b>,△△교회,\n,빈조,,\n',
   조모임: '조,언제,장소\n2조,Day 1 집회 후,메인홀 A구역\n2조,Day 2 점심,2층 식사 공간\n99조,Day 1,없는 조\n',
   식사: '날짜,아침,점심,저녁\n2026-11-20,,,\n2026. 11. 21,,O,o\n',
+  번역: '한국어,English,日本語\n새  공지,New notice,新しいお知らせ\n<b>굵게</b>,Bold,\n번역 없음,,\n',
   영상: '제목,길이,유튜브 링크\n티저 1,0:32,https://youtu.be/b-EbK3l8xeU\n티저 2,0:46,\n이상한 링크,1:00,javascript:alert(1)\n',
 };
 
@@ -52,6 +53,8 @@ readSheet(async tab => CSV[tab]).then(d => {
   assert.equal(d.groupPlaces, undefined);
   // 식사
   assert.deepEqual(d.meals, { '2026-11-20': [], '2026-11-21': ['점심', '저녁'] });
+  // 번역: 공백 정리, 화면 글자 그대로 (글자로만 넣으므로), 번역이 없는 줄은 뺌
+  assert.deepEqual(d.i18n, [['새 공지', 'New notice', '新しいお知らせ'], ['<b>굵게</b>', 'Bold', '']]);
   // 영상
   assert.equal(d.videos[0].yt, 'https://youtu.be/b-EbK3l8xeU');
   assert.equal(d.videos[1].yt, '');

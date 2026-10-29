@@ -1,4 +1,4 @@
-// 구글 시트 → 사이트 데이터 (공지 · 일정 · 층별 · 식사 · 영상)
+// 구글 시트 → 사이트 데이터 (공지 · 일정 · 층별 · 식사 · 영상 · 조편성 · 번역)
 // Vercel이 60초 동안 결과를 저장해 두고 모두에게 나눠 주므로, 접속자가 1500명이어도
 // 구글 시트에는 1분에 한 번 정도만 요청이 간다. 시트를 못 읽으면 사이트는 기본 내용을 그대로 보여준다.
 //
@@ -14,8 +14,9 @@ const GID = {
   // 선택 탭: 없으면(값이 비어 있으면) 건너뜀
   조편성: process.env.GID_GROUPS || '',
   조모임: process.env.GID_GROUP_PLACES || '',
+  번역: process.env.GID_I18N || '',
 };
-const OPTIONAL = ['조편성', '조모임'];
+const OPTIONAL = ['조편성', '조모임', '번역'];
 
 // ── CSV ──
 function parseCSV(text) {
@@ -124,12 +125,17 @@ const build = {
   // 조모임: 한 줄 = 조의 모임 하나 (언제 · 장소). 같은 조가 여러 줄이면 모두 표시
   조모임: rows => rows.filter(r => r['조'] && r['장소']).map(r => ({ group: esc(r['조']), when: esc(r['언제'] || ''), place: esc(r['장소']) })),
 
+  // 번역: 한 줄 = 화면에 보이는 한국어 한 덩어리 + 영어 + 일본어.
+  // 화면에 글자(텍스트)로만 넣으므로 이스케이프하지 않음 — 화면의 한국어와 글자가 똑같아야 찾을 수 있다
+  번역: rows => rows.filter(r => r['한국어'] && (r['English'] || r['日本語']))
+    .map(r => [r['한국어'].replace(/\s+/g, ' '), r['English'] || '', r['日本語'] || '']),
+
   영상: rows => rows.filter(r => r['제목']).map(r => ({
     title: esc(r['제목']), len: esc(r['길이'] || ''),
     yt: /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(r['유튜브 링크'] || '') ? r['유튜브 링크'] : '',
   })),
 };
-const KEY = { 공지: 'notices', 일정: 'schedule', 층별: 'floors', 식사: 'meals', 영상: 'videos', 조편성: 'groups', 조모임: 'groupPlaces' };
+const KEY = { 공지: 'notices', 일정: 'schedule', 층별: 'floors', 식사: 'meals', 영상: 'videos', 조편성: 'groups', 조모임: 'groupPlaces', 번역: 'i18n' };
 
 // 안내도 이미지: 구글 드라이브 공유 링크도 그대로 붙여넣으면 이미지로 보이게 바꿈
 // (드라이브 파일은 "링크가 있는 모든 사용자 - 뷰어"로 공유돼 있어야 함)
