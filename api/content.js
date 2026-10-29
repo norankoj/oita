@@ -11,7 +11,11 @@ const GID = {
   층별: process.env.GID_FLOORS || '',
   식사: process.env.GID_MEALS || '',
   영상: process.env.GID_VIDEOS || '',
+  // 선택 탭: 없으면(값이 비어 있으면) 건너뜀
+  조편성: process.env.GID_GROUPS || '',
+  조모임: process.env.GID_GROUP_PLACES || '',
 };
+const OPTIONAL = ['조편성', '조모임'];
 
 // ── CSV ──
 function parseCSV(text) {
@@ -98,10 +102,7 @@ const build = {
     const floors = new Map();
     for (const r of rows) {
       const f = r['층']; if (!f) continue;
-      if (!floors.has(f)) {
-        const map = r['안내도 이미지'] || '';
-        floors.set(f, { f: esc(f), name: esc(r['공간 이름'] || ''), map: /^https?:\/\//.test(map) ? esc(map) : '', rows: [] });
-      }
+      if (!floors.has(f)) floors.set(f, { f: esc(f), name: esc(r['공간 이름'] || ''), map: esc(imageUrl(r['안내도 이미지'] || '')), rows: [] });
       if (r['항목']) floors.get(f).rows.push([esc(r['항목']), esc(r['내용'] || '')]);
     }
     return [...floors.values()];
@@ -109,24 +110,54 @@ const build = {
 
   식사: rows => Object.fromEntries(rows.map(r => [date(r['날짜'] || ''), ['아침', '점심', '저녁'].filter(k => yes(r[k] || ''))]).filter(([d]) => d)),
 
+  // 조편성: 한 줄 = 한 사람. 조장은 역할 칸에 "조장"
+  조편성: rows => {
+    const groups = new Map();
+    for (const r of rows) {
+      const g = r['조'], n = r['이름']; if (!g || !n) continue;
+      if (!groups.has(g)) groups.set(g, { name: esc(g), places: [], members: [] });
+      groups.get(g).members.push({ name: esc(n), org: esc(r['소속'] || ''), role: esc(r['역할'] || '') });
+    }
+    // 1조, 2조 … 10조 순 (숫자 기준)
+    return [...groups.values()].sort((a, b) => (parseInt(a.name.replace(/\D/g, '')) || 0) - (parseInt(b.name.replace(/\D/g, '')) || 0) || a.name.localeCompare(b.name));
+  },
+  // 조모임: 한 줄 = 조의 모임 하나 (언제 · 장소). 같은 조가 여러 줄이면 모두 표시
+  조모임: rows => rows.filter(r => r['조'] && r['장소']).map(r => ({ group: esc(r['조']), when: esc(r['언제'] || ''), place: esc(r['장소']) })),
+
   영상: rows => rows.filter(r => r['제목']).map(r => ({
     title: esc(r['제목']), len: esc(r['길이'] || ''),
     yt: /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(r['유튜브 링크'] || '') ? r['유튜브 링크'] : '',
   })),
 };
-const KEY = { 공지: 'notices', 일정: 'schedule', 층별: 'floors', 식사: 'meals', 영상: 'videos' };
+const KEY = { 공지: 'notices', 일정: 'schedule', 층별: 'floors', 식사: 'meals', 영상: 'videos', 조편성: 'groups', 조모임: 'groupPlaces' };
 
-async function readSheet(fetchCSV) {
+// 안내도 이미지: 구글 드라이브 공유 링크도 그대로 붙여넣으면 이미지로 보이게 바꿈
+// (드라이브 파일은 "링크가 있는 모든 사용자 - 뷰어"로 공유돼 있어야 함)
+function imageUrl(s) {
+  const m = s.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/);
+  if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w2000`;
+  return /^https:\/\//.test(s) ? s : '';
+}
+
+async function readSheet(fetchCSV, tabs = Object.keys(GID)) {
   const out = {};
-  await Promise.all(Object.keys(GID).map(async tab => {
+  await Promise.all(tabs.map(async tab => {
     const rows = toObjects(parseCSV(await fetchCSV(tab)));
     out[KEY[tab]] = build[tab](rows);
   }));
+  // 조모임 장소를 각 조에 붙임
+  if (out.groups) {
+    for (const p of out.groupPlaces || []) {
+      const g = out.groups.find(x => x.name === p.group);
+      if (g) g.places.push([p.when, p.place]);
+    }
+  }
+  delete out.groupPlaces;
   return out;
 }
 
 module.exports = async (req, res) => {
-  if (!SHEET_ID || Object.values(GID).some(g => g === '')) {
+  if (!SHEET_ID || Object.entries(GID).some(([t, g]) => g === '' && !OPTIONAL.includes(t))) {
     res.setHeader('Cache-Control', 'no-store');
     return res.status(503).json({ error: 'sheet not configured' });
   }
@@ -136,7 +167,7 @@ module.exports = async (req, res) => {
       const text = await r.text();
       if (!r.ok || text.trimStart().startsWith('<')) throw new Error(`${tab} 탭을 읽지 못함 (${r.status})`); // 권한 없으면 로그인 페이지(HTML)가 옴
       return text;
-    });
+    }, Object.keys(GID).filter(t => GID[t]));
     // 60초 동안 저장해 두고 나눠줌, 시트가 잠깐 안 돼도 하루 동안은 마지막 내용 유지
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
     res.status(200).json(data);

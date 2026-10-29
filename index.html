@@ -1007,6 +1007,26 @@
 
     .venue-m { display: none; }
 
+    /* ── 조 편성 (시트에서): 이름 찾기 + 조별 칸 (모임 장소는 검정 칸) ── */
+    #groups.has-groups .groups-pending-label, #groups.has-groups .groups-pending-sub { display: none; }
+    .grp { margin-top: 28px; }
+    .grp-search { width: 100%; max-width: 420px; height: 50px; padding: 0 14px; border: 1.5px solid var(--ink); border-radius: 0; background: var(--bg); color: var(--ink); font: 16px var(--font); margin-bottom: 20px; }
+    .grp-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .grp-card { background: var(--bg); padding: 16px; }
+    .grp-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 1; margin-bottom: 12px; }
+    .grp-name small { font-family: var(--font); font-size: 13px; color: var(--muted); margin-left: 8px; }
+    .grp-places { display: grid; gap: 4px; margin-bottom: 12px; }
+    .grp-place { background: #111; color: #fff; padding: 10px 12px; }
+    .grp-place b { display: block; font-size: 15px; font-weight: 600; }
+    .grp-place small { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .grp-members { font-size: 15px; line-height: 1.9; }
+    .grp-members span { white-space: nowrap; }
+    .grp-members small { font-size: 12px; color: var(--muted); }
+    .grp-members em { font-style: normal; font-size: 12px; font-weight: 700; color: var(--accent); margin-left: 3px; }
+    .grp-members .hit { background: var(--accent); color: #fff; padding: 1px 4px; }
+    .grp-members .hit small { color: rgba(255,255,255,0.85); }
+    .grp-empty { color: var(--muted); font-size: 15px; padding: 12px 0; }
+
     /* ── 식사: 모바일 — PC에선 숨김 ── */
     .meal-m { display: none; }
     .n-pin.meal-sum { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
@@ -1192,8 +1212,14 @@
       .schedule-note { color: #aaa; }
 
       /* Groups */
-      #groups { background: #f2efe9; }
-      .groups-heading { color: #111; }
+      #groups { background: #fff !important; --muted: #6e6a64; }
+      .groups-heading { color: #111; font-family: var(--font); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+      .groups-heading::before { content: 'GUIDE'; display: block; font-family: 'Bebas Neue', sans-serif; font-size: 20px; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 6px; }
+      #groups.has-groups .groups-layout { display: block; }
+      .grp { margin-top: 20px; }
+      .grp-search { max-width: none; }
+      .grp-list { grid-template-columns: 1fr; gap: 8px; }
+      .grp-card { background: #f2efe9; }
       .groups-pending-label { color: rgba(0,0,0,0.15); }
       .groups-pending-sub { color: #888; }
 
@@ -1404,6 +1430,159 @@
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
 
+    /* ══════════════════════════════════════════════════
+       PC 레이아웃 (mockup-pc.html) — 모바일과 같은 결
+       HTML 순서는 그대로 두고, PC에서만 12칸 격자로 섹션 순서·배치를 바꿈
+    ══════════════════════════════════════════════════ */
+    .pc-eb, .pc-only, .n-glinks { display: none; }
+    @media (min-width: 601px) {
+      body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-flow: row dense; }
+      body > * { grid-column: 1 / -1; }
+      .hero { order: 1; } .mob-quick { order: 2; } #notice { order: 3; } #notice-view { order: 4; }
+      #schedule { order: 5; }
+      #meals { order: 6; grid-column: 1 / 7; } #quicknav { order: 6; grid-column: 7 / -1; }
+      #groups { order: 7; } #venue { order: 8; } #teaser { order: 9; }
+      #seating { order: 10; grid-column: 1 / 7; } #lobby { order: 10; grid-column: 7 / -1; }
+      #faq { order: 11; grid-column: 1 / 9; } #contact { order: 11; grid-column: 9 / -1; }
+      footer { order: 12; }
+      .marquee-divider, .poster-band, #floors, .photo-credits, .mob-back-btn, #notice-view[hidden] { display: none !important; }
+      section { background: var(--bg) !important; }
+
+      /* 제목: 작은 빨간 Bebas 라벨 + 굵은 제목 */
+      .pc-eb { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 22px; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 10px; }
+      .schedule-heading, #seating .info-heading, #lobby .info-heading, .groups-heading, .faq-heading, .n-heading {
+        font-family: var(--font) !important; font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: var(--ink); margin-bottom: 32px;
+      }
+      .faq-heading br, .n-heading br { display: none; }
+      .n-heading .accent { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 22px; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 10px; }
+      .pc-only { display: block; }
+
+      /* 01 첫 화면: 거대한 PROMISED LAND 왼쪽 아래, 장소·일정 보기 오른쪽 아래 */
+      .hero { display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr; padding: 0; }
+      .hero::before, .hero::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+      .hero::before { background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 32px 32px; }
+      .hero::after { background: var(--grain); opacity: 0.22; mix-blend-mode: multiply; }
+      .hero-top { grid-column: 1 / -1; padding: 120px var(--pm) 0; }
+      .hero-dates, .marquee-wrap { display: none !important; }
+      .mob-org { display: block; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; line-height: 1.5; opacity: 0.75; }
+      .mob-date { display: block; font-size: 18px; font-weight: 500; margin-top: 6px; }
+      .countdown-label { font-size: 14px; font-weight: 600; opacity: 0.85; }
+      .countdown-digits { gap: 14px; align-items: flex-start; }
+      .countdown-unit { display: flex; flex-direction: column; align-items: center; }
+      .countdown-num { font-size: 72px; line-height: 0.9; }
+      .countdown-sep { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 40px; line-height: 1.2; opacity: 0.5; }
+      .mob-hero-display { display: flex; grid-column: 1; align-self: end; position: relative; z-index: 1; padding: 0 0 48px var(--pm); }
+      .mob-hero-display-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(160px, 21vw, 300px); line-height: 0.8; letter-spacing: -0.01em; color: #fff; }
+      .mob-hero-display-text .ln { display: block; }
+      .hero-bottom { grid-column: 2; align-self: end; flex-direction: column; align-items: flex-end; text-align: right; gap: 22px; padding: 0 var(--pm) 62px 0; }
+      .hero-location strong { font-size: 20px; }
+      .hero-location-full { display: none; }
+      .hero-location-short { display: block; font-size: 15px; opacity: 0.85; margin-top: 4px; }
+      .hero-cta::after { content: ' →'; }
+
+      /* 02 빠른 이동: 4칸 한 줄 */
+      .mob-quick { display: block; height: auto; padding: 40px var(--pm) 48px; background: var(--bg); }
+      .mob-quick-label { font-size: 14px; font-weight: 600; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 14px; }
+      .mob-home-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+      .mob-home-tile { position: relative; display: flex; flex-direction: column; gap: 4px; height: 132px; padding: 22px; background: var(--surface); color: var(--ink); }
+      .mob-home-tile.red { background: var(--accent); color: #fff; }
+      .mob-home-tile-name { font-size: 22px; font-weight: 700; }
+      .mob-home-tile-sub { font-size: 15px; color: var(--muted); }
+      .mob-home-tile.red .mob-home-tile-sub { color: rgba(255,255,255,0.8); }
+      .mob-home-tile-arr { position: absolute; right: 18px; bottom: 18px; width: 34px; height: 34px; display: grid; place-items: center; background: rgba(17,17,17,0.08); }
+      .mob-home-tile.red .mob-home-tile-arr { background: rgba(0,0,0,0.2); }
+
+      /* 03 행사안내: 왼쪽 제목·필터, 오른쪽 공지, 아래 바로가기 6칸 */
+      #notice { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: 72px; align-items: start; }
+      #notice > .n-heading { display: none; }
+      #notice > .g-head { display: block; grid-column: 1; grid-row: 1; margin-bottom: 32px; }
+      .g-eb { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 10px; }
+      .g-title { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+      #notice > #notice-seg { grid-column: 1; grid-row: 2; width: fit-content; max-width: none; }
+      #notice-seg button { padding: 12px 26px; min-width: 110px; }
+      #notice > .n-list { grid-column: 2; grid-row: 1 / span 3; }
+      .n-list .n-title { font-size: 18px; }
+      .n-glinks { display: grid; grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 48px; }
+      .n-glinks .box { display: grid; grid-template-columns: 1fr auto; align-items: center; min-height: 84px; padding: 18px 20px; background: var(--surface); }
+      .n-glinks b { display: block; font-size: 17px; font-weight: 600; }
+      .n-glinks small { display: block; font-size: 14px; color: var(--muted); margin-top: 3px; }
+      .n-glinks .arrow { color: #ada8a0; }
+      #notice-view { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: 72px; }
+
+      /* 04 일정: 3일 나란히 (모바일과 같은 72px 칸) */
+      #schedule .schedule-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+      .pc-day .sch-head { margin: 0 0 14px; }
+      .pc-day .sch-day { font-size: 56px; }
+      .pc-day.today .sch-day { color: var(--accent); }
+      .pc-day .sch-day-note { margin-top: 14px; }
+
+      /* 05 식사 · 층별: 반반 */
+      #meals > .info-heading, #meals .meal-pc { display: none; }
+      .meal-m { display: block; }
+      #quicknav { padding: clamp(72px, 10vw, 128px) var(--pm); }
+      #quicknav .quicknav-heading, #quicknav .quicknav-list { display: none; }
+      .guide-m { display: block; }
+      .guide-m .g-head, #guide-seg, .guide-sub, #guide-cells { display: none !important; }
+      .floor-tabs { display: flex; gap: 28px; border-bottom: 1px solid var(--line, #e7e3dc); }
+      .floor-tabs button { background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; padding: 0 2px 10px; font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 1; color: #ada8a0; cursor: pointer; }
+      .floor-tabs button.on { color: var(--ink); border-bottom-color: var(--ink); }
+      .plan { aspect-ratio: 16 / 9; margin-top: 18px; }
+      .plan-f { font-size: 96px; }
+      #floor-cells { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 8px; }
+      #floor-cells .cell { display: block; background: var(--surface); padding: 18px 20px; border: 0; }
+      #floor-cells .cell b { display: block; font-size: 17px; }
+
+      /* 06 조 편성 */
+      .grp-card { background: var(--surface); }
+
+      /* 07 오는 길: 왼쪽 지도, 오른쪽 흰 칸 */
+      #venue { padding: 0 !important; }
+      #venue .venue-heading, #venue .venue-layout { display: none; }
+      .venue-m { display: grid; grid-template-columns: 7fr 5fr; min-height: 760px; }
+      .vm-map { position: relative; overflow: hidden; background: #e9e6e0; }
+      .vm-map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: grayscale(1) contrast(0.95) brightness(1.04); pointer-events: none; }
+      .vm-pin { position: absolute; left: 50%; top: calc(50% - 4px); transform: translate(-50%, -100%); background: var(--accent); color: #fff; font-size: 17px; font-weight: 700; padding: 8px 14px; white-space: nowrap; }
+      .vm-pin::after { content: ''; position: absolute; left: 50%; top: 100%; width: 2px; height: 18px; background: var(--accent); }
+      .vm-sheet { background: #fff; padding: 88px 64px; }
+      .vm-grab { display: none; }
+      .vm-name { font-family: 'Bebas Neue', sans-serif; font-size: 88px; line-height: 0.85; }
+      .vm-addr { font-size: 16px; color: var(--muted); margin-top: 12px; }
+      .vm-steps { list-style: none; margin-top: 28px; }
+      .vm-steps li { display: grid; grid-template-columns: 36px 1fr auto; align-items: baseline; padding: 18px 0; border-top: 1px solid #e7e3dc; }
+      .vm-steps li > b { font-family: 'Bebas Neue', sans-serif; font-size: 28px; font-weight: 400; color: var(--accent); }
+      .vm-steps strong { display: block; font-size: 18px; }
+      .vm-steps small { display: block; font-size: 15px; color: var(--muted); margin-top: 3px; }
+      .vm-steps em { font-style: normal; font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--muted); }
+      .vm-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
+      .vm-btns .nv-btn { font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; background: none; color: var(--ink); }
+      .vm-btns .nv-btn.red { background: var(--accent); color: #fff; }
+
+      /* 08 영상: 블랙, 왼쪽 거대한 제목 · 오른쪽 THE B TEASER */
+      #teaser { display: grid; grid-template-columns: 1fr auto; column-gap: 40px; align-items: end; }
+      #teaser .vid-big { grid-column: 1; font-size: clamp(120px, 14vw, 200px); }
+      #teaser .vid-sub { grid-column: 2; text-align: right; margin: 0 0 8px; font-size: 40px; }
+      #teaser .vid-sub small { display: block; margin: 8px 0 0; }
+      #teaser .vid-wrap { grid-column: 1 / -1; margin-top: 56px; }
+      .vid-row { padding: 18px 0; }
+      .vid-row b { font-size: 52px; }
+
+      /* 09 FAQ · 문의 */
+      .faq-list { margin-left: 0; }
+      #faq details { background: var(--surface); border: 0; margin: 0; padding: 0 20px; }
+      #faq details + details { margin-top: 4px; }
+      #faq details[open] { margin: 0; padding: 0 20px; background: var(--surface); }
+      #faq details + details[open], #faq details[open] + details { margin-top: 4px; }
+      #faq summary { font-size: 17px; padding: 22px 0; }
+      #faq .faq-answer { font-size: 16px; padding: 0 0 22px; color: #3d3a36; }
+      #contact { min-height: auto !important; display: block; color: var(--ink); }
+      #contact .contact-intro { font-size: 26px; font-weight: 700; line-height: 1.4; max-width: none; margin-bottom: 24px; }
+      #contact .contact-email-wrap { display: block; padding: 0; }
+      #contact .contact-email { display: block; background: var(--ink); color: #fff; padding: 28px 24px; font-size: clamp(20px, 2vw, 30px); word-break: normal; }
+      #contact .contact-email:hover { color: #fff; background: var(--accent); }
+      #contact .contact-bottom { margin-top: 16px; flex-direction: column; align-items: flex-start; gap: 12px; color: var(--muted); }
+      #contact .contact-social a { color: var(--ink); opacity: 0.75; }
+    }
+
   </style>
 </head>
 <body>
@@ -1418,10 +1597,11 @@
   <nav class="main-nav" aria-label="Main navigation">
     <span class="wordmark">JOSHUA GENERATION</span>
     <ul class="nav-links" id="nav-links">
-      <li><a href="#quicknav">행사안내</a></li>
+      <li><a href="#notice">행사안내</a></li>
       <li><a href="#schedule">일정</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="#contact">문의</a></li>
+      <li><a href="#groups">조 편성</a></li>
+      <li><a href="#venue">오는 길</a></li>
+      <li><a href="#teaser">영상</a></li>
     </ul>
     <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="nav-links">
       <span></span><span></span><span></span>
@@ -1556,6 +1736,7 @@
         <button type="button" data-f="필독">필독<em class="pin-n"></em></button>
         <button type="button" class="on">안내</button>
       </div>
+      <h2 class="n-heading pc-only"><span class="accent">Floors</span><br>층별 안내</h2>
       <div class="floor-tabs" id="floor-seg"></div>
       <div class="plan" id="floor-plan"></div>
       <div class="cells" id="floor-cells"></div>
@@ -1605,6 +1786,8 @@
       <button type="button" data-go="quicknav">안내</button>
     </div>
     <div class="n-list" id="notice-list"></div>
+    <!-- PC: 아래에 세부 안내 바로가기 칸 (모바일은 "전체" 목록 안에 있음) -->
+    <div class="n-glinks" id="n-glinks"></div>
   </section>
 
   <!-- 공지 상세 (#notice-view/번호) -->
@@ -1623,10 +1806,7 @@
 
   <!-- Schedule -->
   <section id="schedule" aria-labelledby="schedule-heading">
-    <h2 class="schedule-heading reveal" id="schedule-heading">
-      <span class="accent">Worship</span><br>
-      in Oita
-    </h2>
+    <h2 class="schedule-heading reveal" id="schedule-heading"><span class="pc-eb">SCHEDULE</span>일정</h2>
 
     <!-- 내용은 맨 아래 스크립트의 SCHEDULE 목록에서 수정 -->
     <div class="schedule-grid" id="schedule-grid"></div>
@@ -1663,10 +1843,16 @@
   <!-- 조 편성 -->
   <section id="groups" aria-labelledby="groups-heading">
     <div class="groups-layout">
-      <h2 class="groups-heading reveal" id="groups-heading">조 편성</h2>
+      <h2 class="groups-heading reveal" id="groups-heading"><span class="pc-eb">GROUPS</span>조 편성</h2>
       <p class="groups-pending-label reveal" style="transition-delay:0.1s" aria-hidden="true">추후 공지</p>
     </div>
     <p class="groups-pending-sub reveal" style="transition-delay:0.15s">조 편성이 확정되면 이 페이지에 업데이트됩니다.</p>
+    <!-- 시트의 조편성 · 조모임 탭이 채워지면 표시 -->
+    <div class="grp" id="grp" hidden>
+      <input type="search" class="grp-search" id="grp-search" placeholder="이름으로 내 조 찾기" aria-label="이름으로 내 조 찾기" autocomplete="off">
+      <div class="grp-list" id="grp-list"></div>
+      <p class="grp-empty" id="grp-empty" hidden>찾는 이름이 없습니다.</p>
+    </div>
   </section>
 
   <!-- 오는 길 -->
@@ -1680,6 +1866,7 @@
       </div>
       <div class="vm-sheet">
         <span class="vm-grab"></span>
+        <p class="pc-eb">ACCESS</p>
         <p class="vm-name">B-CON PLAZA</p>
         <p class="vm-addr">ビーコンプラザ · 12-1 Yamanotecho, Beppu, Oita</p>
         <ol class="vm-steps">
@@ -1732,7 +1919,7 @@
 
   <!-- 좌석안내 -->
   <section id="seating" aria-labelledby="seating-heading">
-    <h2 class="info-heading reveal" id="seating-heading">좌석안내</h2>
+    <h2 class="info-heading reveal" id="seating-heading"><span class="pc-eb">SEATING</span>좌석안내</h2>
     <div class="reveal" style="transition-delay:0.1s">
       <div class="info-cols">
         <div class="info-col">
@@ -1775,7 +1962,7 @@
 
   <!-- 로비안내 -->
   <section id="lobby" aria-labelledby="lobby-heading">
-    <h2 class="info-heading reveal" id="lobby-heading">로비안내<br><span class="h-sub">등록 데스크 · 부스</span></h2>
+    <h2 class="info-heading reveal" id="lobby-heading"><span class="pc-eb">LOBBY</span>로비안내<br><span class="h-sub">등록 데스크 · 부스</span></h2>
     <div class="reveal" style="transition-delay:0.1s">
       <div class="info-cols">
         <div class="info-col">
@@ -1875,9 +2062,7 @@
 
   <!-- FAQ -->
   <section id="faq" aria-labelledby="faq-heading">
-    <h2 class="faq-heading reveal" id="faq-heading">
-      자주 묻는<br>질문
-    </h2>
+    <h2 class="faq-heading reveal" id="faq-heading"><span class="pc-eb">FAQ</span>자주 묻는 <br>질문</h2>
     <div class="faq-list reveal" style="transition-delay:0.1s">
       <details>
         <summary>
@@ -1929,12 +2114,10 @@
 
   <!-- Contact -->
   <section id="contact" aria-labelledby="contact-heading">
-    <h2 id="contact-heading" class="contact-intro reveal">
-      컨퍼런스 관련 문의는<br>아래로 연락주세요.
-    </h2>
+    <h2 id="contact-heading" class="contact-intro reveal"><span class="pc-eb">CONTACT</span>컨퍼런스 관련 문의는<br>아래로 연락주세요.</h2>
     <div class="contact-email-wrap reveal" style="transition-delay:0.1s">
       <a href="mailto:info@joshuageneration.org" class="contact-email">
-        info@joshuageneration.org
+        info@<wbr>joshuageneration.org
       </a>
     </div>
     <div class="contact-bottom reveal" style="transition-delay:0.15s">
@@ -1963,15 +2146,15 @@
         <p class="footer-place">B-CON PLAZA</p>
       </div>
       <nav class="footer-links" aria-label="Footer links">
+        <a href="#notice">행사안내</a>
         <a href="#schedule">일정</a>
-        <a href="#seating">좌석안내</a>
-        <a href="#lobby">로비안내</a>
-        <a href="#meals">식사안내</a>
-        <a href="#floors">각층별안내</a>
-        <a href="#faq">FAQ</a>
+        <a href="#groups">조 편성</a>
+        <a href="#meals">식사</a>
+        <a href="#quicknav">층별</a>
         <a href="#venue">오는 길</a>
+        <a href="#teaser">영상</a>
+        <a href="#faq">FAQ</a>
         <a href="#contact">문의</a>
-        <a href="#">Instagram</a>
       </nav>
     </div>
     <div class="footer-legal">
@@ -2047,47 +2230,45 @@
     const todayKST = () => new Date(new Date().getTime() + 9 * 3600000).toISOString().slice(0, 10);
     const isClock = t => /^\d/.test(t);
 
-    // PC: 기존 3단 디자인
-    const renderScheduleGrid = () => document.getElementById('schedule-grid').innerHTML = SCHEDULE.map((d, n) => `
-      <div class="day-col${n === 0 ? ' day-1' : ''} reveal visible" style="transition-delay:${n / 10}s">
-        <p class="day-date">${d.dow}</p>
-        <p class="day-name">${d.label} — Day ${n + 1}</p>
-        <ul class="day-events">${d.items.map(i => `
-          <li class="day-event">
-            <p class="event-time">${i.at ? i.at.join(' - ') : i.t}</p>
-            <p class="event-name">${i.name}</p>
-            ${i.sub ? `<p class="event-sub">${i.sub}</p>` : ''}
-            ${i.note ? `<p class="event-note">※ ${i.note}</p>` : ''}
-          </li>`).join('')}
-        </ul>
-        ${d.note ? `<p class="event-note" style="margin-top:28px">※ ${d.note}</p>` : ''}
-      </div>`).join('');
+    // 모바일 타임라인과 PC 3일 화면이 같이 쓰는 조각
+    // 날짜 머리: DAY n + 날짜 + 그날 집회 번호
+    function schHead(d, n) {
+      const ws = d.items.filter(i => i.name.startsWith('Worship')).map(i => i.name.split(' ').pop());
+      const sess = ws.length ? `<br><b>Worship Session ${ws.length > 1 ? `${ws[0]}-${ws.at(-1)}` : ws[0]}</b>` : '';
+      return `<p class="sch-day">DAY ${n + 1}</p><p class="sch-meta">${d.label}${sess}</p>`;
+    }
+    // 한 줄 = 한 순서. 시간대(t)가 바뀌는 줄(gs)에만 시간 표시
+    // 집회 줄은 시간 칸까지 통째로 검정, 지금 순서는 빨강
+    const schRows = (d, today) => d.items.map((i, n) => {
+      const gs = !n || d.items[n - 1].t !== i.t;
+      const c = isNow(d, i) ? 'cur' : i.name.startsWith('Worship') ? 'main' : '';
+      return `<li class="${c}${gs ? ' gs' : ''}${d.date < today ? ' past' : ''}"><time class="${isClock(i.t) ? '' : 'ko'}">${gs ? i.t : ''}${gs && i.at ? `<small>~${i.at[1]}</small>` : ''}</time><div class="ev">${c === 'cur' ? '<span class="nowtag">NOW</span>' : ''}<b>${i.name}</b>${i.sub ? `<small>${i.sub}</small>` : ''}${i.note ? `<small class="tl-note">※ ${i.note}</small>` : ''}</div></li>`;
+    }).join('');
+
+    // PC: 3일을 나란히
+    const renderScheduleGrid = () => {
+      const today = todayKST();
+      document.getElementById('schedule-grid').innerHTML = SCHEDULE.map((d, n) =>
+        `<div class="pc-day${d.date === today ? ' today' : ''}"><div class="sch-head">${schHead(d, n)}</div><ul class="tl">${schRows(d, today)}</ul>${d.note ? `<p class="sch-day-note">※ ${d.note}</p>` : ''}</div>`).join('');
+    };
 
     // 모바일: 요일 탭 + 타임라인 (행사 기간엔 오늘 날짜가 기본)
     renderScheduleGrid();
     let schDay = Math.max(0, SCHEDULE.findIndex(d => d.date === todayKST()));
     function renderSchedule() {
-      const d = SCHEDULE[schDay], today = todayKST();
+      const d = SCHEDULE[schDay];
       document.getElementById('sch-seg').innerHTML = SCHEDULE.map((x, n) =>
         `<button type="button" data-n="${n}"${n === schDay ? ' class="on"' : ''}>${x.dow} ${x.date.slice(8)}</button>`).join('');
-      // 한 줄 = 한 순서. 시간대(t)가 바뀌는 줄(gs)에만 시간 표시 + 묶음 구분선
-      // 집회 줄은 시간 칸까지 통째로 검정, 지금 순서는 빨강
-      document.getElementById('sch-tl').innerHTML = d.items.map((i, n) => {
-        const gs = !n || d.items[n - 1].t !== i.t;
-        const c = isNow(d, i) ? 'cur' : i.name.startsWith('Worship') ? 'main' : '';
-        return `<li class="${c}${gs ? ' gs' : ''}${d.date < today ? ' past' : ''}"><time class="${isClock(i.t) ? '' : 'ko'}">${gs ? i.t : ''}${gs && i.at ? `<small>~${i.at[1]}</small>` : ''}</time><div class="ev">${c === 'cur' ? '<span class="nowtag">NOW</span>' : ''}<b>${i.name}</b>${i.sub ? `<small>${i.sub}</small>` : ''}${i.note ? `<small class="tl-note">※ ${i.note}</small>` : ''}</div></li>`;
-      }).join('');
-      document.getElementById('sch-day-note').textContent = d.note ? `※ ${d.note}` : '';
-      // 날짜 머리: DAY n + 날짜 + 그날 집회 번호
-      const ws = d.items.filter(i => i.name.startsWith('Worship')).map(i => i.name.split(' ').pop());
-      document.getElementById('sch-sum').innerHTML = `<p class="sch-day">DAY ${schDay + 1}</p><p class="sch-meta">${d.label}<br><b>Worship Session ${ws.length > 1 ? `${ws[0]}-${ws.at(-1)}` : ws[0]}</b></p>`;
+      document.getElementById('sch-tl').innerHTML = schRows(d, todayKST());
+      document.getElementById('sch-day-note').innerHTML = d.note ? `※ ${d.note}` : '';
+      document.getElementById('sch-sum').innerHTML = schHead(d, schDay);
     }
     document.getElementById('sch-seg').addEventListener('click', e => {
       const b = e.target.closest('button');
       if (b) { schDay = +b.dataset.n; renderSchedule(); }
     });
     renderSchedule();
-    setInterval(renderSchedule, 60000);
+    setInterval(() => { renderSchedule(); renderScheduleGrid(); }, 60000); // NOW 표시 갱신
     const EVENT_START = kst('2026-11-20T17:00');
     const EVENT_DAY1 = kst('2026-11-20T00:00');
     const EVENT_END = kst('2026-11-23T00:00');
@@ -2140,12 +2321,16 @@
     ];
     // 행사안내 세부 화면 바로가기 [이동할 곳, 이름, 설명] — 안내 화면과 공지 "전체" 목록에서 같이 씀
     const GUIDE_LINKS = [
+      ['#groups', '조 편성', '내 조 · 모임 장소 확인'],
       ['#seating', '좌석', '1층 지정석 · 2층 자유석'],
       ['#lobby', '로비 · 등록 데스크', 'Day 1 17:00부터 1층 정문 로비'],
       ['#venue', '오는 길', '벳부역에서 약 10분'],
       ['#faq', '자주 묻는 질문', '화장실 · 분실물 · 의료부스'],
       ['#contact', '문의', 'info@joshuageneration.org'],
     ];
+    // PC 행사안내 섹션 아래 바로가기 칸
+    document.getElementById('n-glinks').innerHTML = GUIDE_LINKS.map(([h, b, s]) =>
+      `<a class="box" href="${h}"><span><b>${b}</b><small>${s}</small></span><span class="arrow">→</span></a>`).join('');
     // 날짜별 제공 식사
     let MEALS = { '2026-11-20': [], '2026-11-21': ['점심', '저녁'], '2026-11-22': ['점심'] };
     const ARR = '<span class="cell-arr">→</span>';
@@ -2364,6 +2549,23 @@
       route();
     })();
 
+    // ── 조 편성 (시트의 조편성 · 조모임 탭) ──
+    let GROUPS = [];
+    function renderGroups() {
+      const q = document.getElementById('grp-search').value.trim();
+      let shown = 0;
+      document.getElementById('grp-list').innerHTML = GROUPS.map(g => {
+        const hit = q && g.members.some(m => m.name.includes(q));
+        if (q && !hit && !g.name.includes(q)) return '';
+        shown++;
+        return `<div class="grp-card"><p class="grp-name">${g.name}<small>${g.members.length}명</small></p>`
+          + (g.places.length ? `<div class="grp-places">${g.places.map(([w, p]) => `<div class="grp-place"><b>${p}</b>${w ? `<small>${w}</small>` : ''}</div>`).join('')}</div>` : '')
+          + `<p class="grp-members">${g.members.map(m => `<span${q && m.name.includes(q) ? ' class="hit"' : ''}>${m.name}${m.org ? ` <small>${m.org}</small>` : ''}${m.role ? `<em>${m.role}</em>` : ''}</span>`).join(' · ')}</p></div>`;
+      }).join('');
+      document.getElementById('grp-empty').hidden = shown > 0;
+    }
+    document.getElementById('grp-search').addEventListener('input', renderGroups);
+
     // ── 구글 시트 내용 불러오기 (/api/content) ──
     // 실패하거나 느리면(4초) 위에 적힌 기본 내용을 그대로 보여줌
     fetch('/api/content', { signal: AbortSignal.timeout ? AbortSignal.timeout(4000) : undefined })
@@ -2380,6 +2582,12 @@
         if (d.videos?.length) {
           VIDEOS = d.videos; vids = VIDEOS.map(v => ({ ...v, id: ytId(v.yt) }));
           vidCur = Math.max(0, vids.findIndex(v => v.id)); renderVideo(false);
+        }
+        if (d.groups?.length) {
+          GROUPS = d.groups;
+          document.getElementById('groups').classList.add('has-groups');
+          document.getElementById('grp').hidden = false;
+          renderGroups();
         }
         if (d.notices?.length) {
           NOTICES = d.notices;

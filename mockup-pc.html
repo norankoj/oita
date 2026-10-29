@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC 시안 — Promised Land Oita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+<style>
+  :root {
+    --red: #D40000; --ink: #111; --bg: #fafaf8; --white: #fff; --paper: #f2efe9; --muted: #6e6a64; --line: #e7e3dc;
+    --font: 'Inter', 'Pretendard', sans-serif; --display: 'Bebas Neue', 'Pretendard', sans-serif;
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --pm: 72px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: #dcd8d1; color: var(--ink); -webkit-font-smoothing: antialiased; padding: 48px 0 96px; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ── 발표용 틀: 섹션 하나 = 1440px 가로 화면 하나 ── */
+  .intro { width: 1440px; margin: 0 auto 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .intro h1 { font-family: var(--display); font-weight: 400; font-size: 64px; line-height: .9; }
+  .intro h1 span { color: var(--red); }
+  .intro p { font-size: 16px; color: var(--muted); max-width: 52ch; line-height: 1.7; }
+  .frame { width: 1440px; margin: 0 auto 56px; }
+  .frame-label { display: flex; gap: 14px; align-items: baseline; margin-bottom: 12px; }
+  .frame-label b { font-family: var(--display); font-weight: 400; font-size: 28px; color: var(--red); }
+  .frame-label strong { font-size: 17px; }
+  .frame-label span { font-size: 15px; color: var(--muted); }
+  .ab { position: relative; width: 1440px; background: var(--bg); overflow: hidden; box-shadow: 0 30px 60px -30px rgba(0,0,0,.35); }
+
+  /* ── 공통 디자인 언어 (모바일과 같은 결) ── */
+  .eb { font-family: var(--display); font-size: 22px; letter-spacing: .04em; line-height: 1; color: var(--red); }
+  .h2 { font-size: 48px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; margin-top: 8px; }
+  .sub { font-size: 17px; color: var(--muted); margin-top: 10px; }
+  .pad { padding: 104px var(--pm); }
+  .seg { display: inline-grid; grid-auto-flow: column; border: 1.5px solid var(--ink); }
+  .seg > div { padding: 12px 26px; font-size: 16px; font-weight: 600; min-width: 110px; text-align: center; }
+  .seg > div + div { border-left: 1.5px solid var(--ink); }
+  .seg .on { background: var(--ink); color: #fff; }
+  .seg em { font-style: normal; color: var(--red); margin-left: 4px; }
+  .seg .on em { color: #ff8a8a; }
+  .box { background: var(--paper); padding: 18px 20px; }
+  .box b { display: block; font-size: 17px; font-weight: 600; }
+  .box small { display: block; font-size: 14px; color: var(--muted); margin-top: 3px; }
+  .arrow { color: #ada8a0; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 28px; font-size: 16px; font-weight: 700; }
+  .btn.red { background: var(--red); color: #fff; }
+  .btn.ink { background: var(--ink); color: #fff; }
+  .btn.line { border: 1.5px solid var(--ink); }
+  .grid-bg::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 32px 32px; pointer-events: none; }
+  .grid-bg::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: .22; mix-blend-mode: multiply; pointer-events: none; }
+  .grid-bg > * { position: relative; z-index: 1; }
+
+  /* 01 Hero */
+  .hero { height: 860px; background: var(--red); color: #fff; display: flex; flex-direction: column; padding: 0 var(--pm) 56px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; height: 84px; border-bottom: 1px solid rgba(255,255,255,.25); }
+  .nav .wm { font-family: var(--display); font-size: 22px; letter-spacing: .06em; }
+  .nav ul { display: flex; gap: 36px; list-style: none; font-size: 15px; font-weight: 600; }
+  .nav li:last-child { opacity: 1; }
+  .nav ul li { opacity: .85; }
+  .hero-top { display: flex; justify-content: space-between; margin-top: 40px; }
+  .hero-top .org { font-size: 14px; font-weight: 700; letter-spacing: .1em; opacity: .75; line-height: 1.5; }
+  .hero-top .date { font-size: 18px; font-weight: 500; margin-top: 6px; }
+  .cd { text-align: right; }
+  .cd p { font-size: 14px; font-weight: 600; opacity: .8; }
+  .cd > div { display: flex; gap: 14px; justify-content: flex-end; align-items: flex-start; margin-top: 4px; }
+  .cd span { display: flex; flex-direction: column; align-items: center; font-size: 14px; }
+  .cd b { font-family: var(--display); font-weight: 400; font-size: 72px; line-height: .9; }
+  .cd i { font-style: normal; font-family: var(--display); font-size: 40px; opacity: .5; line-height: 1.2; }
+  .hero-bottom { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; }
+  .giant { font-family: var(--display); font-weight: 400; font-size: 300px; line-height: .8; letter-spacing: -.01em; }
+  .hero-side { text-align: right; padding-bottom: 14px; }
+  .hero-side strong { display: block; font-size: 20px; }
+  .hero-side small { display: block; font-size: 15px; opacity: .85; margin: 4px 0 22px; }
+  .hero-side .btn { background: #fff; color: var(--red); }
+
+  /* 02 빠른 이동 */
+  .quick { padding: 40px var(--pm) 48px; background: var(--bg); }
+  .quick .lbl { font-size: 14px; font-weight: 600; letter-spacing: .06em; color: var(--muted); margin-bottom: 14px; }
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .tile { position: relative; background: var(--paper); height: 132px; padding: 22px 22px; }
+  .tile b { display: block; font-size: 22px; font-weight: 700; }
+  .tile small { font-size: 15px; color: var(--muted); }
+  .tile.red { background: var(--red); color: #fff; }
+  .tile.red small { color: rgba(255,255,255,.8); }
+  .tile .ar { position: absolute; right: 18px; bottom: 18px; width: 34px; height: 34px; display: grid; place-items: center; background: rgba(17,17,17,.08); font-size: 16px; }
+  .tile.red .ar { background: rgba(0,0,0,.2); }
+
+  /* 03 행사안내 */
+  .two { display: grid; grid-template-columns: 4fr 8fr; gap: 72px; align-items: start; }
+  .pin { background: var(--red); color: #fff; padding: 22px 24px; position: relative; overflow: hidden; }
+  .pin::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: .18; mix-blend-mode: multiply; }
+  .cat { font-size: 14px; font-weight: 700; color: var(--red); }
+  .pin .cat { color: #fff; opacity: .85; }
+  .nt { display: block; font-size: 20px; font-weight: 600; margin-top: 4px; letter-spacing: -.01em; }
+  .nm { display: block; font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .pin .nm { color: rgba(255,255,255,.75); }
+  .nrow { display: grid; grid-template-columns: 1fr auto; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+  .nrow .cat { color: var(--muted); }
+  .dot { width: 9px; height: 9px; background: var(--red); align-self: start; margin-top: 8px; }
+  .glinks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 44px; }
+  .glinks .box { display: grid; grid-template-columns: 1fr auto; align-items: center; min-height: 84px; }
+
+  /* 04 일정 */
+  .days { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+  .dhead { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 14px; }
+  .dhead b { font-family: var(--display); font-weight: 400; font-size: 56px; line-height: .8; }
+  .dhead span { font-size: 14px; color: var(--muted); line-height: 1.4; }
+  .dhead span strong { color: var(--ink); font-weight: 600; display: block; }
+  .dhead.today b { color: var(--red); }
+  .row { display: grid; grid-template-columns: 64px 1fr; align-items: center; min-height: 72px; padding: 12px 16px; background: var(--paper); }
+  .row + .row { margin-top: 4px; }
+  .row time { font-family: var(--display); font-size: 24px; line-height: 1; }
+  .row time small { display: block; font-size: 15px; opacity: .55; margin-top: 3px; }
+  .row time.ko { font-family: var(--font); font-size: 14px; font-weight: 700; }
+  .row b { display: block; font-size: 17px; font-weight: 700; }
+  .row small.s { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
+  .row.main { background: var(--ink); color: #fff; }
+  .row.main small.s { color: rgba(255,255,255,.7); }
+  .row.cur { background: var(--red); color: #fff; }
+  .row.cur small.s { color: rgba(255,255,255,.85); }
+  .now { float: right; font-family: var(--display); font-size: 18px; letter-spacing: .04em; }
+  .dnote { font-size: 14px; color: var(--muted); margin-top: 14px; }
+
+  /* 05 식사 · 층별 */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+  .msum { display: flex; align-items: center; gap: 20px; background: var(--red); color: #fff; padding: 22px 24px; margin-top: 32px; }
+  .msum b { font-family: var(--display); font-weight: 400; font-size: 80px; line-height: .85; }
+  .msum small { display: block; font-size: 14px; font-weight: 700; opacity: .85; }
+  .msum span { font-size: 19px; font-weight: 600; }
+  .mday { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .mday p { font-family: var(--display); font-size: 26px; line-height: 1; margin-bottom: 12px; }
+  .mcells { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid var(--ink); }
+  .mcells span { text-align: center; padding: 12px 4px; font-size: 16px; font-weight: 600; color: #ada8a0; }
+  .mcells span + span { border-left: 1.5px solid var(--ink); }
+  .mcells small { display: block; font-size: 13px; font-weight: 500; margin-top: 2px; }
+  .mcells .on { background: var(--ink); color: #fff; }
+  .mcells .on small { color: rgba(255,255,255,.75); }
+  .ftabs { display: flex; gap: 28px; border-bottom: 1px solid var(--line); margin-top: 32px; }
+  .ftabs span { font-family: var(--display); font-size: 32px; line-height: 1; padding-bottom: 10px; color: #ada8a0; border-bottom: 3px solid transparent; margin-bottom: -1px; }
+  .ftabs .on { color: var(--ink); border-color: var(--ink); }
+  .plan { position: relative; aspect-ratio: 16/9; margin-top: 18px; border: 1.5px solid var(--ink); background-color: #f6f4f0; background-image: linear-gradient(rgba(17,17,17,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(17,17,17,.06) 1px, transparent 1px); background-size: 20px 20px; display: flex; flex-direction: column; justify-content: flex-end; padding: 22px; }
+  .plan b { font-family: var(--display); font-weight: 400; font-size: 96px; color: var(--red); line-height: .85; }
+  .plan span { font-size: 17px; font-weight: 700; margin-top: 8px; }
+  .plan em { position: absolute; top: 18px; right: 18px; font-style: normal; font-size: 13px; font-weight: 600; background: var(--ink); color: #fff; padding: 5px 10px; }
+  .fcells { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 8px; }
+
+  /* 06 조 편성 */
+  .search { display: flex; align-items: center; width: 520px; height: 60px; border: 1.5px solid var(--ink); padding: 0 18px; font-size: 17px; color: #9a958e; background: #fff; margin-top: 32px; }
+  .groups { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+  .gcard { background: var(--paper); padding: 20px; }
+  .gcard p.n { font-family: var(--display); font-size: 40px; line-height: 1; margin-bottom: 14px; }
+  .gcard p.n small { font-family: var(--font); font-size: 14px; color: var(--muted); margin-left: 8px; }
+  .gplace { background: var(--ink); color: #fff; padding: 11px 13px; }
+  .gplace + .gplace { margin-top: 4px; }
+  .gplace b { display: block; font-size: 15px; font-weight: 600; }
+  .gplace small { font-size: 13px; color: rgba(255,255,255,.7); }
+  .gmem { font-size: 15px; line-height: 1.9; margin-top: 14px; }
+  .gmem small { font-size: 12px; color: var(--muted); }
+  .gmem em { font-style: normal; font-size: 12px; font-weight: 700; color: var(--red); margin-left: 3px; }
+  .gmem .hit { background: var(--red); color: #fff; padding: 1px 5px; }
+  .gmem .hit small { color: rgba(255,255,255,.85); }
+
+  /* 07 오는 길 */
+  .venue { display: grid; grid-template-columns: 7fr 5fr; min-height: 760px; }
+  .vmap { position: relative; background: #e9e6e0; background-image: linear-gradient(rgba(17,17,17,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(17,17,17,.05) 1px, transparent 1px); background-size: 24px 24px; overflow: hidden; }
+  .vmap::after { content: '실제 Google 지도 (회색 처리)'; position: absolute; left: 24px; bottom: 20px; font-size: 13px; color: #8a857e; }
+  .vmap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .vpin { position: absolute; left: 52%; top: 46%; transform: translate(-50%, -100%); }
+  .vpin span { display: block; background: var(--red); color: #fff; font-size: 17px; font-weight: 700; padding: 8px 14px; }
+  .vpin i { display: block; width: 2px; height: 18px; background: var(--red); margin: 0 auto; }
+  .vsheet { padding: 88px 64px; background: #fff; }
+  .vsheet h3 { font-family: var(--display); font-weight: 400; font-size: 88px; line-height: .85; margin-top: 10px; }
+  .vsheet .addr { font-size: 16px; color: var(--muted); margin-top: 12px; }
+  .steps { list-style: none; margin-top: 28px; }
+  .steps li { display: grid; grid-template-columns: 36px 1fr auto; align-items: baseline; padding: 18px 0; border-top: 1px solid var(--line); }
+  .steps li > b { font-family: var(--display); font-weight: 400; font-size: 28px; color: var(--red); }
+  .steps strong { display: block; font-size: 18px; }
+  .steps small { display: block; font-size: 15px; color: var(--muted); margin-top: 3px; }
+  .steps em { font-style: normal; font-family: var(--display); font-size: 26px; color: var(--muted); }
+  .vbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
+
+  /* 08 영상 */
+  .video { background: #0f0f0f; color: #fff; padding: 104px var(--pm); }
+  .vtop { display: flex; justify-content: space-between; align-items: flex-end; }
+  .vbig { font-family: var(--display); font-weight: 400; font-size: 200px; line-height: .82; }
+  .vsub { font-family: var(--display); font-size: 40px; line-height: 1; text-align: right; }
+  .vsub small { display: block; font-family: var(--font); font-size: 15px; color: rgba(255,255,255,.6); margin-top: 8px; }
+  .vgrid { display: grid; grid-template-columns: 8fr 4fr; gap: 40px; margin-top: 56px; align-items: start; }
+  .player { position: relative; aspect-ratio: 16/9; background: #222 url(images/poster-1-sm.jpg) center 35% / cover; }
+  .player .play { position: absolute; left: 24px; bottom: 24px; width: 64px; height: 64px; background: var(--red); display: grid; place-items: center; }
+  .vlist { list-style: none; }
+  .vlist li { display: flex; align-items: baseline; gap: 12px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.12); }
+  .vlist b { font-family: var(--display); font-weight: 400; font-size: 52px; line-height: 1; }
+  .vlist small { font-size: 15px; color: rgba(255,255,255,.55); }
+  .vlist .on b { color: var(--red); }
+  .vlist .on small { color: rgba(255,255,255,.85); }
+  .vlist .soon { opacity: .4; }
+
+  /* 09 FAQ · 문의 · 푸터 */
+  .faq { display: grid; gap: 4px; }
+  .faq .box { display: grid; grid-template-columns: 1fr auto; align-items: center; min-height: 68px; font-size: 17px; font-weight: 600; }
+  .faq .box.open { display: block; }
+  .faq .box.open p { font-size: 16px; font-weight: 400; color: #3d3a36; line-height: 1.7; margin-top: 12px; }
+  .contact { background: var(--ink); color: #fff; padding: 36px; margin-top: 0; }
+  .contact .mail { font-family: var(--display); font-size: 40px; line-height: 1; margin-top: 18px; display: block; }
+  .contact small { display: block; font-size: 15px; color: rgba(255,255,255,.6); margin-top: 14px; line-height: 1.7; }
+  .footer { background: var(--red); color: #fff; padding: 72px var(--pm) 48px; }
+  .fw { font-family: var(--display); font-size: 200px; line-height: .82; }
+  .frow { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px; }
+  .fplaces p { font-family: var(--display); font-size: 36px; line-height: 1.15; }
+  .fplaces small { font-family: var(--font); font-size: 15px; opacity: .7; margin-left: 10px; }
+  .flinks { display: grid; grid-template-columns: repeat(3, auto); gap: 8px 32px; font-size: 15px; opacity: .8; }
+</style>
+</head>
+<body>
+
+<header class="intro">
+  <h1>Promised Land Oita<br><span>PC</span> 시안</h1>
+  <p>모바일과 같은 결(흰 바탕 · 빨강 한 가지 · Bebas · 각진 칸)로 PC를 다시 구성했습니다. 섹션마다 1440px 화면 하나씩이며, 내용은 지금 사이트(시트)의 실제 내용입니다.</p>
+</header>
+
+<!-- 01 -->
+<div class="frame">
+  <div class="frame-label"><b>01</b><strong>첫 화면</strong><span>빨간 화면 + 거대한 PROMISED LAND (왼쪽 아래), 카운트다운은 오른쪽 위, 일정 보기는 오른쪽 아래</span></div>
+  <section class="ab hero grid-bg">
+    <nav class="nav"><span class="wm">JOSHUA GENERATION</span><ul><li>행사안내</li><li>일정</li><li>조 편성</li><li>오는 길</li><li>영상</li></ul></nav>
+    <div class="hero-top">
+      <div><p class="org">PROMISED LAND JAPAN<br>IN OITA 2026</p><p class="date">11월 20일(금) — 22일(일)</p></div>
+      <div class="cd"><p>D-Day까지</p><div><span><b>22</b>일</span><i>·</i><span><b>17</b>시간</span><i>·</i><span><b>30</b>분</span></div></div>
+    </div>
+    <div class="hero-bottom">
+      <p class="giant">PROMISED<br>LAND</p>
+      <div class="hero-side"><strong>B-con Plaza (ビーコンプラザ)</strong><small>벳부, 오이타, 일본</small><a class="btn">일정 보기 →</a></div>
+    </div>
+  </section>
+</div>
+
+<!-- 02 -->
+<div class="frame">
+  <div class="frame-label"><b>02</b><strong>빠른 이동</strong><span>모바일 홈 타일을 PC에서는 첫 화면 바로 아래 4칸 한 줄로</span></div>
+  <section class="ab quick">
+    <p class="lbl">빠른 이동</p>
+    <div class="tiles">
+      <a class="tile red"><b>스케줄</b><small>3일 전체 일정</small><span class="ar">→</span></a>
+      <a class="tile"><b>행사안내</b><small>새 공지 2건</small><span class="ar">→</span></a>
+      <a class="tile"><b>조 편성</b><small>내 조 · 모임 장소</small><span class="ar">→</span></a>
+      <a class="tile"><b>오는 길</b><small>벳부역에서 약 10분</small><span class="ar">→</span></a>
+    </div>
+  </section>
+</div>
+
+<!-- 03 -->
+<div class="frame">
+  <div class="frame-label"><b>03</b><strong>행사안내</strong><span>왼쪽 제목 + 필터, 오른쪽 공지 목록. 아래에 세부 안내 바로가기 6칸</span></div>
+  <section class="ab pad">
+    <div class="two">
+      <div>
+        <p class="eb">GUIDE</p>
+        <h2 class="h2">행사안내</h2>
+        <p class="sub">공지와 현장 안내를 한곳에서.</p>
+        <div class="seg" style="margin-top:32px"><div class="on">전체</div><div>필독<em>1</em></div></div>
+      </div>
+      <div>
+        <a class="pin" style="display:block"><span class="cat">필독 · 안내</span><span class="nt">현장 등록은 불가합니다</span><span class="nm">10.28</span></a>
+        <a class="nrow"><span><span class="cat">안내</span><span class="nt">Day 1(금) 저녁 식사는 제공되지 않습니다</span><span class="nm">10.28</span></span><i class="dot"></i></a>
+        <a class="nrow"><span><span class="cat">안내</span><span class="nt">조 편성은 확정되는 대로 공지됩니다</span><span class="nm">10.28</span></span><i class="dot"></i></a>
+      </div>
+    </div>
+    <div class="glinks">
+      <a class="box"><span><b>조 편성</b><small>내 조 · 모임 장소 확인</small></span><span class="arrow">→</span></a>
+      <a class="box"><span><b>좌석</b><small>1층 지정석 · 2층 자유석</small></span><span class="arrow">→</span></a>
+      <a class="box"><span><b>로비 · 등록 데스크</b><small>Day 1 17:00부터 1층 정문 로비</small></span><span class="arrow">→</span></a>
+      <a class="box"><span><b>오는 길</b><small>벳부역에서 약 10분</small></span><span class="arrow">→</span></a>
+      <a class="box"><span><b>자주 묻는 질문</b><small>화장실 · 분실물 · 의료부스</small></span><span class="arrow">→</span></a>
+      <a class="box"><span><b>문의</b><small>info@joshuageneration.org</small></span><span class="arrow">→</span></a>
+    </div>
+  </section>
+</div>
+
+<!-- 04 -->
+<div class="frame">
+  <div class="frame-label"><b>04</b><strong>일정</strong><span>3일을 나란히. 모바일과 같은 72px 칸, 집회는 검정, 지금 순서는 빨강 (행사 당일 Day 2 10:00 예시)</span></div>
+  <section class="ab pad">
+    <p class="eb">SCHEDULE</p>
+    <h2 class="h2">일정</h2>
+    <div class="days">
+      <div>
+        <div class="dhead"><b>DAY 1</b><span>11월 20일 (금)<strong>Worship Session 1</strong></span></div>
+        <div class="row"><time>17:00<small>~18:00</small></time><div><b>접수</b><small class="s">1층 정문 로비 등록 데스크</small></div></div>
+        <div class="row main"><time>18:00<small>~21:00</small></time><div><b>Worship Session 1</b><small class="s">저녁집회</small></div></div>
+        <div class="row"><time class="ko">집회 후</time><div><b>정리 및 숙소 이동</b></div></div>
+        <p class="dnote">※ Day 1 저녁식사는 제공되지 않습니다.</p>
+      </div>
+      <div>
+        <div class="dhead today"><b>DAY 2</b><span>11월 21일 (토)<strong>Worship Session 2-4</strong></span></div>
+        <div class="row cur"><time>09:00<small>~12:00</small></time><div><span class="now">NOW</span><b>Worship Session 2</b><small class="s">오전집회</small></div></div>
+        <div class="row"><time>12:00<small>~14:00</small></time><div><b>점심 식사</b></div></div>
+        <div class="row main"><time>14:00<small>~17:00</small></time><div><b>Worship Session 3</b><small class="s">오후집회</small></div></div>
+        <div class="row"><time>17:00<small>~18:00</small></time><div><b>저녁 식사</b></div></div>
+        <div class="row main"><time>18:00<small>~21:00</small></time><div><b>Worship Session 4</b><small class="s">저녁집회</small></div></div>
+        <div class="row"><time class="ko">집회 후</time><div><b>정리 및 숙소 이동</b></div></div>
+        <p class="dnote">※ 특별 순서는 세부 내용 추후 안내 예정입니다.</p>
+      </div>
+      <div>
+        <div class="dhead"><b>DAY 3</b><span>11월 22일 (일)<strong>Worship Session 5-6</strong></span></div>
+        <div class="row main"><time>09:00<small>~12:00</small></time><div><b>Worship Session 5</b><small class="s">오전집회</small></div></div>
+        <div class="row"><time>12:00<small>~13:00</small></time><div><b>점심 식사</b></div></div>
+        <div class="row main"><time>13:00<small>~17:00</small></time><div><b>Worship Session 6</b><small class="s">오후집회 · 클로징</small></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 05 -->
+<div class="frame">
+  <div class="frame-label"><b>05</b><strong>식사 · 층별</strong><span>두 안내를 반반으로. 식사는 빨간 요약 + 검정 칸, 층별은 밑줄 탭 + 안내도 + 칸</span></div>
+  <section class="ab pad">
+    <div class="split">
+      <div>
+        <p class="eb">MEALS</p><h2 class="h2">식사안내</h2>
+        <div class="msum"><b>3</b><span><small>총 3끼 제공</small>토 점심 · 저녁, 일 점심</span></div>
+        <div class="mday"><p>FRI 20</p><div class="mcells"><span>아침<small>미제공</small></span><span>점심<small>미제공</small></span><span>저녁<small>미제공</small></span></div></div>
+        <div class="mday"><p style="color:var(--red)">SAT 21</p><div class="mcells"><span>아침<small>미제공</small></span><span class="on">점심<small>12:00 - 14:00</small></span><span class="on">저녁<small>17:00 - 18:00</small></span></div></div>
+        <div class="mday"><p>SUN 22</p><div class="mcells"><span>아침<small>미제공</small></span><span class="on">점심<small>12:00 - 13:00</small></span><span>저녁<small>미제공</small></span></div></div>
+      </div>
+      <div>
+        <p class="eb">FLOORS</p><h2 class="h2">층별 안내</h2>
+        <div class="ftabs"><span class="on">1F</span><span>2F</span><span>3F</span><span>B1</span></div>
+        <div class="plan"><em>안내도 준비 중</em><b>1F</b><span>메인홀 · 등록 데스크 · 로비 부스</span></div>
+        <div class="fcells">
+          <div class="box"><b>화장실</b><small>정문 로비 우측 · 메인홀 입구 좌측</small></div>
+          <div class="box"><b>이동동선</b><small>정문 → 등록 데스크 → 메인홀</small></div>
+          <div class="box"><b>좌석</b><small>메인홀 1층 지정석 (조별 배정)</small></div>
+          <div class="box"><b>로비 부스</b><small>굿즈 · 의료 부스 (위치 추후 공지)</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 06 -->
+<div class="frame">
+  <div class="frame-label"><b>06</b><strong>조 편성</strong><span>이름으로 찾기 + 4열 조 카드. 모임 장소는 검정 칸 (검색 "강평화" 예시)</span></div>
+  <section class="ab pad">
+    <p class="eb">GROUPS</p><h2 class="h2">조 편성</h2>
+    <div class="search">이름으로 내 조 찾기</div>
+    <div class="groups">
+      <div class="gcard"><p class="n">1조<small>4명</small></p><div class="gplace"><b>메인홀 A구역</b><small>Day 1 집회 후</small></div><div class="gplace"><b>2층 식사 공간 3번 테이블</b><small>Day 2 점심</small></div>
+        <p class="gmem">김하나 <small>수원하나교회</small><em>조장</em> · 이믿음 <small>수원하나교회</small> · 박소망 <small>오이타교회</small> · 최사랑 <small>벳부교회</small></p></div>
+      <div class="gcard"><p class="n">2조<small>3명</small></p><div class="gplace"><b>로비 왼쪽 기둥</b><small>Day 1 집회 후</small></div>
+        <p class="gmem">정기쁨 <small>수원하나교회</small><em>조장</em> · <span class="hit">강평화 <small>오이타교회</small></span> · 조온유 <small>수원하나교회</small></p></div>
+      <div class="gcard"><p class="n">3조<small>3명</small></p><div class="gplace"><b>메인홀 B구역</b><small>Day 1 집회 후</small></div>
+        <p class="gmem">한소리 <small>벳부교회</small><em>조장</em> · 서다윗 <small>수원하나교회</small> · 문예린 <small>오이타교회</small></p></div>
+      <div class="gcard"><p class="n">4조<small>2명</small></p><div class="gplace"><b>2층 세미나실</b><small>Day 2 오후</small></div>
+        <p class="gmem">윤충성 <small>벳부교회</small><em>조장</em> · 장절제 <small>수원하나교회</small></p></div>
+    </div>
+  </section>
+</div>
+
+<!-- 07 -->
+<div class="frame">
+  <div class="frame-label"><b>07</b><strong>오는 길</strong><span>왼쪽 넓게 지도, 오른쪽 흰 칸에 주소 · 단계 · 버튼 (모바일 시트를 옆으로 눕힌 구성)</span></div>
+  <section class="ab venue">
+    <div class="vmap">
+      <svg viewBox="0 0 840 760" preserveAspectRatio="none">
+        <path d="M-10 560 C160 500 300 540 430 420 S700 250 860 270" stroke="#fff" stroke-width="22" fill="none"/>
+        <path d="M120 -10 L230 780" stroke="#fff" stroke-width="16" fill="none"/>
+        <path d="M-10 200 L860 150" stroke="#fff" stroke-width="12" fill="none"/>
+        <path d="M640 -10 L560 780" stroke="#fff" stroke-width="10" fill="none"/>
+      </svg>
+      <div class="vpin"><span>B-con Plaza</span><i></i></div>
+    </div>
+    <div class="vsheet">
+      <p class="eb">ACCESS</p>
+      <h3>B-CON<br>PLAZA</h3>
+      <p class="addr">ビーコンプラザ · 12-1 Yamanotecho, Beppu, Oita</p>
+      <ol class="steps">
+        <li><b>1</b><div><strong>벳부역 → B-con Plaza</strong><small>서쪽 출구에서 택시 · 노선버스</small></div><em>10분</em></li>
+        <li><b>2</b><div><strong>주차</strong><small>지하 1층 주차장</small></div><em>B1</em></li>
+        <li><b>3</b><div><strong>등록 데스크</strong><small>1층 정문 로비</small></div><em>17:00~</em></li>
+      </ol>
+      <div class="vbtns"><a class="btn red">Google 지도</a><a class="btn line">주소 복사</a></div>
+    </div>
+  </section>
+</div>
+
+<!-- 08 -->
+<div class="frame">
+  <div class="frame-label"><b>08</b><strong>영상</strong><span>여기서만 블랙으로 분위기 전환. 거대한 PROMISED LAND + 큰 플레이어 + Bebas 목록</span></div>
+  <section class="ab video">
+    <div class="vtop"><p class="vbig">PROMISED<br>LAND</p><p class="vsub">THE B TEASER<small>티저 영상 3편</small></p></div>
+    <div class="vgrid">
+      <div class="player"><span class="play"><svg width="22" height="22" viewBox="0 0 16 16" fill="#fff"><path d="M4 2l10 6-10 6z"/></svg></span></div>
+      <ul class="vlist">
+        <li class="on"><b>TEASER 01</b><small>0:32</small></li>
+        <li><b>TEASER 02</b><small>0:46</small></li>
+        <li><b>TEASER 03</b><small>1:14</small></li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<!-- 09 -->
+<div class="frame">
+  <div class="frame-label"><b>09</b><strong>FAQ · 문의 · 푸터</strong><span>FAQ는 펼치는 칸, 문의는 검정 칸, 마무리는 지금처럼 빨간 푸터</span></div>
+  <section class="ab">
+    <div class="pad two" style="grid-template-columns: 8fr 4fr; gap: 56px">
+      <div>
+        <p class="eb">FAQ</p><h2 class="h2" style="margin-bottom:28px">자주 묻는 질문</h2>
+        <div class="faq">
+          <div class="box open">각 층 화장실은 어디에 있나요?<p>1층은 정문 로비 우측 · 메인홀 입구 좌측, 2층은 계단 옆 복도에 있습니다.</p></div>
+          <div class="box">로비에서 굿즈 등을 구입할 수 있나요? <span class="arrow">⌄</span></div>
+          <div class="box">현장 등록이 가능한가요? <span class="arrow">⌄</span></div>
+          <div class="box">분실물을 발견했거나 잃어버렸을 때 어떻게 하나요? <span class="arrow">⌄</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="eb">CONTACT</p><h2 class="h2" style="margin-bottom:28px">문의</h2>
+        <div class="contact">컨퍼런스 관련 문의는<br>아래로 연락주세요.<span class="mail">INFO@JOSHUAGENERATION.ORG</span><small>B-con Plaza, Beppu, Oita<br>2026년 11월 20-22일</small></div>
+      </div>
+    </div>
+    <footer class="footer">
+      <p class="fw">PROMISED LAND</p>
+      <div class="frow">
+        <div class="fplaces"><p>BEPPU<small>벳부, 일본</small></p><p>NOV 20-22<small>2026</small></p><p>B-CON PLAZA</p></div>
+        <div class="flinks"><span>행사안내</span><span>일정</span><span>조 편성</span><span>식사</span><span>층별</span><span>오는 길</span><span>영상</span><span>FAQ</span><span>문의</span></div>
+      </div>
+    </footer>
+  </section>
+</div>
+
+<script>
+  // 화면 폭에 맞춰 1440px 시안 전체를 축소해서 보여줌
+  const fit = () => document.body.style.zoom = Math.min(1, (innerWidth - 48) / 1440);
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>
