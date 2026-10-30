@@ -111,16 +111,18 @@ const build = {
 
   식사: rows => Object.fromEntries(rows.map(r => [date(r['날짜'] || ''), ['아침', '점심', '저녁'].filter(k => yes(r[k] || ''))]).filter(([d]) => d)),
 
-  // 조편성: 한 줄 = 한 사람. 조장은 역할 칸에 "조장"
+  // 조편성: 한 줄 = 한 사람. 조장은 역할 칸에 "조장" (원본 명단처럼 "조장여부" 칸에 V여도 됨)
+  // 이 탭에는 조 · 이름 · 소속만 둘 것 — 시트는 링크로 공개되므로 전화번호 등은 넣지 않는다
   조편성: rows => {
     const groups = new Map();
     for (const r of rows) {
-      const g = r['조'], n = r['이름']; if (!g || !n) continue;
+      const g = r['조'], n = r['이름']; if (!g || !n || g === '미편') continue;
       if (!groups.has(g)) groups.set(g, { name: esc(g), places: [], members: [] });
-      groups.get(g).members.push({ name: esc(n), org: esc(r['소속'] || ''), role: esc(r['역할'] || '') });
+      const role = r['역할'] || (/^v$/i.test(r['조장여부'] || '') ? '조장' : '');
+      groups.get(g).members.push({ name: esc(n), org: esc(r['소속'] || r['소속교회'] || ''), role: esc(role) });
     }
-    // 1조, 2조 … 10조 순 (숫자 기준)
-    return [...groups.values()].sort((a, b) => (parseInt(a.name.replace(/\D/g, '')) || 0) - (parseInt(b.name.replace(/\D/g, '')) || 0) || a.name.localeCompare(b.name));
+    // 01조 … 59조, 기혼01조 …, 영어조 순 (숫자는 크기대로)
+    return [...groups.values()].sort((a, b) => a.name.localeCompare(b.name, 'ko', { numeric: true }));
   },
   // 조모임: 한 줄 = 조의 모임 하나 (언제 · 장소). 같은 조가 여러 줄이면 모두 표시
   조모임: rows => rows.filter(r => r['조'] && r['장소']).map(r => ({ group: esc(r['조']), when: esc(r['언제'] || ''), place: esc(r['장소']) })),

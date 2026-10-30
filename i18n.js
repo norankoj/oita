@@ -148,6 +148,10 @@ const I18N = {
   '조 편성이 확정되면 이 페이지에 업데이트됩니다.': ['This page will be updated once groups are confirmed.', 'グループが確定次第、このページで更新します。'],
   '이름으로 내 조 찾기': ['Find my group by name', '名前で自分のグループを検索'],
   '찾는 이름이 없습니다.': ['No matching name.', '該当する名前がありません。'],
+  '전체 조': ['All groups', '全グループ'],
+  '영어조': ['English', '英語班'],
+  '일본어조': ['Japanese', '日本語班'],
+  '프뉴마조': ['Pneuma', 'プニューマ班'],
 
   // 오는 길
   'B-con Plaza 지도': ['Map of B-con Plaza', 'B-con Plaza 地図'],
@@ -219,6 +223,7 @@ const RULES = [
   [/^(\d+)끼 제공$/, (m, i) => [`${m[1]} meals`, `${m[1]}食提供`][i]],
   [/^([\d,]+)명$/, (m, i) => [`${m[1]} people`, `${m[1]}名`][i]],
   [/^(\d+)월 (\d+)일 \((.)\)$/, (m, i) => [`${MONTHS[m[1] - 1]} ${m[2]} (${DAYS[m[3]][0]})`, `${m[1]}月${m[2]}日(${DAYS[m[3]][1]})`][i]],
+  [/^(기혼)?(\d+)조$/, (m, i) => [`${m[1] ? 'Married' : 'Group'} ${m[2]}`, `${m[1] ? '既婚' : ''}${m[2]}班`][i]],
   [/^THE B 티저 (\d+)$/, (m, i) => [`THE B Teaser ${m[1]}`, `THE B ティーザー ${m[1]}`][i]],
   [/^(.+) 재생$/, (m, i) => [`Play ${T(m[1])}`, `${T(m[1])}を再生`][i]],
   [/^(\S+) 안내도$/, (m, i) => [`${m[1]} floor map`, `${m[1]} 案内図`][i]],
@@ -247,7 +252,8 @@ function T(s) {
 // 원래 한국어는 노드에 기억해 두고, 언어를 바꿀 때마다 거기서 다시 번역
 const ATTRS = ['aria-label', 'placeholder', 'alt', 'title'];
 function trText(n) {
-  if (!n.parentNode || /^(SCRIPT|STYLE)$/.test(n.parentNode.nodeName)) return; // 아래 스크립트 코드 자체는 건드리지 않음
+  const p = n.parentNode;
+  if (!p || /^(SCRIPT|STYLE)$/.test(p.nodeName) || (p.hasAttribute && p.hasAttribute('data-notr'))) return; // 스크립트 코드 · 사람 이름은 건드리지 않음
   if (n.__ko == null) n.__ko = n.data;
   const src = n.__ko, key = src.trim().replace(/\s+/g, ' ');
   if (!key) return;

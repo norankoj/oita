@@ -14,7 +14,7 @@ const CSV = {
     '2026-11-21,09:00:00,12:00:00,Worship Session 2,오전집회,\n',
   층별: '층,공간 이름,항목,내용,안내도 이미지\n1F,메인홀,화장실,로비 우측,javascript:alert(1)\n1F,메인홀,이동동선,정문 → 메인홀,\nB1,주차장,주차,지하,https://example.com/b1.jpg\n' +
     '2F,식사,좌석,자유석,https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQrStUvWx/view?usp=sharing\n',
-  조편성: '조,이름,소속,역할\n10조,박하늘,○○교회,\n2조,김하나,○○교회,조장\n2조,<b>이름</b>,△△교회,\n,빈조,,\n',
+  조편성: '조,이름,소속,역할,조장여부\n10조,박하늘,○○교회,,\n2조,김하나,○○교회,조장,\n2조,<b>이름</b>,△△교회,,\n,빈조,,,\n미편,안나옴,,,\n기혼01조,최기혼,□□교회,,V\n',
   조모임: '조,언제,장소\n2조,Day 1 집회 후,메인홀 A구역\n2조,Day 2 점심,2층 식사 공간\n99조,Day 1,없는 조\n',
   식사: '날짜,아침,점심,저녁\n2026-11-20,,,\n2026. 11. 21,,O,o\n',
   번역: '한국어,English,日本語\n새  공지,New notice,新しいお知らせ\n<b>굵게</b>,Bold,\n번역 없음,,\n',
@@ -45,7 +45,8 @@ readSheet(async tab => CSV[tab]).then(d => {
   assert.equal(d.floors[1].map, 'https://example.com/b1.jpg');
   assert.equal(d.floors[2].map, 'https://drive.google.com/thumbnail?id=1AbCdEfGhIjKlMnOpQrStUvWx&amp;sz=w2000'); // 드라이브 공유 링크 → 이미지 주소
   // 조편성 + 조모임
-  assert.deepEqual(d.groups.map(g => g.name), ['2조', '10조']);                  // 숫자 순 정렬, 조 이름 없는 줄 무시
+  assert.deepEqual(d.groups.map(g => g.name), ['2조', '10조', '기혼01조']);      // 숫자 순 정렬, 조 이름 없는 줄 · 미편 무시
+  assert.equal(d.groups[2].members[0].role, '조장');                              // 조장여부 칸의 V
   assert.deepEqual(d.groups[0].members[0], { name: '김하나', org: '○○교회', role: '조장' });
   assert.equal(d.groups[0].members[1].name, '&lt;b&gt;이름&lt;/b&gt;');
   assert.deepEqual(d.groups[0].places, [['Day 1 집회 후', '메인홀 A구역'], ['Day 2 점심', '2층 식사 공간']]);

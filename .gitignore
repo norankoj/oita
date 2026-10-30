@@ -3,4 +3,6 @@
 *.mp4
 *.mov
 *.xlsx
+# 명단 (이름 · 연락처) — 저장소에 넣지 않기
+*.csv
 .claude/launch.json

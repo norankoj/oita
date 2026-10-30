@@ -6,6 +6,15 @@
   <meta name="theme-color" content="#D40000">
   <title>Promised Land Japan in Oita — Joshua Generation 2026</title>
   <meta name="description" content="2026년 11월 20–22일, 일본 오이타 벳부 B-con Plaza. Joshua Generation 예배 컨퍼런스 1,500명.">
+  <!-- 카톡 등 링크 공유 미리보기. 이미지를 바꾸면 카카오 공유 디버거에서 캐시 초기화 -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://promised-land-oita.vercel.app/">
+  <meta property="og:title" content="Promised Land Japan in Oita 2026">
+  <meta property="og:description" content="2026.11.20–22 · B-con Plaza, Beppu · 일정 · 공지 · 조 편성 안내">
+  <meta property="og:image" content="https://promised-land-oita.vercel.app/images/og-share.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -983,13 +992,23 @@
     .grp-place { background: #111; color: #fff; padding: 10px 12px; }
     .grp-place b { display: block; font-size: 15px; font-weight: 600; }
     .grp-place small { font-size: 13px; color: rgba(255,255,255,0.7); }
-    .grp-members { font-size: 15px; line-height: 1.9; }
-    .grp-members span { white-space: nowrap; }
-    .grp-members small { font-size: 12px; color: var(--muted); }
-    .grp-members em { font-style: normal; font-size: 12px; font-weight: 700; color: var(--accent); margin-left: 3px; }
-    .grp-members .hit { background: var(--accent); color: #fff; padding: 1px 4px; }
-    .grp-members .hit small { color: rgba(255,255,255,0.85); }
+    /* 명단: 한 줄에 한 사람 (이름 · 조장 · 소속) */
+    .grp-members { list-style: none; }
+    .grp-members li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 9px 0; border-top: 1px solid rgba(0,0,0,0.08); font-size: 16px; }
+    .grp-members b { font-weight: 600; }
+    .grp-members small { flex-basis: 100%; font-size: 12px; color: var(--muted); }
+    .grp-members em { font-style: normal; font-size: 12px; font-weight: 700; color: var(--accent); }
+    .grp-members .hit { background: var(--accent); color: #fff; margin: 0 -10px; padding: 9px 10px; border-top-color: transparent; }
+    .grp-members .hit em, .grp-members .hit small { color: rgba(255,255,255,0.85); }
     .grp-empty { color: var(--muted); font-size: 15px; padding: 12px 0; }
+    /* 전체 조: 조 이름 칸 (누르면 위에 그 조 명단) */
+    .grp-all { font-size: 13px; font-weight: 600; color: var(--muted); margin: 24px 0 10px; }
+    .grp-all[hidden] { display: none; }
+    .grp-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 4px; }
+    .grp-chip { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 12px 10px; background: #f2efe9; border: 0; font: 600 14px var(--font); color: var(--ink); cursor: pointer; text-align: left; }
+    .grp-chip small { font-size: 12px; font-weight: 500; color: var(--muted); }
+    .grp-chip.on { background: #111; color: #fff; }
+    .grp-chip.on small { color: rgba(255,255,255,0.7); }
 
     /* ── 식사: 모바일 — PC에선 숨김 ── */
     .meal-m { display: none; }
@@ -1812,6 +1831,8 @@
       <input type="search" class="grp-search" id="grp-search" placeholder="이름으로 내 조 찾기" aria-label="이름으로 내 조 찾기" autocomplete="off">
       <div class="grp-list" id="grp-list"></div>
       <p class="grp-empty" id="grp-empty" hidden>찾는 이름이 없습니다.</p>
+      <p class="grp-all" id="grp-all-label">전체 조</p>
+      <div class="grp-chips" id="grp-chips"></div>
     </div>
   </section>
 
@@ -2521,21 +2542,32 @@
     })();
 
     // ── 조 편성 (시트의 조편성 · 조모임 탭) ──
-    let GROUPS = [];
+    // 사람이 많아서 처음엔 조 이름 칸만 보여주고, 이름을 검색하거나 조를 누르면 그 조 명단을 펼침
+    let GROUPS = [], grpSel = -1;
     function renderGroups() {
-      const q = document.getElementById('grp-search').value.trim();
-      let shown = 0;
-      document.getElementById('grp-list').innerHTML = GROUPS.map(g => {
-        const hit = q && g.members.some(m => m.name.includes(q));
-        if (q && !hit && !g.name.includes(q)) return '';
-        shown++;
-        return `<div class="grp-card"><p class="grp-name">${g.name}<small>${g.members.length}명</small></p>`
-          + (g.places.length ? `<div class="grp-places">${g.places.map(([w, p]) => `<div class="grp-place"><b>${p}</b>${w ? `<small>${w}</small>` : ''}</div>`).join('')}</div>` : '')
-          + `<p class="grp-members">${g.members.map(m => `<span${q && m.name.includes(q) ? ' class="hit"' : ''}>${m.name}${m.org ? ` <small>${m.org}</small>` : ''}${m.role ? `<em>${m.role}</em>` : ''}</span>`).join(' · ')}</p></div>`;
-      }).join('');
-      document.getElementById('grp-empty').hidden = shown > 0;
+      const q = document.getElementById('grp-search').value.trim().toLowerCase();
+      const hit = m => q && m.name.toLowerCase().includes(q);
+      // 이름 · 소속은 번역하지 않음 (data-notr). 조장이 맨 위
+      const card = g => `<div class="grp-card"><p class="grp-name">${g.name}<small>${g.members.length}명</small></p>`
+        + (g.places.length ? `<div class="grp-places">${g.places.map(([w, p]) => `<div class="grp-place"><b>${p}</b>${w ? `<small>${w}</small>` : ''}</div>`).join('')}</div>` : '')
+        + `<ul class="grp-members">${[...g.members].sort((a, b) => !!b.role - !!a.role).map(m =>
+          `<li${hit(m) ? ' class="hit"' : ''}><b data-notr>${m.name}</b>${m.role ? `<em>${m.role}</em>` : ''}${m.org ? `<small data-notr>${m.org}</small>` : ''}</li>`).join('')}</ul></div>`;
+      const found = q ? GROUPS.filter(g => g.name.toLowerCase().includes(q) || g.members.some(hit)) : GROUPS[grpSel] ? [GROUPS[grpSel]] : [];
+      document.getElementById('grp-list').innerHTML = found.map(card).join('');
+      document.getElementById('grp-empty').hidden = !q || found.length > 0;
+      // 검색 중엔 조 이름 칸 숨김
+      document.getElementById('grp-all-label').hidden = !!q;
+      document.getElementById('grp-chips').innerHTML = q ? '' : GROUPS.map((g, n) =>
+        `<button type="button" class="grp-chip${n === grpSel ? ' on' : ''}" data-n="${n}">${g.name}<small>${g.members.length}</small></button>`).join('');
     }
     document.getElementById('grp-search').addEventListener('input', renderGroups);
+    document.getElementById('grp-chips').addEventListener('click', e => {
+      const b = e.target.closest('.grp-chip');
+      if (!b) return;
+      grpSel = grpSel === +b.dataset.n ? -1 : +b.dataset.n;
+      renderGroups();
+      if (grpSel >= 0) document.getElementById('grp-search').scrollIntoView({ block: 'start' });
+    });
 
     // ── 구글 시트 내용 불러오기 (/api/content) ──
     // 실패하거나 느리면(4초) 위에 적힌 기본 내용을 그대로 보여줌
