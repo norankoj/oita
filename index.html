@@ -2570,10 +2570,9 @@
     });
 
     // ── 구글 시트 내용 불러오기 (/api/content) ──
-    // 실패하거나 느리면(4초) 위에 적힌 기본 내용을 그대로 보여줌
-    fetch('/api/content', { signal: AbortSignal.timeout ? AbortSignal.timeout(4000) : undefined })
-      .then(r => r.ok ? r.json() : Promise.reject(r.status))
-      .then(d => {
+    // 지난번 받은 내용(휴대폰에 저장)을 먼저 보여주고, 새 내용이 오면 달라졌을 때만 바꿈
+    // 10초 안에 못 받으면 2초 뒤 한 번 더 시도. 그래도 안 되면 저장본 또는 위에 적힌 기본 내용 유지
+    function applyContent(d) {
         if (d.i18n?.length) addI18n(d.i18n);
         if (d.schedule?.length) {
           SCHEDULE = d.schedule; TIMETABLE = buildTimetable();
@@ -2588,7 +2587,9 @@
           vidCur = Math.max(0, vids.findIndex(v => v.id)); renderVideo(false);
         }
         if (d.groups?.length) {
+          const sel = GROUPS[grpSel]?.name; // 열어 둔 조 유지
           GROUPS = d.groups;
+          grpSel = GROUPS.findIndex(g => g.name === sel);
           document.getElementById('groups').classList.add('has-groups');
           document.getElementById('grp').hidden = false;
           renderGroups();
@@ -2600,6 +2601,17 @@
           const [id, arg] = location.hash.slice(1).split('/');
           if (id === 'notice-view') showNotice(arg);
         }
+    }
+    let savedContent = null;
+    try { savedContent = localStorage.getItem('pl-content'); if (savedContent) applyContent(JSON.parse(savedContent)); } catch {}
+    const getContent = () => fetch('/api/content', { signal: AbortSignal.timeout ? AbortSignal.timeout(10000) : undefined })
+      .then(r => r.ok ? r.text() : Promise.reject(r.status));
+    getContent()
+      .catch(() => new Promise(r => setTimeout(r, 2000)).then(getContent))
+      .then(text => {
+        if (text === savedContent) return;
+        applyContent(JSON.parse(text));
+        try { localStorage.setItem('pl-content', text); } catch {}
       })
       .catch(() => {});
 
