@@ -923,9 +923,9 @@
     /* ── PC 공지: 다른 PC 섹션처럼 왼쪽 큰 제목 + 오른쪽 내용 ──
        (모바일 전용인 "안내" 칸과 행사안내 묶음은 PC에선 숨김: 바로 위 "행사안내 바로가기"와 중복) */
     @media (min-width: 601px) {
-      #notice, #notice-view { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: clamp(40px, 6vw, 96px); align-items: start; }
+      #notice { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: clamp(40px, 6vw, 96px); align-items: start; }
       #notice > .n-heading { grid-row: 1 / span 2; margin: 0; }
-      #notice > #notice-seg, #notice > .n-list, #notice-view > * { grid-column: 2; }
+      #notice > #notice-seg, #notice > .n-list { grid-column: 2; }
       #notice-seg { max-width: 320px; }
       #notice-seg [data-go] { display: none; }
       .n-list { max-width: none; }
@@ -983,7 +983,17 @@
     /* ── 조 편성 (시트에서): 이름 찾기 + 조별 칸 (모임 장소는 검정 칸) ── */
     #groups.has-groups .groups-pending-label, #groups.has-groups .groups-pending-sub { display: none; }
     .grp { margin-top: 28px; }
-    .grp-search { width: 100%; max-width: 420px; height: 50px; padding: 0 14px; border: 1.5px solid var(--ink); border-radius: 0; background: var(--bg); color: var(--ink); font: 16px var(--font); margin-bottom: 20px; }
+    #groups:not(.loaded) .groups-pending-label, #groups:not(.loaded) .groups-pending-sub { visibility: hidden; }
+    /* 위 고정 영역: 제목 · 검색 · 조별/교회별 + 연 교회 이름 (top은 모바일/PC에서 따로) */
+    #groups.has-groups .grp-head { position: sticky; top: var(--grp-top, 0); z-index: 2; display: grid; grid-template-columns: auto minmax(0, 1fr) 240px; align-items: center; gap: 12px 24px; margin: 0 calc(-1 * var(--pm)); padding: 12px var(--pm); background: var(--bg); border-bottom: 1px solid rgba(0,0,0,0.1); }
+    #groups.has-groups .groups-layout { display: block; }
+    #groups.has-groups .groups-heading { font-size: 30px; line-height: 1.2; margin: 0; }
+    #groups.has-groups .groups-heading .pc-eb { display: none; }
+    .grp-tools:not([hidden]) { display: contents; }
+    .grp-search { width: 100%; max-width: 420px; height: 46px; padding: 0 14px; border: 1.5px solid var(--ink); border-radius: 0; background: var(--bg); color: var(--ink); font: 16px var(--font); }
+    .grp-chead { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; min-width: 0; }
+    .grp-chead[hidden] { display: none; }
+    .grp-chead .grp-cname { margin: 0; font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .grp-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
     .grp-card { background: var(--bg); padding: 16px; }
     .grp-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 1; margin-bottom: 12px; }
@@ -1005,23 +1015,25 @@
     .grp-all { font-size: 13px; font-weight: 600; color: var(--muted); margin: 24px 0 10px; }
     .grp-all[hidden] { display: none; }
     .grp-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 4px; }
-    .grp-chip { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 12px 10px; background: #f2efe9; border: 0; font: 600 14px var(--font); color: var(--ink); cursor: pointer; text-align: left; }
+    .grp-chip { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 14px 10px; background: #f2efe9; border: 0; font: 600 14px var(--font); color: var(--ink); cursor: pointer; text-align: left; }
     .grp-chip small { font-size: 12px; font-weight: 500; color: var(--muted); }
     .grp-chip.on { background: #111; color: #fff; }
     .grp-chip.on small { color: rgba(255,255,255,0.7); }
     /* 교회별: 이름이 길어서 한 줄씩. 교회 명단은 조별로 묶어 넓은 화면에선 여러 단 */
-    .grp-seg { max-width: 420px; }
-    .grp-seg[hidden] { display: none; }
+    #grp-seg { margin: 0; }
+    #grp-seg[hidden] { display: none; }
     .grp-chips.is-church { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
     .grp-crow { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 12px; background: #f2efe9; border: 0; font: 600 15px var(--font); color: var(--ink); cursor: pointer; text-align: left; }
     .grp-crow small { flex-shrink: 0; font-size: 13px; font-weight: 500; color: var(--muted); }
     .grp-ccard { grid-column: 1 / -1; }
-    .grp-back { display: block; background: none; border: 0; padding: 0; margin-bottom: 14px; font: 600 14px var(--font); color: var(--ink); cursor: pointer; }
-    .grp-cname { font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 14px; }
-    .grp-cname small { font-size: 13px; font-weight: 500; color: var(--muted); margin-left: 8px; }
-    .grp-cbody { columns: 280px; column-gap: 32px; }
-    .grp-cgroup { break-inside: avoid; margin-bottom: 14px; }
-    .grp-csub { font-family: 'Bebas Neue', var(--font); font-size: 22px; line-height: 1; color: var(--accent); margin-bottom: 4px; }
+    .grp-back { flex-shrink: 0; background: none; border: 0; padding: 4px 0; font: 600 14px var(--font); color: var(--muted); cursor: pointer; }
+    .grp-cname { font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 12px; }
+    .grp-cbody { columns: 340px; column-gap: 4px; }
+    .grp-cgroup { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; padding: 11px 12px; margin-bottom: 4px; background: #f2efe9; break-inside: avoid; }
+    .grp-csub { font-family: 'Bebas Neue', var(--font); font-size: 20px; line-height: 1.2; color: var(--accent); }
+    .grp-inline { display: flex; flex-wrap: wrap; gap: 3px 12px; }
+    .grp-inline li { flex-wrap: nowrap; gap: 4px; padding: 0; border-top: 0; font-size: 15px; white-space: nowrap; }
+    .grp-inline .hit { margin: 0; padding: 0 4px; }
 
     /* ── 식사: 모바일 — PC에선 숨김 ── */
     .meal-m { display: none; }
@@ -1093,7 +1105,7 @@
     .n-empty { padding-left: 18px; }
     .n-unread { width: 8px; height: 8px; background: var(--accent); margin-top: 6px; }
     .n-empty { padding: 24px 0; color: var(--muted); font-size: 15px; }
-    .n-view { max-width: 760px; }
+    .n-view { max-width: 760px; word-break: keep-all; overflow-wrap: break-word; } /* 한글은 단어 단위로 줄바꿈 */
     .nv-title { font-size: 25px; line-height: 1.35; font-weight: 700; letter-spacing: -0.02em; margin-top: 8px; }
     .nv-by { font-size: 14px; color: var(--muted); margin-top: 10px; padding-bottom: 20px; border-bottom: 1.5px solid var(--ink); }
     .nv-body { font-size: 16px; line-height: 1.75; margin-top: 20px; }
@@ -1214,9 +1226,17 @@
       #groups { background: #fff !important; --muted: #6e6a64; }
       .groups-heading { color: #111; font-family: var(--font); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
       .groups-heading::before { content: 'GUIDE'; display: block; font-family: 'Bebas Neue', sans-serif; font-size: 20px; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 6px; }
-      #groups.has-groups .groups-layout { display: block; }
-      .grp { margin-top: 20px; }
-      .grp-search { max-width: none; }
+      /* 고정 영역: 뒤로 바 바로 아래. 제목 + 조별/교회별 한 줄, 그 아래 검색창 */
+      #groups { --grp-top: calc(52px + env(safe-area-inset-top)); }
+      #groups.has-groups .grp-head { grid-template-columns: minmax(0, 1fr) 176px; gap: 10px 12px; padding: 8px var(--pm) 10px; background: #fff; }
+      #groups.has-groups .groups-heading { font-size: 24px; }
+      #groups.has-groups .groups-heading::before { display: none; }
+      .grp-seg { grid-column: 2; grid-row: 1; }
+      .grp-seg button { padding: 8px 2px; font-size: 14px; }
+      .grp { margin-top: 16px; }
+      .grp-search { grid-column: 1 / -1; grid-row: 2; max-width: none; }
+      .grp-chead { grid-row: 3; }
+      .grp-chead .grp-cname { font-size: 15px; }
       .grp-list { grid-template-columns: 1fr; gap: 8px; }
       .grp-card { background: #f2efe9; }
       .groups-pending-label { color: rgba(0,0,0,0.15); }
@@ -1493,22 +1513,30 @@
       .mob-home-tile-arr { position: absolute; right: 18px; bottom: 18px; width: 34px; height: 34px; display: grid; place-items: center; background: rgba(17,17,17,0.08); }
       .mob-home-tile.red .mob-home-tile-arr { background: rgba(0,0,0,0.2); }
 
-      /* 03 행사안내: 왼쪽 제목·필터, 오른쪽 공지, 아래 바로가기 6칸 */
-      #notice { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: 72px; align-items: start; }
+      /* 03 행사안내: 2단. 왼쪽 공지(제목 · 필터 포함), 오른쪽 안내 바로가기. 두 목록의 윗줄을 맞춤 */
+      #notice { display: grid; grid-template-columns: minmax(0, 7fr) minmax(300px, 5fr); column-gap: clamp(32px, 4vw, 64px); align-items: start; }
       #notice > .n-heading { display: none; }
-      #notice > .g-head { display: block; grid-column: 1; grid-row: 1; margin-bottom: 32px; }
+      #notice > .g-head { display: block; grid-column: 1; grid-row: 1; margin-bottom: 24px; }
       .g-eb { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 10px; }
       .g-title { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
-      #notice > #notice-seg { grid-column: 1; grid-row: 2; width: fit-content; max-width: none; }
-      #notice-seg button { padding: 12px 26px; min-width: 110px; }
-      #notice > .n-list { grid-column: 2; grid-row: 1 / span 3; }
+      #notice > #notice-seg { grid-column: 1; grid-row: 1; justify-self: end; align-self: end; width: fit-content; max-width: none; margin-bottom: 24px; }
+      #notice-seg button { padding: 10px 22px; min-width: 96px; }
+      #notice > .n-list { grid-column: 1; grid-row: 2; max-width: none; }
       .n-list .n-title { font-size: 18px; }
-      .n-glinks { display: grid; grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 48px; }
-      .n-glinks .box { display: grid; grid-template-columns: 1fr auto; align-items: center; min-height: 84px; padding: 18px 20px; background: var(--surface); }
-      .n-glinks b { display: block; font-size: 17px; font-weight: 600; }
-      .n-glinks small { display: block; font-size: 14px; color: var(--muted); margin-top: 3px; }
+      .n-glinks { display: grid; grid-column: 2; grid-row: 2; gap: 4px; }
+      .n-glinks .box { display: grid; grid-template-columns: 1fr auto; align-items: center; min-height: 66px; padding: 11px 18px; background: var(--surface); }
+      .n-glinks b { display: block; font-size: 16px; font-weight: 600; }
+      .n-glinks small { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
       .n-glinks .arrow { color: #ada8a0; }
-      #notice-view { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: 72px; }
+      /* 공지 상세: 왼쪽 제목 · 본문, 오른쪽 요약표 · 버튼 (스크롤해도 오른쪽은 따라옴) */
+      #notice-view { display: grid; grid-template-columns: minmax(0, 7fr) minmax(300px, 4fr); column-gap: clamp(40px, 6vw, 96px); align-items: start; max-width: none; padding-top: 72px; }
+      .nv-title { font-size: clamp(30px, 2.8vw, 42px); line-height: 1.25; margin-top: 10px; }
+      .nv-by { font-size: 15px; margin-top: 14px; padding-bottom: 24px; }
+      .nv-body { font-size: 18px; line-height: 1.8; margin-top: 28px; max-width: 62ch; }
+      .nv-side { position: sticky; top: 88px; }
+      .nv-facts { margin-top: 0; }
+      .nv-facts div { grid-template-columns: 76px 1fr; padding: 16px 18px; }
+      .nv-side .nv-btns { margin-top: 8px; }
 
       /* 04 일정: 3일 나란히 (모바일과 같은 72px 칸) */
       #schedule .schedule-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
@@ -1535,6 +1563,11 @@
 
       /* 06 조 편성 */
       .grp-card { background: var(--surface); }
+      /* Bebas에는 한글이 없어 "기혼04조"의 숫자 · 한글 폰트가 섞여 보임 → PC 조 이름은 본문 폰트로 */
+      .grp-name { font-family: var(--font); font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; }
+      .grp-csub { font-family: var(--font); font-size: 15px; font-weight: 700; line-height: 1.4; }
+      #groups { --grp-top: 64px; } /* 위 메뉴 바로 아래 */
+      .grp { margin-top: 24px; }
 
       /* 07 오는 길: 왼쪽 지도, 오른쪽 흰 칸 */
       #venue { padding: 0 !important; }
@@ -1837,18 +1870,24 @@
 
   <!-- 조 편성 -->
   <section id="groups" aria-labelledby="groups-heading">
-    <div class="groups-layout">
-      <h2 class="groups-heading reveal" id="groups-heading"><span class="pc-eb">GROUPS</span>조 편성</h2>
-      <p class="groups-pending-label reveal" style="transition-delay:0.1s" aria-hidden="true">추후 공지</p>
-    </div>
-    <p class="groups-pending-sub reveal" style="transition-delay:0.15s">조 편성이 확정되면 이 페이지에 업데이트됩니다.</p>
-    <!-- 시트의 조편성 · 조모임 탭이 채워지면 표시 -->
-    <div class="grp" id="grp" hidden>
-      <input type="search" class="grp-search" id="grp-search" placeholder="이름으로 내 조 찾기" aria-label="이름으로 내 조 찾기" autocomplete="off">
-      <div class="n-seg grp-seg" id="grp-seg">
-        <button type="button" data-v="group" class="on">조별</button>
-        <button type="button" data-v="church">교회별</button>
+    <!-- 제목 · 검색 · 조별/교회별 · 연 교회 이름은 스크롤해도 위에 고정 -->
+    <div class="grp-head">
+      <div class="groups-layout">
+        <h2 class="groups-heading reveal" id="groups-heading"><span class="pc-eb">GROUPS</span>조 편성</h2>
+        <p class="groups-pending-label reveal" style="transition-delay:0.1s" aria-hidden="true">추후 공지</p>
       </div>
+      <p class="groups-pending-sub reveal" style="transition-delay:0.15s">조 편성이 확정되면 이 페이지에 업데이트됩니다.</p>
+      <!-- 시트의 조편성 · 조모임 탭이 채워지면 표시 -->
+      <div class="grp-tools" id="grp-tools" hidden>
+        <input type="search" class="grp-search" id="grp-search" placeholder="이름으로 내 조 찾기" aria-label="이름으로 내 조 찾기" autocomplete="off">
+        <div class="n-seg grp-seg" id="grp-seg">
+          <button type="button" data-v="group" class="on">조별</button>
+          <button type="button" data-v="church">교회별</button>
+        </div>
+      </div>
+      <div class="grp-chead" id="grp-chead" hidden></div>
+    </div>
+    <div class="grp" id="grp" hidden>
       <div class="grp-list" id="grp-list"></div>
       <p class="grp-empty" id="grp-empty" hidden>찾는 이름이 없습니다.</p>
       <p class="grp-all" id="grp-all-label">전체 조</p>
@@ -2341,7 +2380,7 @@
       ['#contact', '문의', 'info@joshuageneration.org'],
     ];
     // PC 행사안내 섹션 아래 바로가기 칸
-    document.getElementById('n-glinks').innerHTML = GUIDE_LINKS.map(([h, b, s]) =>
+    document.getElementById('n-glinks').innerHTML = [['#quicknav', '층별 안내', '화장실 · 이동동선'], ...GUIDE_LINKS].map(([h, b, s]) =>
       `<a class="box" href="${h}"><span><b>${b}</b><small>${s}</small></span><span class="arrow">→</span></a>`).join('');
     // 날짜별 제공 식사
     let MEALS = { '2026-11-20': [], '2026-11-21': ['점심', '저녁'], '2026-11-22': ['점심'] };
@@ -2482,9 +2521,9 @@
       const box = document.getElementById('notice-view');
       box.hidden = !n;
       if (!n) return;
-      box.innerHTML = `<p class="n-cat">${catLabel(n)}</p><h2 class="nv-title">${n.title}</h2><p class="nv-by">${n.date} · 운영팀</p><p class="nv-body">${n.body}</p>`
-        + (n.facts ? `<dl class="nv-facts">${n.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : '')
-        + `<div class="nv-btns">${n.link ? `<a class="nv-btn red" href="${n.link[0]}">${n.link[1]} →</a>` : ''}<a class="nv-btn line" href="#notice">목록으로</a></div>`;
+      box.innerHTML = `<div class="nv-main"><p class="n-cat">${catLabel(n)}</p><h2 class="nv-title">${n.title}</h2><p class="nv-by">${n.date} · 운영팀</p><p class="nv-body">${n.body}</p></div>`
+        + `<div class="nv-side">${n.facts ? `<dl class="nv-facts">${n.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : ''}`
+        + `<div class="nv-btns">${n.link ? `<a class="nv-btn red" href="${n.link[0]}">${n.link[1]} →</a>` : ''}<a class="nv-btn line" href="#notice">목록으로</a></div></div>`;
       read.add(n.id); saveRead(); renderNotices();
     }
     document.querySelectorAll('.pin-n').forEach(e => e.textContent = NOTICES.filter(n => n.pin).length || '');
@@ -2524,6 +2563,7 @@
       function route() {
         const [id, arg] = location.hash.slice(1).split('/'); // e.g. #notice-view/2
         if (id === 'notice-view') showNotice(arg);
+        else document.getElementById('notice-view').hidden = true; // PC: 상세를 벗어나면 닫음
         const el = id && document.getElementById(id);
         const page = mq.matches && el && el.tagName === 'SECTION' ? el : null;
         document.querySelectorAll('.mob-page-current').forEach(s => s.classList.remove('mob-page-current'));
@@ -2570,7 +2610,7 @@
     // ── 조 편성 (시트의 조편성 · 조모임 탭) ──
     // 사람이 많아서 처음엔 조 이름 칸만 보여주고, 이름을 검색하거나 조를 누르면 그 조 명단을 펼침
     let GROUPS = [], grpSel = -1, grpView = 'group', churchSel = '';
-    // 교회별: 소속 칸 글자가 같으면 같은 교회. 인원 많은 순, 교회 안에서는 조 순서
+    // 교회별: 소속 칸 글자가 같으면 같은 교회. 한글 이름 ㄱㄴㄷ순 → 영어 이름 → 기타, 교회 안에서는 조 순서
     function churches() {
       const all = new Map();
       for (const g of GROUPS) for (const m of g.members) {
@@ -2579,8 +2619,9 @@
         if (!all.get(c).has(g.name)) all.get(c).set(g.name, []);
         all.get(c).get(g.name).push(m);
       }
-      return [...all].map(([name, gs]) => ({ name, groups: [...gs], size: [...gs.values()].flat().length }))
-        .sort((a, b) => b.size - a.size || a.name.localeCompare(b.name, 'ko'));
+      const rank = c => c.name === '기타' ? 2 : /^[가-힣]/.test(c.name) ? 0 : 1;
+      return [...all].map(([name, gs]) => ({ name, groups: [...gs] }))
+        .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name, 'ko'));
     }
     function renderGroups() {
       const q = document.getElementById('grp-search').value.trim().toLowerCase();
@@ -2591,16 +2632,20 @@
       const card = g => `<div class="grp-card"><p class="grp-name">${g.name}<small>${g.members.length}명</small></p>`
         + (g.places.length ? `<div class="grp-places">${g.places.map(([w, p]) => `<div class="grp-place"><b>${p}</b>${w ? `<small>${w}</small>` : ''}</div>`).join('')}</div>` : '')
         + `<ul class="grp-members">${leadFirst(g.members).map(m => li(m, true)).join('')}</ul></div>`;
-      const churchCard = (c, back) => `<div class="grp-card grp-ccard">${back ? '<button type="button" class="grp-back">← <span>교회 목록</span></button>' : ''}<p class="grp-cname">${c.name}<small>${c.size}명</small></p>`
-        + `<div class="grp-cbody">${c.groups.map(([g, ms]) => `<div class="grp-cgroup"><p class="grp-csub">${g}</p><ul class="grp-members">${leadFirst(ms).map(m => li(m, false)).join('')}</ul></div>`).join('')}</div></div>`;
+      // 교회 명단: 조마다 한 칸, 그 조 사람을 이어서 표시 (큰 교회도 짧게). 연 교회의 이름은 위 고정 영역에
+      const churchCard = (c, title) => `<div class="grp-ccard">${title ? `<p class="grp-cname">${c.name}</p>` : ''}`
+        + `<div class="grp-cbody">${c.groups.map(([g, ms]) => `<div class="grp-cgroup"><p class="grp-csub">${g}</p><ul class="grp-members grp-inline">${leadFirst(ms).map(m => li(m, false)).join('')}</ul></div>`).join('')}</div></div>`;
 
       const all = churches(), byChurch = grpView === 'church';
       const open = byChurch ? all.find(c => c.name === churchSel) : GROUPS[grpSel];
       const cFound = q ? all.filter(c => c.name.toLowerCase().includes(q)) : [];
       const gFound = q ? GROUPS.filter(g => g.name.toLowerCase().includes(q) || g.members.some(hit)) : [];
-      document.getElementById('grp-list').innerHTML = q ? cFound.map(c => churchCard(c)).join('') + gFound.map(card).join('')
-        : !open ? '' : byChurch ? churchCard(open, true) : card(open);
+      document.getElementById('grp-list').innerHTML = q ? cFound.map(c => churchCard(c, true)).join('') + gFound.map(card).join('')
+        : !open ? '' : byChurch ? churchCard(open) : card(open);
       document.getElementById('grp-empty').hidden = !q || cFound.length + gFound.length > 0;
+      const chead = document.getElementById('grp-chead');
+      chead.hidden = !(byChurch && open && !q);
+      chead.innerHTML = chead.hidden ? '' : `<button type="button" class="grp-back">← <span>교회 목록</span></button><p class="grp-cname">${open.name}</p>`;
       // 검색 중엔 전환 버튼 · 목록 숨김, 교회를 열면 교회 목록 숨김 (명단이 길어서)
       const seg = document.getElementById('grp-seg'), list = document.getElementById('grp-chips'), label = document.getElementById('grp-all-label');
       const hideList = !!q || (byChurch && !!open);
@@ -2610,14 +2655,14 @@
       label.textContent = byChurch ? '전체 교회' : '전체 조';
       list.classList.toggle('is-church', byChurch);
       list.innerHTML = hideList ? '' : byChurch
-        ? all.map((c, n) => `<button type="button" class="grp-crow" data-c="${n}">${c.name}<small>${c.size}명</small></button>`).join('')
+        ? all.map((c, n) => `<button type="button" class="grp-crow" data-c="${n}">${c.name}<small>→</small></button>`).join('')
         : GROUPS.map((g, n) => `<button type="button" class="grp-chip${n === grpSel ? ' on' : ''}" data-n="${n}">${g.name}<small>${g.members.length}</small></button>`).join('');
     }
-    const grpTop = () => document.getElementById('grp-search').scrollIntoView({ block: 'start' });
+    const grpTop = () => document.getElementById('groups').scrollIntoView({ block: 'start' });
     document.getElementById('grp-search').addEventListener('input', renderGroups);
     document.getElementById('grp-seg').addEventListener('click', e => {
       const b = e.target.closest('button');
-      if (b) { grpView = b.dataset.v; renderGroups(); }
+      if (b) { grpView = b.dataset.v; grpSel = -1; churchSel = ''; renderGroups(); } // 전환하면 항상 처음 목록부터
     });
     document.getElementById('grp-chips').addEventListener('click', e => {
       const chip = e.target.closest('.grp-chip'), row = e.target.closest('.grp-crow');
@@ -2627,7 +2672,7 @@
       renderGroups();
       if (row || grpSel >= 0) grpTop();
     });
-    document.getElementById('grp-list').addEventListener('click', e => {
+    document.getElementById('grp-chead').addEventListener('click', e => {
       if (!e.target.closest('.grp-back')) return;
       churchSel = '';
       renderGroups();
@@ -2657,6 +2702,7 @@
           grpSel = GROUPS.findIndex(g => g.name === sel);
           document.getElementById('groups').classList.add('has-groups');
           document.getElementById('grp').hidden = false;
+          document.getElementById('grp-tools').hidden = false;
           renderGroups();
         }
         if (d.notices?.length) {
@@ -2678,7 +2724,8 @@
         applyContent(JSON.parse(text));
         try { localStorage.setItem('pl-content', text); } catch {}
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => document.getElementById('groups').classList.add('loaded')); // 받기 전엔 "추후 공지"를 보이지 않음
 
     // Section reveal on scroll
     const reveals = document.querySelectorAll('.reveal');
