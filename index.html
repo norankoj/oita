@@ -11,7 +11,7 @@
   <meta property="og:url" content="https://promised-land-oita.vercel.app/">
   <meta property="og:title" content="Promised Land Japan in Oita 2026">
   <meta property="og:description" content="2026.11.20–22 · B-con Plaza, Beppu · 일정 · 공지 · 조 편성 안내">
-  <meta property="og:image" content="https://promised-land-oita.vercel.app/images/og-share.jpg">
+  <meta property="og:image" content="https://promised-land-oita.vercel.app/images/og-share.jpg?v=2">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -1009,6 +1009,19 @@
     .grp-chip small { font-size: 12px; font-weight: 500; color: var(--muted); }
     .grp-chip.on { background: #111; color: #fff; }
     .grp-chip.on small { color: rgba(255,255,255,0.7); }
+    /* 교회별: 이름이 길어서 한 줄씩. 교회 명단은 조별로 묶어 넓은 화면에선 여러 단 */
+    .grp-seg { max-width: 420px; }
+    .grp-seg[hidden] { display: none; }
+    .grp-chips.is-church { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    .grp-crow { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 12px; background: #f2efe9; border: 0; font: 600 15px var(--font); color: var(--ink); cursor: pointer; text-align: left; }
+    .grp-crow small { flex-shrink: 0; font-size: 13px; font-weight: 500; color: var(--muted); }
+    .grp-ccard { grid-column: 1 / -1; }
+    .grp-back { display: block; background: none; border: 0; padding: 0; margin-bottom: 14px; font: 600 14px var(--font); color: var(--ink); cursor: pointer; }
+    .grp-cname { font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 14px; }
+    .grp-cname small { font-size: 13px; font-weight: 500; color: var(--muted); margin-left: 8px; }
+    .grp-cbody { columns: 280px; column-gap: 32px; }
+    .grp-cgroup { break-inside: avoid; margin-bottom: 14px; }
+    .grp-csub { font-family: 'Bebas Neue', var(--font); font-size: 22px; line-height: 1; color: var(--accent); margin-bottom: 4px; }
 
     /* ── 식사: 모바일 — PC에선 숨김 ── */
     .meal-m { display: none; }
@@ -1154,6 +1167,9 @@
       /* 일정 보기 누름: 빨간 화면이 16px 살짝 내려감 */
       .hero.nudge { animation: hero-nudge 0.26s cubic-bezier(.3,.7,.4,1) forwards; }
       @keyframes hero-nudge { to { height: calc(100svh - 64px - env(safe-area-inset-bottom) - 233px); } }
+      /* 눌림 반응: 누르는 순간 살짝 흐려짐 (뗄 때만 천천히 돌아옴). 움직임은 넣지 않음 */
+      .n-seg button, .floor-tabs button, a.n-pin, .n-row, a.cell, .nv-btn, .faq-list summary, .contact-box, .grp-chip, .grp-crow, .grp-back, .lang-pop button, .mob-back-btn > * { transition: opacity 0.12s; }
+      .n-seg button:active, .floor-tabs button:active, a.n-pin:active, .n-row:active, a.cell:active, .nv-btn:active, .faq-list summary:active, .contact-box:active, .grp-chip:active, .grp-crow:active, .grp-back:active, .lang-pop button:active, .mob-back-btn:active > * { opacity: 0.55; transition: none; }
       .mob-tab-ic { transition: transform 0.12s; }
       .mob-tab:active .mob-tab-ic { transform: scale(0.82); }
       .mob-tab.is-active .mob-tab-ic { animation: tab-pop 0.35s cubic-bezier(.3,1.6,.5,1); }
@@ -1829,6 +1845,10 @@
     <!-- 시트의 조편성 · 조모임 탭이 채워지면 표시 -->
     <div class="grp" id="grp" hidden>
       <input type="search" class="grp-search" id="grp-search" placeholder="이름으로 내 조 찾기" aria-label="이름으로 내 조 찾기" autocomplete="off">
+      <div class="n-seg grp-seg" id="grp-seg">
+        <button type="button" data-v="group" class="on">조별</button>
+        <button type="button" data-v="church">교회별</button>
+      </div>
       <div class="grp-list" id="grp-list"></div>
       <p class="grp-empty" id="grp-empty" hidden>찾는 이름이 없습니다.</p>
       <p class="grp-all" id="grp-all-label">전체 조</p>
@@ -2509,7 +2529,9 @@
         document.querySelectorAll('.mob-page-current').forEach(s => s.classList.remove('mob-page-current'));
         document.body.classList.toggle('mob-nav-active', !!page);
         if (page) page.classList.add('mob-page-current');
-        if (mq.matches) window.scrollTo(0, 0);
+        // 모바일: 새 화면은 맨 위, 뒤로 온 화면은 보던 위치 (부드러운 스크롤 없이 바로)
+        history.scrollRestoration = mq.matches ? 'manual' : 'auto';
+        if (mq.matches) window.scrollTo({ top: history.state?.y || 0, behavior: 'instant' });
         else if (id === 'notice-view') el.scrollIntoView();
         document.getElementById('mob-back-label').textContent = id === 'notice-view' ? '공지' : '뒤로';
         document.body.classList.toggle('mob-tab-root', !!page && (tabIds.includes(id) || id === 'quicknav')); // 탭 화면엔 뒤로 바 없음
@@ -2517,6 +2539,10 @@
         const active = !page ? 'top' : tabIds.includes(id) ? id : 'notice';
         tabs.forEach(t => t.classList.toggle('is-active', t.dataset.target === active));
       }
+      // 다른 화면으로 가기 직전에 지금 스크롤 위치를 이 방문 기록에 적어 둠
+      document.addEventListener('click', e => {
+        if (mq.matches && e.target.closest('a[href^="#"]')) history.replaceState({ y: scrollY }, '');
+      }, true);
       let navigated = false; // only go back if we came from inside this page
       document.getElementById('mob-back-btn').addEventListener('click', () => {
         navigated ? history.back() : location.replace('#');
@@ -2543,30 +2569,69 @@
 
     // ── 조 편성 (시트의 조편성 · 조모임 탭) ──
     // 사람이 많아서 처음엔 조 이름 칸만 보여주고, 이름을 검색하거나 조를 누르면 그 조 명단을 펼침
-    let GROUPS = [], grpSel = -1;
+    let GROUPS = [], grpSel = -1, grpView = 'group', churchSel = '';
+    // 교회별: 소속 칸 글자가 같으면 같은 교회. 인원 많은 순, 교회 안에서는 조 순서
+    function churches() {
+      const all = new Map();
+      for (const g of GROUPS) for (const m of g.members) {
+        const c = m.org || '기타';
+        if (!all.has(c)) all.set(c, new Map());
+        if (!all.get(c).has(g.name)) all.get(c).set(g.name, []);
+        all.get(c).get(g.name).push(m);
+      }
+      return [...all].map(([name, gs]) => ({ name, groups: [...gs], size: [...gs.values()].flat().length }))
+        .sort((a, b) => b.size - a.size || a.name.localeCompare(b.name, 'ko'));
+    }
     function renderGroups() {
       const q = document.getElementById('grp-search').value.trim().toLowerCase();
       const hit = m => q && m.name.toLowerCase().includes(q);
-      // 이름 · 소속은 번역하지 않음 (data-notr). 조장이 맨 위
+      const leadFirst = ms => [...ms].sort((a, b) => !!b.role - !!a.role);
+      // 이름 · 소속은 번역하지 않음 (data-notr)
+      const li = (m, org) => `<li${hit(m) ? ' class="hit"' : ''}><b data-notr>${m.name}</b>${m.role ? `<em>${m.role}</em>` : ''}${org && m.org ? `<small data-notr>${m.org}</small>` : ''}</li>`;
       const card = g => `<div class="grp-card"><p class="grp-name">${g.name}<small>${g.members.length}명</small></p>`
         + (g.places.length ? `<div class="grp-places">${g.places.map(([w, p]) => `<div class="grp-place"><b>${p}</b>${w ? `<small>${w}</small>` : ''}</div>`).join('')}</div>` : '')
-        + `<ul class="grp-members">${[...g.members].sort((a, b) => !!b.role - !!a.role).map(m =>
-          `<li${hit(m) ? ' class="hit"' : ''}><b data-notr>${m.name}</b>${m.role ? `<em>${m.role}</em>` : ''}${m.org ? `<small data-notr>${m.org}</small>` : ''}</li>`).join('')}</ul></div>`;
-      const found = q ? GROUPS.filter(g => g.name.toLowerCase().includes(q) || g.members.some(hit)) : GROUPS[grpSel] ? [GROUPS[grpSel]] : [];
-      document.getElementById('grp-list').innerHTML = found.map(card).join('');
-      document.getElementById('grp-empty').hidden = !q || found.length > 0;
-      // 검색 중엔 조 이름 칸 숨김
-      document.getElementById('grp-all-label').hidden = !!q;
-      document.getElementById('grp-chips').innerHTML = q ? '' : GROUPS.map((g, n) =>
-        `<button type="button" class="grp-chip${n === grpSel ? ' on' : ''}" data-n="${n}">${g.name}<small>${g.members.length}</small></button>`).join('');
+        + `<ul class="grp-members">${leadFirst(g.members).map(m => li(m, true)).join('')}</ul></div>`;
+      const churchCard = (c, back) => `<div class="grp-card grp-ccard">${back ? '<button type="button" class="grp-back">← <span>교회 목록</span></button>' : ''}<p class="grp-cname">${c.name}<small>${c.size}명</small></p>`
+        + `<div class="grp-cbody">${c.groups.map(([g, ms]) => `<div class="grp-cgroup"><p class="grp-csub">${g}</p><ul class="grp-members">${leadFirst(ms).map(m => li(m, false)).join('')}</ul></div>`).join('')}</div></div>`;
+
+      const all = churches(), byChurch = grpView === 'church';
+      const open = byChurch ? all.find(c => c.name === churchSel) : GROUPS[grpSel];
+      const cFound = q ? all.filter(c => c.name.toLowerCase().includes(q)) : [];
+      const gFound = q ? GROUPS.filter(g => g.name.toLowerCase().includes(q) || g.members.some(hit)) : [];
+      document.getElementById('grp-list').innerHTML = q ? cFound.map(c => churchCard(c)).join('') + gFound.map(card).join('')
+        : !open ? '' : byChurch ? churchCard(open, true) : card(open);
+      document.getElementById('grp-empty').hidden = !q || cFound.length + gFound.length > 0;
+      // 검색 중엔 전환 버튼 · 목록 숨김, 교회를 열면 교회 목록 숨김 (명단이 길어서)
+      const seg = document.getElementById('grp-seg'), list = document.getElementById('grp-chips'), label = document.getElementById('grp-all-label');
+      const hideList = !!q || (byChurch && !!open);
+      seg.hidden = !!q;
+      seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === grpView));
+      label.hidden = hideList;
+      label.textContent = byChurch ? '전체 교회' : '전체 조';
+      list.classList.toggle('is-church', byChurch);
+      list.innerHTML = hideList ? '' : byChurch
+        ? all.map((c, n) => `<button type="button" class="grp-crow" data-c="${n}">${c.name}<small>${c.size}명</small></button>`).join('')
+        : GROUPS.map((g, n) => `<button type="button" class="grp-chip${n === grpSel ? ' on' : ''}" data-n="${n}">${g.name}<small>${g.members.length}</small></button>`).join('');
     }
+    const grpTop = () => document.getElementById('grp-search').scrollIntoView({ block: 'start' });
     document.getElementById('grp-search').addEventListener('input', renderGroups);
+    document.getElementById('grp-seg').addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (b) { grpView = b.dataset.v; renderGroups(); }
+    });
     document.getElementById('grp-chips').addEventListener('click', e => {
-      const b = e.target.closest('.grp-chip');
-      if (!b) return;
-      grpSel = grpSel === +b.dataset.n ? -1 : +b.dataset.n;
+      const chip = e.target.closest('.grp-chip'), row = e.target.closest('.grp-crow');
+      if (chip) grpSel = grpSel === +chip.dataset.n ? -1 : +chip.dataset.n;
+      else if (row) churchSel = churches()[+row.dataset.c].name;
+      else return;
       renderGroups();
-      if (grpSel >= 0) document.getElementById('grp-search').scrollIntoView({ block: 'start' });
+      if (row || grpSel >= 0) grpTop();
+    });
+    document.getElementById('grp-list').addEventListener('click', e => {
+      if (!e.target.closest('.grp-back')) return;
+      churchSel = '';
+      renderGroups();
+      grpTop();
     });
 
     // ── 구글 시트 내용 불러오기 (/api/content) ──
