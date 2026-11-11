@@ -969,7 +969,7 @@
     @media (min-width: 601px) {
       #notice { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: clamp(40px, 6vw, 96px); align-items: start; }
       #notice > .n-heading { grid-row: 1 / span 2; margin: 0; }
-      #notice > #notice-seg, #notice > .n-list { grid-column: 2; }
+      #notice #notice-seg, #notice > .n-list { grid-column: 2; }
       #notice-seg { max-width: 320px; }
       #notice-seg [data-go] { display: none; }
       .n-list { max-width: none; }
@@ -989,7 +989,12 @@
 
     /* ── 행사안내 머리 + 전체·필독·안내 (모바일 전용 머리) ── */
     .g-head { display: none; }
+    /* 제목 + 탭 묶음: PC에선 없는 것처럼(contents), 모바일에선 스크롤해도 위에 고정 */
+    .pin-head { display: contents; }
     @media (max-width: 600px) {
+      .pin-head { display: block; position: sticky; top: env(safe-area-inset-top); z-index: 3; margin: 0 calc(-1 * var(--pm)) 16px; padding: 8px var(--pm) 12px; background: #fff; border-bottom: 1px solid #ece8e1; box-shadow: 0 calc(-1 * env(safe-area-inset-top)) 0 #fff; }
+      .pin-head .g-head, .pin-head .n-heading { margin-bottom: 12px !important; }
+      .pin-head .n-seg { margin-bottom: 0; }
       .g-head { display: block; margin-bottom: 20px; }
       #notice > .n-heading { display: none; }
       .g-eb { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 6px; }
@@ -1560,10 +1565,10 @@
       /* 03 행사안내: 2단. 왼쪽 공지(제목 · 필터 포함), 오른쪽 안내 바로가기. 두 목록의 윗줄을 맞춤 */
       #notice { display: grid; grid-template-columns: minmax(0, 7fr) minmax(300px, 5fr); column-gap: clamp(32px, 4vw, 64px); align-items: start; }
       #notice > .n-heading { display: none; }
-      #notice > .g-head { display: block; grid-column: 1; grid-row: 1; margin-bottom: 24px; }
+      #notice .g-head { display: block; grid-column: 1; grid-row: 1; margin-bottom: 24px; }
       .g-eb { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.04em; line-height: 1; color: var(--accent); margin-bottom: 10px; }
       .g-title { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
-      #notice > #notice-seg { grid-column: 1; grid-row: 1; justify-self: end; align-self: end; width: fit-content; max-width: none; margin-bottom: 24px; }
+      #notice #notice-seg { grid-column: 1; grid-row: 1; justify-self: end; align-self: end; width: fit-content; max-width: none; margin-bottom: 24px; }
       #notice-seg button { padding: 10px 22px; min-width: 96px; }
       #notice > .n-list { grid-column: 1; grid-row: 2; max-width: none; }
       .n-list .n-title { font-size: 18px; }
@@ -1756,9 +1761,10 @@
   <div class="mob-quick">
   <p class="mob-quick-label">빠른 이동</p>
   <nav class="mob-home-grid" aria-label="빠른 이동">
-    <a href="#schedule" class="mob-home-tile red">
-      <span class="mob-home-tile-name">스케줄</span>
-      <span class="mob-home-tile-sub">3일 전체 일정</span>
+    <!-- 일정은 위 "일정 보기" 버튼과 겹쳐서, 첫 칸은 조 편성 -->
+    <a href="#groups" class="mob-home-tile red">
+      <span class="mob-home-tile-name">조 편성</span>
+      <span class="mob-home-tile-sub">내 조 찾기</span>
       <span class="mob-home-tile-arr">→</span>
     </a>
     <!-- 조 편성이 확정되면 이 타일을 #groups "조 편성 / 내 조 확인"으로 되돌리기 -->
@@ -1802,11 +1808,13 @@
   <section id="quicknav" aria-labelledby="quicknav-heading">
     <!-- Mobile: mockup 05 (내용은 맨 아래 스크립트의 FLOORS / MEALS) -->
     <div class="guide-m">
-      <div class="g-head"><p class="g-eb">GUIDE</p><p class="g-title">행사안내</p></div>
-      <div class="n-seg" id="guide-seg">
-        <button type="button" data-f="전체">전체</button>
-        <button type="button" data-f="필독">필독<em class="pin-n"></em></button>
-        <button type="button" class="on">안내</button>
+      <div class="pin-head">
+        <div class="g-head"><p class="g-eb">GUIDE</p><p class="g-title">행사안내</p></div>
+        <div class="n-seg" id="guide-seg">
+          <button type="button" data-f="전체">전체</button>
+          <button type="button" data-f="필독">필독<em class="pin-n"></em></button>
+          <button type="button" class="on">안내</button>
+        </div>
       </div>
       <h2 class="n-heading pc-only"><span class="accent">Floors</span><br>층별 안내</h2>
       <div class="floor-tabs" id="floor-seg"></div>
@@ -1851,11 +1859,14 @@
   <section id="notice" aria-labelledby="notice-heading">
     <h2 class="info-heading n-heading" id="notice-heading"><span class="accent">Notice</span><br>공지</h2>
     <!-- Mobile 머리: 행사안내 (전체·필독 = 공지 목록 / 안내 = 층별·식사 화면) -->
-    <div class="g-head"><p class="g-eb">GUIDE</p><p class="g-title">행사안내</p></div>
-    <div class="n-seg" id="notice-seg">
-      <button type="button" data-f="전체" class="on">전체</button>
-      <button type="button" data-f="필독">필독<em class="pin-n"></em></button>
-      <button type="button" data-go="quicknav">안내</button>
+    <!-- 모바일: 제목 + 탭은 스크롤해도 위에 고정 (PC에선 display: contents라 배치에 영향 없음) -->
+    <div class="pin-head">
+      <div class="g-head"><p class="g-eb">GUIDE</p><p class="g-title">행사안내</p></div>
+      <div class="n-seg" id="notice-seg">
+        <button type="button" data-f="전체" class="on">전체</button>
+        <button type="button" data-f="필독">필독<em class="pin-n"></em></button>
+        <button type="button" data-go="quicknav">안내</button>
+      </div>
     </div>
     <div class="n-list" id="notice-list"></div>
     <!-- PC: 아래에 세부 안내 바로가기 칸 (모바일은 "전체" 목록 안에 있음) -->
@@ -1885,8 +1896,10 @@
 
     <!-- Mobile: mockup 04 -->
     <div class="sch-m">
-      <h2 class="n-heading"><span class="accent">Schedule</span><br>일정</h2>
-      <div class="n-seg sch-seg" id="sch-seg"></div>
+      <div class="pin-head">
+        <h2 class="n-heading"><span class="accent">Schedule</span><br>일정</h2>
+        <div class="n-seg sch-seg" id="sch-seg"></div>
+      </div>
       <div class="sch-head" id="sch-sum"></div>
       <ul class="tl" id="sch-tl"></ul>
       <p class="sch-day-note" id="sch-day-note"></p>
@@ -2425,7 +2438,9 @@
 
     // 모바일: 요일 탭 + 타임라인 (행사 기간엔 오늘 날짜가 기본)
     renderScheduleGrid();
-    let schDay = Math.max(0, SCHEDULE.findIndex(d => d.date === todayKST()));
+    // 기본 날짜: 행사 전 · 금요일은 금, 토요일은 토, 주일(과 행사 후)은 주일
+    const schDefault = () => { const t = todayKST(), n = SCHEDULE.findIndex(d => d.date === t); return n >= 0 ? n : t > SCHEDULE.at(-1).date ? SCHEDULE.length - 1 : 0; };
+    let schDay = schDefault();
     function renderSchedule() {
       const d = SCHEDULE[schDay];
       document.getElementById('sch-seg').innerHTML = SCHEDULE.map((x, n) =>
@@ -2698,6 +2713,7 @@
         const [id, arg] = location.hash.slice(1).split('/'); // e.g. #notice-view/2
         if (id === 'notice-view') showNotice(arg);
         else document.getElementById('notice-view').hidden = true; // PC: 상세를 벗어나면 닫음
+        if (id === 'schedule' && schDay !== schDefault()) { schDay = schDefault(); renderSchedule(); } // 일정에 들어올 때마다 오늘 날짜로
         const el = id && document.getElementById(id);
         // 화면 안의 한 부분(예: #booths)이면 그 부분이 든 화면을 열고 그 위치로
         const page = mq.matches && el ? (el.tagName === 'SECTION' ? el : el.closest('section')) : null;
@@ -2822,7 +2838,7 @@
         if (d.i18n?.length) addI18n(d.i18n);
         if (d.schedule?.length) {
           SCHEDULE = d.schedule; TIMETABLE = buildTimetable();
-          schDay = Math.max(0, SCHEDULE.findIndex(x => x.date === todayKST()));
+          schDay = schDefault();
           renderScheduleGrid(); renderSchedule(); updateCountdown();
         }
         if (d.floors?.length) { FLOORS = d.floors; floorN = Math.min(floorN, FLOORS.length - 1); }

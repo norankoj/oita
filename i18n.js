@@ -148,6 +148,7 @@ const I18N = {
   // 조 편성
   '조장': ['Leader', 'リーダー'],
   '조 편성이 확정되면 이 페이지에 업데이트됩니다.': ['This page will be updated once groups are confirmed.', 'グループが確定次第、このページで更新します。'],
+  '내 조 찾기': ['Find my group', '自分のグループ'],
   '이름으로 내 조 찾기': ['Find my group by name', '名前で自分のグループを検索'],
   '찾는 이름이 없습니다.': ['No matching name.', '該当する名前がありません。'],
   '전체 조': ['All groups', '全グループ'],
