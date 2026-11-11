@@ -841,12 +841,33 @@
     .vid-frame.empty::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: 0.2; mix-blend-mode: multiply; }
     /* 푸터 타이포 느낌: 큰 Bebas 제목, 목록은 큰 Bebas 이름 + 옆에 작은 설명 */
     .vid-big { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: clamp(88px, 12vw, 172px); line-height: 0.85; letter-spacing: -0.01em; color: #fff; }
+    /* 부스 안내 (로비): 배치도 + 부스 카드. 모바일은 옆으로 넘겨 보기 */
+    .booths { margin-top: 40px; }
+    .booth-map { display: block; width: 100%; height: auto; margin-top: 12px; }
+    .booth-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px 12px; margin-top: 20px; }
+    .booth-list img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+    .booth-tag { display: block; font-size: 12px; font-weight: 700; color: var(--accent); margin-top: 10px; }
+    .booth-list b { display: block; font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 26px; line-height: 1.1; margin-top: 2px; }
+    .booth-list small { display: block; font-size: 14px; line-height: 1.5; color: var(--muted); margin-top: 2px; word-break: keep-all; }
+    @media (max-width: 600px) {
+      .booth-list { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin: 16px calc(-1 * var(--pm)) 0; padding: 0 var(--pm) 6px; scroll-padding: 0 var(--pm); }
+      .booth-list li { flex: 0 0 82%; scroll-snap-align: start; }
+    }
+    /* 초청의 글 (dialog) */
+    .invite { width: min(560px, calc(100% - 32px)); max-height: min(86svh, 760px); margin: auto; padding: 32px 28px 24px; border: 0; background: #fff; color: #111; overflow-y: auto; word-break: keep-all; overflow-wrap: break-word; }
+    .invite::backdrop { background: rgba(17,17,17,0.62); }
+    .inv-eb { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.04em; line-height: 1; color: var(--accent); }
+    .inv-title { font-family: var(--font); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; margin: 8px 0 20px; }
+    .inv-body p { font-size: 16px; line-height: 1.8; color: #333; }
+    .inv-body p + p { margin-top: 14px; }
+    .inv-ok { width: 100%; margin-top: 28px; border: 0; font: inherit; font-weight: 700; cursor: pointer; }
     .vid-sub { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 2.8vw, 38px); line-height: 1; color: #fff; margin: 18px 0 32px; }
     .vid-sub small { font-family: var(--font); font-size: 14px; color: rgba(255,255,255,0.6); margin-left: 10px; }
     .vid-list { list-style: none; }
     .vid-list li + li { border-top: 1px solid rgba(255,255,255,0.12); }
     .vid-row { width: 100%; display: flex; align-items: baseline; gap: 12px; padding: 14px 0; background: none; border: 0; color: #fff; font: inherit; text-align: left; cursor: pointer; transition: color 0.15s; }
     .vid-row b { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 40px; line-height: 1; }
+    .vid-row b.t { font-family: var(--font); font-weight: 700; font-size: 24px; letter-spacing: -0.02em; line-height: 1.2; }
     .vid-row small { font-size: 14px; color: rgba(255,255,255,0.55); }
     .vid-row.on { color: var(--accent); }
     .vid-row.on small { color: rgba(255,255,255,0.85); }
@@ -1414,7 +1435,7 @@
       body.mob-nav-active footer { display: none !important; }
       body.mob-nav-active section:not(.mob-page-current) { display: none !important; }
       /* 홈은 히어로 + 빠른 이동까지만 (나머지는 탭/타일로 이동) */
-      body:not(.mob-nav-active) > :not(.hero):not(.mob-quick):not(.mob-tabs):not(.lang-pop):not(script) { display: none !important; }
+      body:not(.mob-nav-active) > :not(.hero):not(.mob-quick):not(.mob-tabs):not(.lang-pop):not(dialog):not(script) { display: none !important; }
       body.mob-nav-active section.mob-page-current {
         padding-top: calc(76px + env(safe-area-inset-top)) !important;
         min-height: calc(100svh - 64px) !important;
@@ -1450,7 +1471,7 @@
       #schedule { order: 5; }
       #meals { order: 6; grid-column: 1 / 7; } #quicknav { order: 6; grid-column: 7 / -1; }
       #groups { order: 7; } #venue { order: 8; } #teaser { order: 9; }
-      #seating { order: 10; grid-column: 1 / 7; } #lobby { order: 10; grid-column: 7 / -1; }
+      #seating { order: 10; } #lobby { order: 10; } /* 로비에 부스 사진이 있어 둘 다 전체 폭 */
       #faq { order: 11; grid-column: 1 / 9; } #contact { order: 11; grid-column: 9 / -1; }
       footer { order: 12; }
       .marquee-divider, .poster-band, #floors, .photo-credits, .mob-back-btn, #notice-view[hidden] { display: none !important; }
@@ -1824,7 +1845,7 @@
   <!-- 티저 영상 -->
   <section id="teaser" aria-labelledby="teaser-heading">
     <h2 class="vid-big" id="teaser-heading">PROMISED<br>LAND</h2>
-    <p class="vid-sub">THE B TEASER<small>티저 영상 3편</small></p>
+    <p class="vid-sub">THE B FILMS<small>영상 3편</small></p>
     <!-- 내용은 맨 아래 스크립트의 VIDEOS 목록에서 수정 -->
     <div class="vid-wrap">
       <div class="vid-stage" id="vid-stage"></div>
@@ -1874,9 +1895,9 @@
     <div class="grp-head">
       <div class="groups-layout">
         <h2 class="groups-heading reveal" id="groups-heading"><span class="pc-eb">GROUPS</span>조 편성</h2>
-        <p class="groups-pending-label reveal" style="transition-delay:0.1s" aria-hidden="true">추후 공지</p>
+        <p class="groups-pending-label reveal" style="transition-delay:0.1s" aria-hidden="true">11.20 FRI</p>
       </div>
-      <p class="groups-pending-sub reveal" style="transition-delay:0.15s">조 편성이 확정되면 이 페이지에 업데이트됩니다.</p>
+      <p class="groups-pending-sub reveal" style="transition-delay:0.15s">조 편성은 11월 20일(금) 오전에 공개됩니다.</p>
       <!-- 시트의 조편성 · 조모임 탭이 채워지면 표시 -->
       <div class="grp-tools" id="grp-tools" hidden>
         <input type="search" class="grp-search" id="grp-search" placeholder="이름으로 내 조 찾기" aria-label="이름으로 내 조 찾기" autocomplete="off">
@@ -1966,16 +1987,12 @@
           <p class="info-col-title">메인홀</p>
           <ul class="info-rows">
             <li class="info-row">
-              <span class="info-row-label">1층</span>
-              <span class="info-row-val">지정 좌석 (조별 배정)</span>
+              <span class="info-row-label">Day 1 (금)</span>
+              <span class="info-row-val">교회별로 앉습니다</span>
             </li>
             <li class="info-row">
-              <span class="info-row-label">2층</span>
-              <span class="info-row-val">자유석</span>
-            </li>
-            <li class="info-row">
-              <span class="info-row-label">조 배정</span>
-              <span class="info-row-val">추후 공지</span>
+              <span class="info-row-label">Day 2 · 3 (토 · 주일)</span>
+              <span class="info-row-val">조별로 앉습니다</span>
             </li>
           </ul>
         </div>
@@ -1991,8 +2008,12 @@
               <span class="info-row-val">세션 중 이동 자제</span>
             </li>
             <li class="info-row">
-              <span class="info-row-label">지정석</span>
-              <span class="info-row-val">배정 좌석 이외 착석 금지</span>
+              <span class="info-row-label">착석</span>
+              <span class="info-row-val">집회 10분 전부터, 빈자리 없이</span>
+            </li>
+            <li class="info-row">
+              <span class="info-row-label">명찰</span>
+              <span class="info-row-val">꼭 착용 (미착용 시 출입 제한)</span>
             </li>
           </ul>
         </div>
@@ -2017,12 +2038,8 @@
               <span class="info-row-val">1층 정문 로비</span>
             </li>
             <li class="info-row">
-              <span class="info-row-label">준비물</span>
-              <span class="info-row-val">사전 등록 확인증</span>
-            </li>
-            <li class="info-row">
               <span class="info-row-label">현장 등록</span>
-              <span class="info-row-val">불가 (사전 등록자만 입장)</span>
+              <span class="info-row-val">일본인(글로벌 교회) 외에는 어렵습니다</span>
             </li>
           </ul>
         </div>
@@ -2031,19 +2048,31 @@
           <ul class="info-rows">
             <li class="info-row">
               <span class="info-row-label">굿즈 부스</span>
-              <span class="info-row-val">1층 로비 내 위치 (세부 추후 공지)</span>
+              <span class="info-row-val">1층 로비</span>
             </li>
             <li class="info-row">
               <span class="info-row-label">의료 부스</span>
-              <span class="info-row-val">위치 추후 공지</span>
+              <span class="info-row-val">안내데스크에 문의해주세요.</span>
             </li>
             <li class="info-row">
               <span class="info-row-label">분실물</span>
-              <span class="info-row-val">등록 데스크로 문의</span>
+              <span class="info-row-val">안내데스크로 문의해주세요.</span>
             </li>
           </ul>
         </div>
       </div>
+    </div>
+    <!-- 부스 안내: 1층 로비 배치도 + 부스별 사진 (사진 속 글은 한국어뿐이라 아래에 짧은 설명을 3개 언어로) -->
+    <div class="booths">
+      <p class="info-col-title">부스 안내</p>
+      <img class="booth-map" src="images/booth-all.jpg" alt="1층 로비 부스 전체 배치" width="1400" height="730" loading="lazy">
+      <ul class="booth-list">
+        <li><img src="images/booth-1.jpg" alt="PHOTO BOOTH" width="1400" height="779" loading="lazy"><span class="booth-tag">인사이드 부스</span><b>PHOTO BOOTH</b><small>단체사진을 남기는 포토 부스</small></li>
+        <li><img src="images/booth-2.jpg" alt="Light UP JAPAN" width="1400" height="764" loading="lazy"><span class="booth-tag">인사이드 부스</span><b>Light UP JAPAN</b><small>QR로 기도문을 남기면 일본 지도에 불빛이 켜지는 미디어아트</small></li>
+        <li><img src="images/booth-4.jpg" alt="THE MOMENT" width="1400" height="780" loading="lazy"><span class="booth-tag">인사이드 부스</span><b>THE MOMENT</b><small>프라미스랜드의 발자취 전시와 기도의 벽</small></li>
+        <li><img src="images/booth-6.jpg" alt="GATCHA MAN" width="1400" height="764" loading="lazy"><span class="booth-tag">인사이드 부스</span><b>GATCHA MAN</b><small>미션에 성공하면 가챠로 선물을 받는 이벤트</small></li>
+        <li><img src="images/booth-5.jpg" alt="WELCOME STAFF" width="1400" height="767" loading="lazy"><span class="booth-tag">아웃사이드 부스</span><b>WELCOME STAFF</b><small>첫날 두 출입구에서 맞이하는 웰컴 스태프</small></li>
+      </ul>
     </div>
   </section>
 
@@ -2119,7 +2148,7 @@
           <span class="chevron" aria-hidden="true"></span>
         </summary>
         <p class="faq-answer">
-          네, 1층 로비에 굿즈 부스가 운영될 예정입니다. 세부 운영시간 및 품목은 추후 공지될 예정입니다.
+          네, 1층 로비에서 굿즈 부스를 운영합니다.
         </p>
       </details>
       <details>
@@ -2128,7 +2157,7 @@
           <span class="chevron" aria-hidden="true"></span>
         </summary>
         <p class="faq-answer">
-          현장 등록은 불가합니다. 사전에 등록을 완료하신 분만 입장 가능합니다. 등록 확인증을 지참해 주세요.
+          현장등록은 일본인(글로벌 교회) 외에는 어렵습니다. 사전 등록을 완료하신 분은 등록 데스크에서 확인 후 입장해 주세요.
         </p>
       </details>
       <details>
@@ -2137,7 +2166,7 @@
           <span class="chevron" aria-hidden="true"></span>
         </summary>
         <p class="faq-answer">
-          분실물은 1층 등록 데스크로 문의해 주세요. 발견하신 물건도 동일하게 등록 데스크에 맡겨주시면 감사하겠습니다.
+          분실물은 안내데스크로 문의해 주세요. 발견하신 물건도 안내데스크에 맡겨주시면 감사하겠습니다.
         </p>
       </details>
       <details>
@@ -2146,7 +2175,7 @@
           <span class="chevron" aria-hidden="true"></span>
         </summary>
         <p class="faq-answer">
-          의료부스 위치는 추후 공지됩니다. 긴급 상황 시 근처 스텝에게 도움을 요청해 주세요.
+          의료 관련 도움이 필요하시면 안내데스크에 문의해 주세요. 긴급 상황 시 근처 스텝에게 도움을 요청해 주세요.
         </p>
       </details>
     </div>
@@ -2219,6 +2248,19 @@
     <p class="lang-sw" role="group" aria-label="Language"><button type="button" data-lang="ko" lang="ko">한국어</button><button type="button" data-lang="en" lang="en">English</button><button type="button" data-lang="ja" lang="ja">日本語</button></p>
   </div>
 
+  <!-- 초청의 글: 처음 들어왔을 때 한 번 뜨고, 행사안내의 "초청의 글"로 다시 열 수 있음 -->
+  <dialog class="invite" id="invite" aria-labelledby="invite-title">
+    <p class="inv-eb">INVITATION</p>
+    <h2 class="inv-title" id="invite-title">초청의 글</h2>
+    <div class="inv-body">
+      <p>하나님께서 일본을 향해 품으신 마음을 함께 바라보며, The-B 그룹과 함께 여러분을 이번 컨퍼런스에 초대합니다.</p>
+      <p>이번 만남을 통해 한국과 일본의 교회가 그리스도 안에서 형제의 연합을 이루고, 함께 예배하고 기도하며 하나님의 임재를 경험하기를 원합니다.</p>
+      <p>일본으로부터 아시아 전역에 새로운 부흥의 물결이 일어나고, 여호수아 세대와 같은 다음세대가 일어나 열방을 향한 하나님의 부르심에 함께 응답하기를 기대합니다.</p>
+      <p>일본을 향한 하나님의 마음에 여러분도 함께해 주세요. 우리의 기도와 예배 가운데 하나님께서 이루실 일들을 함께 바라보고 기대하며, 이 부흥의 여정에 함께하기를 소망합니다.</p>
+    </div>
+    <form method="dialog"><button class="nv-btn red inv-ok">확인</button></form>
+  </dialog>
+
   <script src="i18n.js"></script>
   <script>
     // Mobile nav toggle
@@ -2249,27 +2291,38 @@
       document.getElementById('lang-tab').setAttribute('aria-expanded', open);
     });
 
+    // 초청의 글: 처음 온 사람에게 한 번 보여주고(본 뒤엔 저장), "초청의 글" 링크로 언제든 다시 열기
+    const invite = document.getElementById('invite');
+    const openInvite = () => { if (!invite.open) invite.showModal(); };
+    document.addEventListener('click', e => {
+      if (!e.target.closest('a[href="#invite"]')) return;
+      e.preventDefault();
+      openInvite();
+    });
+    // 보여준 순간 기록 (닫힘 신호를 안 보내는 브라우저도 있어서)
+    try { if (!localStorage.getItem('pl-invite')) { openInvite(); localStorage.setItem('pl-invite', '1'); } } catch { openInvite(); }
+
     // ── 일정 ── PC 3단 / 모바일 타임라인 / 홈의 "지금 순서"가 모두 여기서 나옴
     // t: 표시 시간 · name · sub: 보조 설명 · note: ※ 안내
     // at: [시작, 끝] 정확한 시간이 정해지면 추가 → 그 시간에 NOW로 표시 (한국/일본 시간)
     let SCHEDULE = [
       { date: '2026-11-20', dow: 'FRI', label: '11월 20일 (금)', note: 'Day 1 저녁식사는 제공되지 않습니다.', items: [
         { t: '17:00', at: ['17:00', '18:00'], name: '접수', sub: '1층 정문 로비 등록 데스크' },
-        { t: '18:00', at: ['18:00', '21:00'], name: 'Worship Session 1', sub: '저녁집회' },
+        { t: '18:00', at: ['18:00', '21:00'], name: 'Worship Session 1', sub: '연합, 가족, 예배' },
         { t: '집회 후', name: '정리 및 숙소 이동' },
       ] },
       { date: '2026-11-21', dow: 'SAT', label: '11월 21일 (토)', note: '특별 순서는 세부 내용 추후 안내 예정입니다.', items: [
-        { t: '09:00', at: ['09:00', '12:00'], name: 'Worship Session 2', sub: '오전집회' },
-        { t: '12:00', at: ['12:00', '14:00'], name: '점심 식사' },
-        { t: '14:00', at: ['14:00', '17:00'], name: 'Worship Session 3', sub: '오후집회' },
-        { t: '17:00', at: ['17:00', '18:00'], name: '저녁 식사' },
-        { t: '18:00', at: ['18:00', '21:00'], name: 'Worship Session 4', sub: '저녁집회' },
+        { t: '09:00', at: ['09:00', '12:00'], name: 'Worship Session 2', sub: 'Awakening & New Wave' },
+        { t: '12:00', at: ['12:00', '13:30'], name: '점심 식사' },
+        { t: '13:30', at: ['13:30', '16:30'], name: 'Worship Session 3', sub: '일본선교 그리고 유업' },
+        { t: '16:30', at: ['16:30', '18:00'], name: '저녁 식사' },
+        { t: '18:00', at: ['18:00', '21:00'], name: 'Worship Session 4', sub: '부흥 (REVIVAL)', note: '헌금 시간이 있습니다. 미리 준비해 주세요.' },
         { t: '집회 후', name: '정리 및 숙소 이동' },
       ] },
       { date: '2026-11-22', dow: 'SUN', label: '11월 22일 (일)', items: [
-        { t: '09:00', at: ['09:00', '12:00'], name: 'Worship Session 5', sub: '오전집회' },
-        { t: '12:00', at: ['12:00', '13:00'], name: '점심 식사' },
-        { t: '13:00', at: ['13:00', '17:00'], name: 'Worship Session 6', sub: '오후집회 · 클로징' },
+        { t: '09:00', at: ['09:00', '12:00'], name: 'Worship Session 5', sub: '인터내셔널 (INTERNATIONAL)' },
+        { t: '12:00', at: ['12:00', '14:00'], name: '점심 식사' },
+        { t: '14:00', at: ['14:00', '16:30'], name: 'Worship Session 6', sub: '선교 (MISSION)' },
       ] },
     ];
     const kst = s => new Date(s + ':00+09:00');
@@ -2358,8 +2411,8 @@
       { f: '1F', name: '메인홀 · 등록 데스크 · 로비 부스', map: '', rows: [
         ['화장실', '정문 로비 우측 · 메인홀 입구 좌측'],
         ['이동동선', '정문 → 등록 데스크 → 메인홀'],
-        ['좌석', '메인홀 1층 지정석 (조별 배정)'],
-        ['로비 부스', '굿즈 · 의료 부스 (위치 추후 공지)'] ] },
+        ['좌석', '금 교회별 · 토/주일 조별'],
+        ['로비 부스', '굿즈 부스 · 안내데스크'] ] },
       { f: '2F', name: '메인홀 2층 자유석 · 식사 공간', map: '', rows: [
         ['화장실', '계단 옆 복도'],
         ['이동동선', '1층 계단 또는 엘리베이터'],
@@ -2372,8 +2425,9 @@
     ];
     // 행사안내 세부 화면 바로가기 [이동할 곳, 이름, 설명] — 안내 화면과 공지 "전체" 목록에서 같이 씀
     const GUIDE_LINKS = [
+      ['#invite', '초청의 글', 'The-B 그룹과 함께 여러분을 초대합니다'],
       ['#groups', '조 편성', '내 조 · 모임 장소 확인'],
-      ['#seating', '좌석', '1층 지정석 · 2층 자유석'],
+      ['#seating', '좌석', '금 교회별 · 토/주일 조별'],
       ['#lobby', '로비 · 등록 데스크', 'Day 1 17:00부터 1층 정문 로비'],
       ['#venue', '오는 길', '벳부역에서 약 10분'],
       ['#faq', '자주 묻는 질문', '화장실 · 분실물 · 의료부스'],
@@ -2451,6 +2505,7 @@
       { title: 'THE B 티저 1', len: '0:32', yt: 'https://www.youtube.com/watch?v=3NejpQ1Af2Y' },
       { title: 'THE B 티저 2', len: '0:46', yt: 'https://youtu.be/b-EbK3l8xeU' },
       { title: 'THE B 티저 3', len: '1:14', yt: 'https://youtu.be/7chVRaoYvfU' },
+      { title: '일본 사역자 인터뷰', len: '1:03', yt: 'https://youtu.be/lxvwmWqOFHU' },
     ];
     const ytId = url => (url.match(/(?:youtu\.be\/|v=|shorts\/|embed\/|live\/)([\w-]{11})/) || [])[1];
     const PLAY = '<svg width="18" height="18" viewBox="0 0 16 16" fill="#fff" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>';
@@ -2467,9 +2522,11 @@
           ? `<div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&playsinline=1" title="${v.title}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`
           : `<button type="button" class="vid-frame" data-play style="background-image:url(${thumb(v.id)})" aria-label="${v.title} 재생"><span class="vid-play">${PLAY}</span></button>`;
       document.getElementById('vid-stage').innerHTML = frame;
-      // 목록: 푸터처럼 큰 Bebas 이름 + 옆에 작은 설명 (지금 보는 영상은 빨강)
+      // 목록: 티저는 큰 Bebas "TEASER 01", 본편 · 인터뷰 등은 제목 그대로 (지금 보는 영상은 빨강)
+      const label = x => { const t = x.title.match(/티저\s*(\d+)/); return t ? `<b>TEASER ${t[1].padStart(2, '0')}</b>` : `<b class="t">${x.title}</b>`; };
       document.getElementById('vid-list').innerHTML = vids.map((x, n) =>
-        `<li><button type="button" class="vid-row${n === vidCur ? ' on' : ''}" data-n="${n}"${x.id ? '' : ' disabled'} aria-label="${x.title}"><b>TEASER ${String(n + 1).padStart(2, '0')}</b><small>${x.id ? x.len : '공개 예정'}</small></button></li>`).join('');
+        `<li><button type="button" class="vid-row${n === vidCur ? ' on' : ''}" data-n="${n}"${x.id ? '' : ' disabled'} aria-label="${x.title}">${label(x)}<small>${x.id ? x.len : '공개 예정'}</small></button></li>`).join('');
+      document.querySelector('.vid-sub small').textContent = `영상 ${vids.length}편`;
     }
     document.getElementById('vid-stage').addEventListener('click', e => { if (e.target.closest('[data-play]')) renderVideo(true); });
     document.getElementById('vid-list').addEventListener('click', e => {
@@ -2484,16 +2541,26 @@
     // ── 공지 ── 새 공지는 맨 위에 추가 (id는 겹치지 않게 1씩 증가)
     // pin: 필독 고정 · cat: '변경' 또는 '안내' · facts: [항목, 내용] 표 · link: [이동할 곳, 버튼 이름]
     let NOTICES = [
-      { id: 3, pin: true, cat: '안내', date: '10.28', title: '현장 등록은 불가합니다',
-        body: '사전에 등록을 완료하신 분만 입장 가능합니다. 등록 데스크에서 사전 등록 확인증을 보여주세요.',
-        facts: [['시간', 'Day 1(금) 17:00 ~'], ['장소', '1층 정문 로비 등록 데스크'], ['준비물', '사전 등록 확인증']],
+      { id: 8, pin: true, cat: '안내', date: '11.11', title: '현장등록은 일본인(글로벌 교회) 외에는 어렵습니다',
+        body: '사전 등록을 완료하신 분은 등록 데스크에서 확인 후 입장해 주세요.',
+        facts: [['시간', 'Day 1(금) 17:00 ~'], ['장소', '1층 정문 로비 등록 데스크']],
         link: ['#lobby', '로비 안내 보기'] },
+      { id: 7, pin: true, cat: '안내', date: '11.11', title: '명찰은 꼭 착용해 주셔야 합니다',
+        body: '명찰 미착용 시 출입이 제한됩니다.' },
+      { id: 6, cat: '안내', date: '11.11', title: '금요일은 교회별, 토요일·주일은 조별로 좌석 및 활동이 이루어집니다',
+        body: '금요일은 교회별로, 토요일과 주일은 조별로 앉고 활동합니다.',
+        link: ['#seating', '좌석 안내 보기'] },
+      { id: 5, cat: '안내', date: '11.11', title: '집회 10분 전부터 착석해 주시기 바랍니다',
+        body: '빈자리 없이 착석해 주시기 바랍니다.' },
+      { id: 4, cat: '안내', date: '11.11', title: '토요일 저녁 세션(4세션)에 헌금 시간이 있습니다',
+        body: '미리 준비해 주시기 바랍니다.',
+        link: ['#schedule', '일정 보기'] },
       { id: 2, cat: '안내', date: '10.28', title: 'Day 1(금) 저녁 식사는 제공되지 않습니다',
         body: '식사는 총 3끼 제공됩니다. 세부 메뉴와 장소는 추후 공지됩니다.',
         facts: [['제공', '토 점심 · 저녁, 일 점심']],
         link: ['#meals', '식사 안내 보기'] },
-      { id: 1, cat: '안내', date: '10.28', title: '조 편성은 확정되는 대로 공지됩니다',
-        body: '조 편성이 확정되면 이 공지와 조 편성 페이지에 업데이트됩니다.',
+      { id: 1, cat: '안내', date: '11.11', title: '조 편성은 11월 20일(금) 오전에 공개됩니다',
+        body: '공개되면 조 편성 페이지에서 이름으로 내 조를 찾을 수 있습니다.',
         link: ['#groups', '조 편성 보기'] },
     ];
     // 읽음 표시는 각자 휴대폰에만 저장
@@ -2696,7 +2763,8 @@
           VIDEOS = d.videos; vids = VIDEOS.map(v => ({ ...v, id: ytId(v.yt) }));
           vidCur = Math.max(0, vids.findIndex(v => v.id)); renderVideo(false);
         }
-        if (d.groups?.length) {
+        // 조 편성은 공개 시각(서버가 알려줌, 기본 11/20 금 오전 9시) 전엔 표시하지 않음. 휴대폰에 저장된 예전 명단도 마찬가지
+        if (d.groups?.length && Date.now() >= Date.parse(d.groupsOpenAt)) {
           const sel = GROUPS[grpSel]?.name; // 열어 둔 조 유지
           GROUPS = d.groups;
           grpSel = GROUPS.findIndex(g => g.name === sel);

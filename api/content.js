@@ -17,6 +17,8 @@ const GID = {
   번역: process.env.GID_I18N || '',
 };
 const OPTIONAL = ['조편성', '조모임', '번역'];
+// 조 편성 공개 시각 (한국/일본 시간). 이 시각 전에는 명단을 보내지 않는다. 바꾸려면 Vercel 환경변수 GROUPS_OPEN
+const GROUPS_OPEN = process.env.GROUPS_OPEN || '2026-11-20T09:00:00+09:00';
 
 // ── CSV ──
 function parseCSV(text) {
@@ -176,6 +178,8 @@ module.exports = async (req, res) => {
       if (!r.ok || text.trimStart().startsWith('<')) throw new Error(`${tab} 탭을 읽지 못함 (${r.status})`); // 권한 없으면 로그인 페이지(HTML)가 옴
       return text;
     }, Object.keys(GID).filter(t => GID[t]));
+    data.groupsOpenAt = GROUPS_OPEN;
+    if (Date.now() < Date.parse(GROUPS_OPEN)) delete data.groups;
     // 60초 동안 저장해 두고 나눠줌, 시트가 잠깐 안 돼도 하루 동안은 마지막 내용 유지
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
     res.status(200).json(data);

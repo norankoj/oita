@@ -215,6 +215,76 @@ const I18N = {
   '아래로 연락주세요.': ['please contact us below.', '下記までご連絡ください。'],
   '2026년 11월 20-22일': ['November 20–22, 2026', '2026年11月20〜22日'],
   '벳부, 일본': ['Beppu, Japan', '日本 別府'],
+
+  // 초청의 글
+  '초청의 글': ['Invitation', 'ご招待'],
+  '확인': ['Close', '閉じる'],
+  'The-B 그룹과 함께 여러분을 초대합니다': ['An invitation from The-B Group', 'The-Bグループからのご招待'],
+  '하나님께서 일본을 향해 품으신 마음을 함께 바라보며, The-B 그룹과 함께 여러분을 이번 컨퍼런스에 초대합니다.': ['Looking together at the heart God holds for Japan, we invite you to this conference together with The-B Group.', '神様が日本に向けて抱いておられる御心を共に見つめながら、The-Bグループと共に皆さんをこのカンファレンスにご招待します。'],
+  '이번 만남을 통해 한국과 일본의 교회가 그리스도 안에서 형제의 연합을 이루고, 함께 예배하고 기도하며 하나님의 임재를 경험하기를 원합니다.': ['Through this gathering, we long for the churches of Korea and Japan to be united as brothers and sisters in Christ, worshiping and praying together and experiencing the presence of God.', 'この出会いを通して、韓国と日本の教会がキリストにあって兄弟としての一致を成し、共に礼拝し祈りながら神様の臨在を体験することを願っています。'],
+  '일본으로부터 아시아 전역에 새로운 부흥의 물결이 일어나고, 여호수아 세대와 같은 다음세대가 일어나 열방을 향한 하나님의 부르심에 함께 응답하기를 기대합니다.': ['We look forward to a new wave of revival rising from Japan across all of Asia, and to a next generation, like the Joshua generation, rising up to answer God\'s call to the nations together.', '日本からアジア全域に新しいリバイバルの波が起こり、ヨシュア世代のような次世代が立ち上がって、諸国に向けた神様の召しに共に応答することを期待しています。'],
+  '일본을 향한 하나님의 마음에 여러분도 함께해 주세요. 우리의 기도와 예배 가운데 하나님께서 이루실 일들을 함께 바라보고 기대하며, 이 부흥의 여정에 함께하기를 소망합니다.': ['Please join us in God\'s heart for Japan. Watching and expecting together what God will do through our prayer and worship, we hope you will walk this journey of revival with us.', '日本に向けられた神様の御心に、皆さんもぜひ加わってください。私たちの祈りと礼拝の中で神様が成し遂げてくださることを共に見つめ期待しながら、このリバイバルの旅路を共に歩めることを願っています。'],
+
+  // 집회 주제
+  '연합, 가족, 예배': ['Unity, Family, Worship', '一致、家族、礼拝'],
+  '일본선교 그리고 유업': ['Mission to Japan and Inheritance', '日本宣教、そして嗣業'],
+  '부흥 (REVIVAL)': ['Revival', 'リバイバル (REVIVAL)'],
+  '인터내셔널 (INTERNATIONAL)': ['International', 'インターナショナル (INTERNATIONAL)'],
+  '선교 (MISSION)': ['Mission', '宣教 (MISSION)'],
+
+  // 좌석 · 로비 · 의료 · 분실물
+  'Day 1 (금)': ['Day 1 (Fri)', 'Day 1(金)'],
+  'Day 2 · 3 (토 · 주일)': ['Day 2 · 3 (Sat · Sun)', 'Day 2・3(土・日)'],
+  '교회별로 앉습니다': ['Seated by church', '教会ごとに着席します'],
+  '조별로 앉습니다': ['Seated by group', 'グループごとに着席します'],
+  '금 교회별 · 토/주일 조별': ['Fri by church · Sat/Sun by group', '金は教会別・土日はグループ別'],
+  '굿즈 부스 · 안내데스크': ['Merch booth · Information desk', 'グッズブース・案内デスク'],
+  '안내데스크': ['Information desk', '案内デスク'],
+  '1층 로비': ['1F lobby', '1階ロビー'],
+  '일본인(글로벌 교회) 외에는 어렵습니다': ['Only for Japanese attendees (Global Church)', '日本の方(グローバル教会)のみ可能です'],
+  '현장등록은 일본인(글로벌 교회) 외에는 어렵습니다': ['On-site registration is only available for Japanese attendees (Global Church)', '当日登録は日本の方(グローバル教会)のみ可能です'],
+  '현장등록은 일본인(글로벌 교회) 외에는 어렵습니다. 사전 등록을 완료하신 분은 등록 데스크에서 확인 후 입장해 주세요.': ['On-site registration is only available for Japanese attendees (Global Church). If you pre-registered, please check in at the registration desk before entering.', '当日登録は日本の方(グローバル教会)のみ可能です。事前登録済みの方は、受付デスクで確認後にご入場ください。'],
+  '명찰은 꼭 착용해 주셔야 합니다': ['Please always wear your name tag', '名札は必ず着用してください'],
+  '명찰 미착용 시 출입이 제한됩니다.': ['Entry will be restricted without a name tag.', '名札を着用していない場合、入場が制限されます。'],
+  '금요일은 교회별, 토요일·주일은 조별로 좌석 및 활동이 이루어집니다': ['Friday by church, Saturday and Sunday by group for seating and activities', '金曜日は教会別、土曜日・日曜日はグループ別に着席・活動します'],
+  '금요일은 교회별로, 토요일과 주일은 조별로 앉고 활동합니다.': ['On Friday you sit and take part with your church; on Saturday and Sunday, with your group.', '金曜日は教会ごとに、土曜日と日曜日はグループごとに着席し活動します。'],
+  '좌석 안내 보기': ['View seating', '座席案内を見る'],
+  '집회 10분 전부터 착석해 주시기 바랍니다': ['Please be seated 10 minutes before each session', '集会の10分前から着席してください'],
+  '빈자리 없이 착석해 주시기 바랍니다.': ['Please fill the seats without leaving gaps.', '空席を作らないように詰めてお座りください。'],
+  '토요일 저녁 세션(4세션)에 헌금 시간이 있습니다': ['There is an offering during the Saturday evening session (Session 4)', '土曜日の夜のセッション(第4セッション)で献金の時間があります'],
+  '미리 준비해 주시기 바랍니다.': ['Please prepare in advance.', '事前にご準備ください。'],
+  '헌금 시간이 있습니다. 미리 준비해 주세요.': ['There is an offering. Please prepare in advance.', '献金の時間があります。事前にご準備ください。'],
+  '착석': ['Seating', '着席'],
+  '집회 10분 전부터, 빈자리 없이': ['10 min before sessions, no empty seats between', '集会10分前から、空席なく'],
+  '명찰': ['Name tag', '名札'],
+  '꼭 착용 (미착용 시 출입 제한)': ['Required (no entry without it)', '必ず着用(未着用は入場制限)'],
+
+  // 부스 안내
+  '부스 안내': ['Booths', 'ブース案内'],
+  '1층 로비 부스 전체 배치': ['All booths in the 1F lobby', '1階ロビーのブース全体'],
+  '인사이드 부스': ['Inside booth', '屋内ブース'],
+  '아웃사이드 부스': ['Outside booth', '屋外ブース'],
+  '단체사진을 남기는 포토 부스': ['Take a group photo to keep', 'グループ写真を残せるフォトブース'],
+  'QR로 기도문을 남기면 일본 지도에 불빛이 켜지는 미디어아트': ['Leave a prayer by QR code and light up the map of Japan', 'QRコードで祈りを書くと日本地図に光が灯るメディアアート'],
+  '프라미스랜드의 발자취 전시와 기도의 벽': ['Promised Land history exhibit and a prayer wall', 'プロミスランドの歩みの展示と祈りの壁'],
+  '미션에 성공하면 가챠로 선물을 받는 이벤트': ['Complete a mission and win a gift from the gacha', 'ミッションに成功するとガチャでプレゼント'],
+  '첫날 두 출입구에서 맞이하는 웰컴 스태프': ['Our welcome team greets you at both entrances on Day 1', '初日、2か所の入口でお迎えするウェルカムスタッフ'],
+  '사전 등록을 완료하신 분은 등록 데스크에서 확인 후 입장해 주세요.': ['If you pre-registered, please check in at the registration desk before entering.', '事前登録済みの方は、受付デスクで確認後にご入場ください。'],
+  '안내데스크에 문의해주세요.': ['Please ask at the information desk.', '案内デスクにお問い合わせください。'],
+  '안내데스크로 문의해주세요.': ['Please ask at the information desk.', '案内デスクにお問い合わせください。'],
+  '네, 1층 로비에서 굿즈 부스를 운영합니다.': ['Yes, there is a merch booth in the 1F lobby.', 'はい、1階ロビーでグッズブースを運営します。'],
+  '일본인분들을 제외한 현장등록은 어렵습니다. 사전 등록을 완료하신 분은 등록 데스크에서 확인 후 입장해 주세요.': ['On-site registration is not available, except for Japanese attendees. If you pre-registered, please check in at the registration desk before entering.', '日本の方を除き、当日登録はできません。事前登録済みの方は、受付デスクで確認後にご入場ください。'],
+  '분실물은 안내데스크로 문의해 주세요. 발견하신 물건도 안내데스크에 맡겨주시면 감사하겠습니다.': ['For lost items, please ask at the information desk. If you find something, please bring it to the information desk.', '落とし物は案内デスクにお問い合わせください。見つけた物も案内デスクにお届けください。'],
+  '의료 관련 도움이 필요하시면 안내데스크에 문의해 주세요. 긴급 상황 시 근처 스텝에게 도움을 요청해 주세요.': ['If you need medical help, please ask at the information desk. In an emergency, please ask any nearby staff member for help.', '医療に関するサポートが必要な方は案内デスクにお問い合わせください。緊急時は近くのスタッフにお声がけください。'],
+
+  // 조 편성 공개
+  '조 편성은 11월 20일(금) 오전에 공개됩니다.': ['Groups will be announced on the morning of Fri, Nov 20.', 'グループ分けは11月20日(金)の午前に公開されます。'],
+  '조 편성은 11월 20일(금) 오전에 공개됩니다': ['Groups will be announced on the morning of Fri, Nov 20', 'グループ分けは11月20日(金)の午前に公開されます'],
+  '공개되면 조 편성 페이지에서 이름으로 내 조를 찾을 수 있습니다.': ['Once announced, you can find your group by name on the Groups page.', '公開後、グループのページで名前から自分のグループを探せます。'],
+
+  // 영상
+  '본편': ['Main film', '本編'],
+  '일본 사역자 인터뷰': ['Interview: Japanese ministers', '日本の牧会者インタビュー'],
 };
 
 // 숫자 · 날짜가 들어간 문장, 여러 조각을 이은 문장
@@ -224,6 +294,7 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 const RULES = [
   [/^새 공지 (\d+)건$/, (m, i) => [`${m[1]} new`, `新着 ${m[1]}件`][i]],
   [/^총 (\d+)끼 제공$/, (m, i) => [`${m[1]} meals in total`, `全${m[1]}食提供`][i]],
+  [/^영상 (\d+)편$/, (m, i) => [`${m[1]} videos`, `映像 ${m[1]}本`][i]],
   [/^총 (\d+)끼$/, (m, i) => [`${m[1]} meals`, `全${m[1]}食`][i]],
   [/^(\d+)끼 제공$/, (m, i) => [`${m[1]} meals`, `${m[1]}食提供`][i]],
   [/^([\d,]+)명$/, (m, i) => [`${m[1]} people`, `${m[1]}名`][i]],
