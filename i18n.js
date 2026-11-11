@@ -241,6 +241,7 @@ const I18N = {
   '굿즈 부스 · 안내데스크': ['Merch booth · Information desk', 'グッズブース・案内デスク'],
   '안내데스크': ['Information desk', '案内デスク'],
   '1층 로비': ['1F lobby', '1階ロビー'],
+  '아래 사진 참고': ['See photos below', '下の写真をご覧ください'],
   '일본인(글로벌 교회) 외에는 어렵습니다': ['Only for Japanese attendees (Global Church)', '日本の方(グローバル教会)のみ可能です'],
   '현장등록은 일본인(글로벌 교회) 외에는 어렵습니다': ['On-site registration is only available for Japanese attendees (Global Church)', '当日登録は日本の方(グローバル教会)のみ可能です'],
   '현장등록은 일본인(글로벌 교회) 외에는 어렵습니다. 사전 등록을 완료하신 분은 등록 데스크에서 확인 후 입장해 주세요.': ['On-site registration is only available for Japanese attendees (Global Church). If you pre-registered, please check in at the registration desk before entering.', '当日登録は日本の方(グローバル教会)のみ可能です。事前登録済みの方は、受付デスクで確認後にご入場ください。'],
