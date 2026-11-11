@@ -166,26 +166,33 @@ async function readSheet(fetchCSV, tabs = Object.keys(GID)) {
   return out;
 }
 
+let lastGood = null; // 마지막으로 제대로 읽은 시트 내용 (서버가 켜져 있는 동안 기억)
 module.exports = async (req, res) => {
   if (!SHEET_ID || Object.entries(GID).some(([t, g]) => g === '' && !OPTIONAL.includes(t))) {
     res.setHeader('Cache-Control', 'no-store');
     return res.status(503).json({ error: 'sheet not configured' });
   }
+  let data, stale = false;
   try {
-    const data = await readSheet(async tab => {
-      const r = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID[tab]}`, { redirect: 'follow' });
+    data = await readSheet(async tab => {
+      const r = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID[tab]}`, { redirect: 'follow', signal: AbortSignal.timeout(8000) });
       const text = await r.text();
       if (!r.ok || text.trimStart().startsWith('<')) throw new Error(`${tab} 탭을 읽지 못함 (${r.status})`); // 권한 없으면 로그인 페이지(HTML)가 옴
       return text;
     }, Object.keys(GID).filter(t => GID[t]));
-    data.groupsOpenAt = GROUPS_OPEN;
-    if (Date.now() < Date.parse(GROUPS_OPEN)) delete data.groups;
-    // 60초 동안 저장해 두고 나눠줌, 시트가 잠깐 안 돼도 하루 동안은 마지막 내용 유지
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
-    res.status(200).json(data);
+    lastGood = data;
   } catch (e) {
-    res.setHeader('Cache-Control', 'no-store');
-    res.status(502).json({ error: String(e.message || e) });
+    // 시트를 못 읽으면 이 서버가 마지막으로 읽은 내용을 대신 보냄 (없을 때만 오류)
+    if (!lastGood) {
+      res.setHeader('Cache-Control', 'no-store');
+      return res.status(502).json({ error: String(e.message || e) });
+    }
+    data = lastGood; stale = true;
   }
+  const out = { ...data, groupsOpenAt: GROUPS_OPEN };
+  if (Date.now() < Date.parse(GROUPS_OPEN)) delete out.groups;
+  // 60초 동안 저장해 두고 나눠줌, 시트가 잠깐 안 돼도 하루 동안은 마지막 내용 유지 (대신 보낸 내용은 20초 뒤 다시 시도)
+  res.setHeader('Cache-Control', `public, s-maxage=${stale ? 20 : 60}, stale-while-revalidate=86400`);
+  res.status(200).json(out);
 };
 module.exports.readSheet = readSheet; // scripts/check-content.js 에서 사용
