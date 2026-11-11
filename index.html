@@ -872,6 +872,7 @@
     .lb-prev { left: 16px; }
     .lb-next { right: 16px; }
     @media (max-width: 600px) { .lb-nav { display: none; } } /* 휴대폰은 손가락으로 넘김 */
+    dialog:not([open]) { display: none; } /* dialog를 모르는 오래된 브라우저에서도 닫힌 창은 숨김 */
     /* 초청의 글 (dialog) */
     /* 제목 · 버튼은 고정, 글만 스크롤 */
     .invite { width: min(560px, calc(100% - 32px)); max-height: min(86svh, 760px); margin: auto; padding: 32px 28px 24px; border: 0; background: #fff; color: #111; overflow: hidden; word-break: keep-all; overflow-wrap: break-word; }
@@ -2338,7 +2339,7 @@
 
     // 초청의 글: 처음 온 사람에게 한 번 보여주고(본 뒤엔 저장), "초청의 글" 링크로 언제든 다시 열기
     const invite = document.getElementById('invite');
-    const openInvite = () => { if (!invite.open) invite.showModal(); };
+    const openInvite = () => { if (invite.showModal && !invite.open) invite.showModal(); }; // 오래된 휴대폰엔 showModal이 없음 → 건너뜀
     document.addEventListener('click', e => {
       if (!e.target.closest('a[href="#invite"]')) return;
       e.preventDefault();
@@ -2348,6 +2349,7 @@
     try { if (!localStorage.getItem('pl-invite')) { openInvite(); localStorage.setItem('pl-invite', '1'); } } catch { openInvite(); }
 
     // 부스 사진 크게 보기: 로비의 사진(배치도 + 부스 5개)을 누르면 그 사진부터 전체 화면, 옆으로 넘기기
+    const escHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const lb = document.getElementById('lightbox'), lbTrack = document.getElementById('lb-track');
     const boothImgs = [...document.querySelectorAll('.booths img')];
     const lbIndex = () => Math.round(lbTrack.scrollLeft / lbTrack.clientWidth);
@@ -2358,11 +2360,12 @@
       lb.querySelector('.lb-next').disabled = n === boothImgs.length - 1;
     }
     function lbOpen(start) {
+      if (!lb.showModal) return;
       // 화면에 보이는 글(번역된 상태)을 그대로 설명으로 씀
       lbTrack.innerHTML = boothImgs.map(img => {
         const li = img.closest('li');
-        const cap = li ? `<b>${li.querySelector('b').textContent}</b><small>${li.querySelector('small').textContent}</small>` : `<small>${img.alt}</small>`;
-        return `<figure><img src="${img.getAttribute('src')}" alt="${img.alt}"><figcaption>${cap}</figcaption></figure>`;
+        const cap = li ? `<b>${escHtml(li.querySelector('b').textContent)}</b><small>${escHtml(li.querySelector('small').textContent)}</small>` : `<small>${escHtml(img.alt)}</small>`;
+        return `<figure><img src="${img.getAttribute('src')}" alt="${escHtml(img.alt)}"><figcaption>${cap}</figcaption></figure>`;
       }).join('');
       lb.showModal();
       lbTrack.scrollLeft = start * lbTrack.clientWidth;
@@ -2418,7 +2421,7 @@
     // 날짜 머리: DAY n + 날짜 + 그날 집회 번호
     function schHead(d, n) {
       const ws = d.items.filter(i => i.name.startsWith('Worship')).map(i => i.name.split(' ').pop());
-      const sess = ws.length ? `<br><b>Worship Session ${ws.length > 1 ? `${ws[0]}-${ws.at(-1)}` : ws[0]}</b>` : '';
+      const sess = ws.length ? `<br><b>Worship Session ${ws.length > 1 ? `${ws[0]}-${ws[ws.length - 1]}` : ws[0]}</b>` : '';
       return `<p class="sch-day">DAY ${n + 1}</p><p class="sch-meta">${d.label}${sess}</p>`;
     }
     // 한 줄 = 한 순서. 시간대(t)가 바뀌는 줄(gs)에만 시간 표시
@@ -2439,7 +2442,7 @@
     // 모바일: 요일 탭 + 타임라인 (행사 기간엔 오늘 날짜가 기본)
     renderScheduleGrid();
     // 기본 날짜: 행사 전 · 금요일은 금, 토요일은 토, 주일(과 행사 후)은 주일
-    const schDefault = () => { const t = todayKST(), n = SCHEDULE.findIndex(d => d.date === t); return n >= 0 ? n : t > SCHEDULE.at(-1).date ? SCHEDULE.length - 1 : 0; };
+    const schDefault = () => { const t = todayKST(), n = SCHEDULE.findIndex(d => d.date === t); return n >= 0 ? n : t > SCHEDULE[SCHEDULE.length - 1].date ? SCHEDULE.length - 1 : 0; };
     let schDay = schDefault();
     function renderSchedule() {
       const d = SCHEDULE[schDay];
@@ -2776,8 +2779,10 @@
         .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name, 'ko'));
     }
     function renderGroups() {
-      const q = document.getElementById('grp-search').value.trim().toLowerCase();
-      const hit = m => q && m.name.toLowerCase().includes(q);
+      // 띄어쓰기는 무시 ("홍 길동" = "홍길동"). 명단 글자는 서버에서 이스케이프돼 오므로 검색어도 같은 방식으로 맞춤
+      const norm = s => s.toLowerCase().replace(/\s+/g, '');
+      const q = norm(escHtml(document.getElementById('grp-search').value));
+      const hit = m => q && norm(m.name).includes(q);
       const leadFirst = ms => [...ms].sort((a, b) => !!b.role - !!a.role);
       // 이름 · 소속은 번역하지 않음 (data-notr)
       const li = (m, org) => `<li${hit(m) ? ' class="hit"' : ''}><b data-notr>${m.name}</b>${m.role ? `<em>${m.role}</em>` : ''}${org && m.org ? `<small data-notr>${m.org}</small>` : ''}</li>`;
@@ -2790,8 +2795,8 @@
 
       const all = churches(), byChurch = grpView === 'church';
       const open = byChurch ? all.find(c => c.name === churchSel) : GROUPS[grpSel];
-      const cFound = q ? all.filter(c => c.name.toLowerCase().includes(q)) : [];
-      const gFound = q ? GROUPS.filter(g => g.name.toLowerCase().includes(q) || g.members.some(hit)) : [];
+      const cFound = q ? all.filter(c => norm(c.name).includes(q)) : [];
+      const gFound = q ? GROUPS.filter(g => norm(g.name).includes(q) || g.members.some(hit)) : [];
       document.getElementById('grp-list').innerHTML = q ? cFound.map(c => churchCard(c, true)).join('') + gFound.map(card).join('')
         : !open ? '' : byChurch ? churchCard(open) : card(open);
       document.getElementById('grp-empty').hidden = !q || cFound.length + gFound.length > 0;
@@ -2834,9 +2839,12 @@
     // ── 구글 시트 내용 불러오기 (/api/content) ──
     // 지난번 받은 내용(휴대폰에 저장)을 먼저 보여주고, 새 내용이 오면 달라졌을 때만 바꿈
     // 10초 안에 못 받으면 2초 뒤 한 번 더 시도. 그래도 안 되면 저장본 또는 위에 적힌 기본 내용 유지
+    // 달라진 부분만 다시 그림 (공지 하나 고쳤다고 보던 영상이 멈추거나 일정 탭이 바뀌지 않게)
+    const applied = {};
+    const changed = (k, v) => { const s = JSON.stringify(v); if (applied[k] === s) return false; applied[k] = s; return true; };
     function applyContent(d) {
-        if (d.i18n?.length) addI18n(d.i18n);
-        if (d.schedule?.length) {
+        if (d.i18n?.length && changed('i18n', d.i18n)) addI18n(d.i18n);
+        if (d.schedule?.length && changed('schedule', d.schedule)) {
           SCHEDULE = d.schedule; TIMETABLE = buildTimetable();
           schDay = schDefault();
           renderScheduleGrid(); renderSchedule(); updateCountdown();
@@ -2844,12 +2852,12 @@
         if (d.floors?.length) { FLOORS = d.floors; floorN = Math.min(floorN, FLOORS.length - 1); }
         if (d.meals && Object.keys(d.meals).length) MEALS = d.meals;
         renderGuide(); renderMeals();
-        if (d.videos?.length) {
+        if (d.videos?.length && changed('videos', d.videos)) {
           VIDEOS = d.videos; vids = VIDEOS.map(v => ({ ...v, id: ytId(v.yt) }));
           vidCur = Math.max(0, vids.findIndex(v => v.id)); renderVideo(false);
         }
         // 조 편성은 공개 시각(서버가 알려줌, 기본 11/20 금 오전 9시) 전엔 표시하지 않음. 휴대폰에 저장된 예전 명단도 마찬가지
-        if (d.groups?.length && Date.now() >= Date.parse(d.groupsOpenAt)) {
+        if (d.groups?.length && Date.now() >= Date.parse(d.groupsOpenAt) && changed('groups', d.groups)) {
           const sel = GROUPS[grpSel]?.name; // 열어 둔 조 유지
           GROUPS = d.groups;
           grpSel = GROUPS.findIndex(g => g.name === sel);
@@ -2858,7 +2866,7 @@
           document.getElementById('grp-tools').hidden = false;
           renderGroups();
         }
-        if (d.notices?.length) {
+        if (d.notices?.length && changed('notices', d.notices)) {
           NOTICES = d.notices;
           document.querySelectorAll('.pin-n').forEach(e => e.textContent = NOTICES.filter(n => n.pin).length || '');
           renderNotices();
@@ -2870,15 +2878,25 @@
     try { savedContent = localStorage.getItem('pl-content'); if (savedContent) applyContent(JSON.parse(savedContent)); } catch {}
     const getContent = () => fetch('/api/content', { signal: AbortSignal.timeout ? AbortSignal.timeout(10000) : undefined })
       .then(r => r.ok ? r.text() : Promise.reject(r.status));
-    getContent()
-      .catch(() => new Promise(r => setTimeout(r, 2000)).then(getContent))
-      .then(text => {
-        if (text === savedContent) return;
-        applyContent(JSON.parse(text));
-        try { localStorage.setItem('pl-content', text); } catch {}
-      })
-      .catch(() => {})
-      .finally(() => document.getElementById('groups').classList.add('loaded')); // 받기 전엔 "추후 공지"를 보이지 않음
+    let lastLoad = 0, loading = false;
+    function loadContent() {
+      if (loading) return;
+      loading = true; lastLoad = Date.now();
+      getContent()
+        .catch(() => new Promise(r => setTimeout(r, 2000)).then(getContent))
+        .then(text => {
+          if (text === savedContent) return;
+          applyContent(JSON.parse(text));
+          savedContent = text;
+          try { localStorage.setItem('pl-content', text); } catch {}
+        })
+        .catch(() => {})
+        .finally(() => { loading = false; document.getElementById('groups').classList.add('loaded'); }); // 받기 전엔 "추후 공지"를 보이지 않음
+    }
+    loadContent();
+    // 페이지를 열어 둔 사람도 새 공지 · 조 편성 공개를 받도록: 화면으로 돌아왔을 때(1분 이상 지났으면), 보고 있는 동안은 5분마다
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastLoad > 60000) loadContent(); });
+    setInterval(() => { if (!document.hidden && Date.now() - lastLoad > 300000) loadContent(); }, 30000);
 
     // Section reveal on scroll
     const reveals = document.querySelectorAll('.reveal');
