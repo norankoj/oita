@@ -842,7 +842,7 @@
     /* 푸터 타이포 느낌: 큰 Bebas 제목, 목록은 큰 Bebas 이름 + 옆에 작은 설명 */
     .vid-big { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: clamp(88px, 12vw, 172px); line-height: 0.85; letter-spacing: -0.01em; color: #fff; }
     /* 부스 안내 (로비): 배치도 + 부스 카드. 모바일은 옆으로 넘겨 보기 */
-    .booths { margin-top: 40px; }
+    .booths { margin-top: 40px; scroll-margin-top: 72px; } /* 모바일 뒤로 바 · PC 메뉴 아래 */
     .booth-map { display: block; width: 100%; height: auto; margin-top: 12px; }
     .booth-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px 12px; margin-top: 20px; }
     .booth-list img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
@@ -1744,9 +1744,9 @@
       <span class="mob-home-tile-sub" id="notice-count">공지사항</span>
       <span class="mob-home-tile-arr">→</span>
     </a>
-    <a href="#meals" class="mob-home-tile">
-      <span class="mob-home-tile-name">식사안내</span>
-      <span class="mob-home-tile-sub">3식 제공</span>
+    <a href="#booths" class="mob-home-tile">
+      <span class="mob-home-tile-name">부스 안내</span>
+      <span class="mob-home-tile-sub">1층 로비</span>
       <span class="mob-home-tile-arr">→</span>
     </a>
     <a href="#quicknav" class="mob-home-tile">
@@ -1932,7 +1932,7 @@
         <p class="vm-addr">ビーコンプラザ · 12-1 Yamanotecho, Beppu, Oita</p>
         <ol class="vm-steps">
           <li><b>1</b><div><strong>벳부역 → B-con Plaza</strong><small>서쪽 출구에서 택시 · 노선버스</small></div><em>10분</em></li>
-          <li><b>2</b><div><strong>주차</strong><small>지하 1층 주차장</small></div><em>B1</em></li>
+          <li><b>2</b><div><strong>주차</strong><small>B-con Plaza 주차장</small></div><em>P</em></li>
           <li><b>3</b><div><strong>등록 데스크</strong><small>1층 정문 로비</small></div><em>17:00~</em></li>
         </ol>
         <div class="vm-btns">
@@ -2063,7 +2063,7 @@
       </div>
     </div>
     <!-- 부스 안내: 1층 로비 배치도 + 부스별 사진 (사진 속 글은 한국어뿐이라 아래에 짧은 설명을 3개 언어로) -->
-    <div class="booths">
+    <div class="booths" id="booths">
       <p class="info-col-title">부스 안내</p>
       <img class="booth-map" src="images/booth-all.jpg" alt="1층 로비 부스 전체 배치" width="1400" height="730" loading="lazy">
       <ul class="booth-list">
@@ -2118,10 +2118,10 @@
           </div>
         </li>
         <li class="floor-row">
-          <span class="floor-num">B1</span>
+          <span class="floor-num">4F</span>
           <div>
-            <p class="floor-name">주차장</p>
-            <p class="floor-desc">B-con Plaza 지하 주차장<br>엘리베이터로 각 층 이동 가능</p>
+            <p class="floor-name">추후 공지</p>
+            <p class="floor-desc">세부 안내는 추후 업데이트됩니다.</p>
           </div>
         </li>
       </ul>
@@ -2313,15 +2313,15 @@
       ] },
       { date: '2026-11-21', dow: 'SAT', label: '11월 21일 (토)', note: '특별 순서는 세부 내용 추후 안내 예정입니다.', items: [
         { t: '09:00', at: ['09:00', '12:00'], name: 'Worship Session 2', sub: 'Awakening & New Wave' },
-        { t: '12:00', at: ['12:00', '13:30'], name: '점심 식사' },
+        { t: '12:00', at: ['12:00', '13:30'], name: '점심 식사 (제공)' },
         { t: '13:30', at: ['13:30', '16:30'], name: 'Worship Session 3', sub: '일본선교 그리고 유업' },
-        { t: '16:30', at: ['16:30', '18:00'], name: '저녁 식사' },
+        { t: '16:30', at: ['16:30', '18:00'], name: '저녁 식사 (제공)' },
         { t: '18:00', at: ['18:00', '21:00'], name: 'Worship Session 4', sub: '부흥 (REVIVAL)', note: '헌금 시간이 있습니다. 미리 준비해 주세요.' },
         { t: '집회 후', name: '정리 및 숙소 이동' },
       ] },
       { date: '2026-11-22', dow: 'SUN', label: '11월 22일 (일)', items: [
         { t: '09:00', at: ['09:00', '12:00'], name: 'Worship Session 5', sub: '인터내셔널 (INTERNATIONAL)' },
-        { t: '12:00', at: ['12:00', '14:00'], name: '점심 식사' },
+        { t: '12:00', at: ['12:00', '14:00'], name: '점심 식사 (제공)' },
         { t: '14:00', at: ['14:00', '16:30'], name: 'Worship Session 6', sub: '선교 (MISSION)' },
       ] },
     ];
@@ -2419,9 +2419,8 @@
         ['좌석', '메인홀 2층 자유석'] ] },
       { f: '3F', name: '추후 공지', map: '', rows: [
         ['안내', '세부 안내는 추후 업데이트됩니다.'] ] },
-      { f: 'B1', name: '주차장', map: '', rows: [
-        ['주차', 'B-con Plaza 지하 주차장'],
-        ['이동', '엘리베이터로 각 층 이동'] ] },
+      { f: '4F', name: '추후 공지', map: '', rows: [
+        ['안내', '세부 안내는 추후 업데이트됩니다.'] ] },
     ];
     // 행사안내 세부 화면 바로가기 [이동할 곳, 이름, 설명] — 안내 화면과 공지 "전체" 목록에서 같이 씀
     const GUIDE_LINKS = [
@@ -2478,7 +2477,7 @@
           return `<div class="meal-day-row${isToday ? ' today' : ''}"><p class="meal-day-label">${d.dow} ${d.date.slice(8)}${isToday ? '<em>TODAY</em>' : ''}</p><div class="meal-cells">${
             KINDS.map(k => {
               if (!got.includes(k)) return `<span class="meal-c">${k}<small>미제공</small></span>`;
-              const s = d.items.find(i => i.name === `${k} 식사` && i.at); // 일정에 시간이 있으면 시간 표시
+              const s = d.items.find(i => i.name.startsWith(`${k} 식사`) && i.at); // 일정에 시간이 있으면 시간 표시
               return `<span class="meal-c on">${k}<small>${s ? s.at.join(' - ') : '제공'}</small></span>`;
             }).join('')
           }</div>${d.note ? `<p class="meal-day-note">※ ${d.note}</p>` : ''}</div>`;
@@ -2633,7 +2632,8 @@
         if (id === 'notice-view') showNotice(arg);
         else document.getElementById('notice-view').hidden = true; // PC: 상세를 벗어나면 닫음
         const el = id && document.getElementById(id);
-        const page = mq.matches && el && el.tagName === 'SECTION' ? el : null;
+        // 화면 안의 한 부분(예: #booths)이면 그 부분이 든 화면을 열고 그 위치로
+        const page = mq.matches && el ? (el.tagName === 'SECTION' ? el : el.closest('section')) : null;
         document.querySelectorAll('.mob-page-current').forEach(s => s.classList.remove('mob-page-current'));
         document.body.classList.toggle('mob-nav-active', !!page);
         if (page) page.classList.add('mob-page-current');
@@ -2641,6 +2641,7 @@
         history.scrollRestoration = mq.matches ? 'manual' : 'auto';
         if (mq.matches) window.scrollTo({ top: history.state?.y || 0, behavior: 'instant' });
         else if (id === 'notice-view') el.scrollIntoView();
+        if (mq.matches && page && el !== page && !history.state?.y) el.scrollIntoView({ behavior: 'instant' });
         document.getElementById('mob-back-label').textContent = id === 'notice-view' ? '공지' : '뒤로';
         document.body.classList.toggle('mob-tab-root', !!page && (tabIds.includes(id) || id === 'quicknav')); // 탭 화면엔 뒤로 바 없음
         // 행사안내(quicknav)와 그 안의 세부 안내 화면들은 공지 탭 아래
