@@ -263,6 +263,10 @@ const I18N = {
 
   // 부스 안내
   '부스 안내': ['Booths', 'ブース案内'],
+  '부스 사진': ['Booth photos', 'ブースの写真'],
+  '닫기': ['Close', '閉じる'],
+  '이전 사진': ['Previous photo', '前の写真'],
+  '다음 사진': ['Next photo', '次の写真'],
   '1층 로비 부스 전체 배치': ['All booths in the 1F lobby', '1階ロビーのブース全体'],
   '인사이드 부스': ['Inside booth', '屋内ブース'],
   '아웃사이드 부스': ['Outside booth', '屋外ブース'],

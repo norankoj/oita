@@ -853,14 +853,37 @@
       .booth-list { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin: 16px calc(-1 * var(--pm)) 0; padding: 0 var(--pm) 6px; scroll-padding: 0 var(--pm); }
       .booth-list li { flex: 0 0 82%; scroll-snap-align: start; }
     }
+    .booths img { cursor: zoom-in; }
+    /* 부스 사진 크게 보기 (dialog): 가로로 넘기는 칸, 한 칸 = 사진 1장 */
+    .lightbox { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #111; color: #fff; overflow: hidden; }
+    .lightbox::backdrop { background: #111; }
+    .lb-track { display: flex; width: 100%; height: 100%; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior: contain; scrollbar-width: none; }
+    .lb-track::-webkit-scrollbar { display: none; }
+    .lb-track figure { flex: 0 0 100%; height: 100%; margin: 0; padding: 64px 16px 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; scroll-snap-align: center; scroll-snap-stop: always; }
+    .lb-track img { display: block; max-width: 100%; max-height: calc(100% - 72px); width: auto; height: auto; object-fit: contain; }
+    .lb-track figcaption { margin-top: 14px; text-align: center; max-width: 640px; word-break: keep-all; }
+    .lb-track figcaption b { display: block; font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 28px; line-height: 1.1; }
+    .lb-track figcaption small { display: block; font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+    .lb-count { position: absolute; top: 18px; left: 20px; font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.04em; }
+    .lb-close { position: absolute; top: 8px; right: 8px; width: 48px; height: 48px; background: none; border: 0; color: #fff; font-size: 34px; line-height: 1; cursor: pointer; }
+    .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 56px; height: 72px; background: rgba(255,255,255,0.08); border: 0; color: #fff; font-size: 40px; line-height: 1; cursor: pointer; }
+    .lb-nav:hover { background: rgba(255,255,255,0.18); }
+    .lb-nav[disabled] { opacity: 0.25; cursor: default; }
+    .lb-prev { left: 16px; }
+    .lb-next { right: 16px; }
+    @media (max-width: 600px) { .lb-nav { display: none; } } /* 휴대폰은 손가락으로 넘김 */
     /* 초청의 글 (dialog) */
-    .invite { width: min(560px, calc(100% - 32px)); max-height: min(86svh, 760px); margin: auto; padding: 32px 28px 24px; border: 0; background: #fff; color: #111; overflow-y: auto; word-break: keep-all; overflow-wrap: break-word; }
+    /* 제목 · 버튼은 고정, 글만 스크롤 */
+    .invite { width: min(560px, calc(100% - 32px)); max-height: min(86svh, 760px); margin: auto; padding: 32px 28px 24px; border: 0; background: #fff; color: #111; overflow: hidden; word-break: keep-all; overflow-wrap: break-word; }
+    .invite[open] { display: flex; flex-direction: column; }
     .invite::backdrop { background: rgba(17,17,17,0.62); }
+    .inv-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+    .invite form { flex-shrink: 0; }
     .inv-eb { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.04em; line-height: 1; color: var(--accent); }
     .inv-title { font-family: var(--font); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; margin: 8px 0 20px; }
     .inv-body p { font-size: 16px; line-height: 1.8; color: #333; }
     .inv-body p + p { margin-top: 14px; }
-    .inv-ok { width: 100%; margin-top: 28px; border: 0; font: inherit; font-weight: 700; cursor: pointer; }
+    .inv-ok { width: 100%; margin-top: 20px; border: 0; font: inherit; font-weight: 700; cursor: pointer; }
     .vid-sub { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 2.8vw, 38px); line-height: 1; color: #fff; margin: 18px 0 32px; }
     .vid-sub small { font-family: var(--font); font-size: 14px; color: rgba(255,255,255,0.6); margin-left: 10px; }
     .vid-list { list-style: none; }
@@ -2261,6 +2284,15 @@
     <form method="dialog"><button class="nv-btn red inv-ok">확인</button></form>
   </dialog>
 
+  <!-- 부스 사진 크게 보기: 누른 사진부터, 옆으로 넘겨서 다음 사진 -->
+  <dialog class="lightbox" id="lightbox" aria-label="부스 사진">
+    <div class="lb-track" id="lb-track"></div>
+    <p class="lb-count" id="lb-count"></p>
+    <button type="button" class="lb-close" id="lb-close" aria-label="닫기">×</button>
+    <button type="button" class="lb-nav lb-prev" data-step="-1" aria-label="이전 사진">‹</button>
+    <button type="button" class="lb-nav lb-next" data-step="1" aria-label="다음 사진">›</button>
+  </dialog>
+
   <script src="i18n.js"></script>
   <script>
     // Mobile nav toggle
@@ -2301,6 +2333,41 @@
     });
     // 보여준 순간 기록 (닫힘 신호를 안 보내는 브라우저도 있어서)
     try { if (!localStorage.getItem('pl-invite')) { openInvite(); localStorage.setItem('pl-invite', '1'); } } catch { openInvite(); }
+
+    // 부스 사진 크게 보기: 로비의 사진(배치도 + 부스 5개)을 누르면 그 사진부터 전체 화면, 옆으로 넘기기
+    const lb = document.getElementById('lightbox'), lbTrack = document.getElementById('lb-track');
+    const boothImgs = [...document.querySelectorAll('.booths img')];
+    const lbIndex = () => Math.round(lbTrack.scrollLeft / lbTrack.clientWidth);
+    function lbUpdate() {
+      const n = lbIndex();
+      document.getElementById('lb-count').textContent = `${n + 1} / ${boothImgs.length}`;
+      lb.querySelector('.lb-prev').disabled = n === 0;
+      lb.querySelector('.lb-next').disabled = n === boothImgs.length - 1;
+    }
+    function lbOpen(start) {
+      // 화면에 보이는 글(번역된 상태)을 그대로 설명으로 씀
+      lbTrack.innerHTML = boothImgs.map(img => {
+        const li = img.closest('li');
+        const cap = li ? `<b>${li.querySelector('b').textContent}</b><small>${li.querySelector('small').textContent}</small>` : `<small>${img.alt}</small>`;
+        return `<figure><img src="${img.getAttribute('src')}" alt="${img.alt}"><figcaption>${cap}</figcaption></figure>`;
+      }).join('');
+      lb.showModal();
+      lbTrack.scrollLeft = start * lbTrack.clientWidth;
+      lbUpdate();
+    }
+    document.querySelector('.booths').addEventListener('click', e => {
+      const img = e.target.closest('img');
+      if (img) lbOpen(boothImgs.indexOf(img));
+    });
+    lbTrack.addEventListener('scroll', lbUpdate, { passive: true });
+    lb.addEventListener('click', e => {
+      const nav = e.target.closest('.lb-nav');
+      if (nav) lbTrack.scrollBy({ left: +nav.dataset.step * lbTrack.clientWidth, behavior: 'smooth' });
+      else if (e.target.closest('#lb-close') || e.target.tagName === 'FIGURE') lb.close(); // 사진 밖 빈 곳을 눌러도 닫힘
+    });
+    lb.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') lbTrack.scrollBy({ left: (e.key === 'ArrowRight' ? 1 : -1) * lbTrack.clientWidth, behavior: 'smooth' });
+    });
 
     // ── 일정 ── PC 3단 / 모바일 타임라인 / 홈의 "지금 순서"가 모두 여기서 나옴
     // t: 표시 시간 · name · sub: 보조 설명 · note: ※ 안내
