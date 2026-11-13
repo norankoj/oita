@@ -220,7 +220,9 @@ const I18N = {
 
   // 초청의 글
   '초청의 글': ['Invitation', 'ご招待'],
+  'inv.title': ["You're Invited", 'ご招待'], // 팝업 제목 (위 INVITATION과 겹치지 않게)
   '확인': ['Close', '閉じる'],
+  '다시 보지 않기': ["Don't show again", '今後表示しない'],
   'The-B 그룹과 함께 여러분을 초대합니다': ['An invitation from The-B Group', 'The-Bグループからのご招待'],
   '하나님께서 일본을 향해 품으신 마음을 함께 바라보며, The-B 그룹과 함께 여러분을 이번 컨퍼런스에 초대합니다.': ['Looking together at the heart God holds for Japan, we invite you to this conference together with The-B Group.', '神様が日本に向けて抱いておられる御心を共に見つめながら、The-Bグループと共に皆さんをこのカンファレンスにご招待します。'],
   '이번 만남을 통해 한국과 일본의 교회가 그리스도 안에서 형제의 연합을 이루고, 함께 예배하고 기도하며 하나님의 임재를 경험하기를 원합니다.': ['Through this gathering, we long for the churches of Korea and Japan to be united as brothers and sisters in Christ, worshiping and praying together and experiencing the presence of God.', 'この出会いを通して、韓国と日本の教会がキリストにあって兄弟としての一致を成し、共に礼拝し祈りながら神様の臨在を体験することを願っています。'],
@@ -306,6 +308,7 @@ const RULES = [
   [/^(\d+)끼 제공$/, (m, i) => [`${m[1]} meals`, `${m[1]}食提供`][i]],
   [/^([\d,]+)명$/, (m, i) => [`${m[1]} people`, `${m[1]}名`][i]],
   [/^(\d+)월 (\d+)일 \((.)\)$/, (m, i) => [`${MONTHS[m[1] - 1]} ${m[2]} (${DAYS[m[3]][0]})`, `${m[1]}月${m[2]}日(${DAYS[m[3]][1]})`][i]],
+  [/^(EM|JM)(\d*)조$/, (m, i) => [`${m[1]}${m[2] ? ' ' + m[2] : ''}`, `${m[1]}${m[2]}班`][i]],
   [/^(기혼)?(\d+)조$/, (m, i) => [`${m[1] ? 'Married' : 'Group'} ${m[2]}`, `${m[1] ? '既婚' : ''}${m[2]}班`][i]],
   [/^THE B 티저 (\d+)$/, (m, i) => [`THE B Teaser ${m[1]}`, `THE B ティーザー ${m[1]}`][i]],
   [/^(.+) 재생$/, (m, i) => [`Play ${T(m[1])}`, `${T(m[1])}を再生`][i]],
@@ -336,7 +339,7 @@ function T(s) {
 const ATTRS = ['aria-label', 'placeholder', 'alt', 'title'];
 function trText(n) {
   const p = n.parentNode;
-  if (!p || /^(SCRIPT|STYLE)$/.test(p.nodeName) || (p.hasAttribute && p.hasAttribute('data-notr'))) return; // 스크립트 코드 · 사람 이름은 건드리지 않음
+  if (!p || /^(SCRIPT|STYLE)$/.test(p.nodeName) || (p.closest && p.closest('[data-notr]'))) return; // 스크립트 코드 · 사람 이름 · 초청의 글은 건드리지 않음
   if (n.__ko == null) n.__ko = n.data;
   const src = n.__ko, key = src.trim().replace(/\s+/g, ' ');
   if (!key) return;

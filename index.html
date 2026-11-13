@@ -880,11 +880,18 @@
     .invite::backdrop { background: rgba(17,17,17,0.62); }
     .inv-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
     .invite form { flex-shrink: 0; }
+    /* 위 줄: 왼쪽 INVITATION, 오른쪽 작은 글자 언어 탭 (고른 언어는 검정 + 밑줄) */
+    .inv-top { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .inv-lang { display: flex; gap: 14px; }
+    .inv-lang button { background: none; border: 0; padding: 6px 0; font: 600 13px var(--font); color: #9a958e; cursor: pointer; }
+    .inv-lang button[aria-pressed="true"] { color: #111; box-shadow: inset 0 -2px 0 #111; }
     .inv-eb { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.04em; line-height: 1; color: var(--accent); }
     .inv-title { font-family: var(--font); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; margin: 8px 0 20px; }
     .inv-body p { font-size: 16px; line-height: 1.8; color: #333; }
     .inv-body p + p { margin-top: 14px; }
-    .inv-ok { width: 100%; margin-top: 20px; border: 0; font: inherit; font-weight: 700; cursor: pointer; }
+    .inv-never { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 14px; color: #555; cursor: pointer; }
+    .inv-never input { width: 18px; height: 18px; margin: 0; accent-color: #111; }
+    .inv-ok { width: 100%; margin-top: 12px; border: 0; font: inherit; font-weight: 700; cursor: pointer; }
     .vid-sub { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 2.8vw, 38px); line-height: 1; color: #fff; margin: 18px 0 32px; }
     .vid-sub small { font-family: var(--font); font-size: 14px; color: rgba(255,255,255,0.6); margin-left: 10px; }
     .vid-list { list-style: none; }
@@ -2278,7 +2285,7 @@
     </a>
     <button type="button" class="mob-tab" id="lang-tab" aria-expanded="false" aria-controls="lang-pop">
       <span class="mob-tab-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z"/></svg></span>
-      <span class="mob-tab-lb">언어</span>
+      <span class="mob-tab-lb">Language</span>
     </button>
   </nav>
   <div class="lang-pop" id="lang-pop" hidden>
@@ -2286,16 +2293,24 @@
   </div>
 
   <!-- 초청의 글: 처음 들어왔을 때 한 번 뜨고, 행사안내의 "초청의 글"로 다시 열 수 있음 -->
-  <dialog class="invite" id="invite" aria-labelledby="invite-title">
-    <p class="inv-eb">INVITATION</p>
-    <h2 class="inv-title" id="invite-title">초청의 글</h2>
+  <!-- 사이트 언어와 상관없이 항상 English로 먼저 열림 (data-notr: 사이트 번역기가 건드리지 않고 아래 스크립트가 직접 바꿈)
+       언어 버튼을 누르면 팝업과 사이트 언어가 함께 바뀜 -->
+  <dialog class="invite" id="invite" aria-labelledby="invite-title" data-notr>
+    <div class="inv-top">
+      <p class="inv-eb">INVITATION</p>
+      <p class="inv-lang" role="group" aria-label="Language"><button type="button" data-inv="en" lang="en">English</button><button type="button" data-inv="ko" lang="ko">한국어</button><button type="button" data-inv="ja" lang="ja">日本語</button></p>
+    </div>
+    <h2 class="inv-title" id="invite-title" data-k="inv.title">초청의 글</h2>
     <div class="inv-body">
       <p>하나님께서 일본을 향해 품으신 마음을 함께 바라보며, The-B 그룹과 함께 여러분을 이번 컨퍼런스에 초대합니다.</p>
       <p>이번 만남을 통해 한국과 일본의 교회가 그리스도 안에서 형제의 연합을 이루고, 함께 예배하고 기도하며 하나님의 임재를 경험하기를 원합니다.</p>
       <p>일본으로부터 아시아 전역에 새로운 부흥의 물결이 일어나고, 여호수아 세대와 같은 다음세대가 일어나 열방을 향한 하나님의 부르심에 함께 응답하기를 기대합니다.</p>
       <p>일본을 향한 하나님의 마음에 여러분도 함께해 주세요. 우리의 기도와 예배 가운데 하나님께서 이루실 일들을 함께 바라보고 기대하며, 이 부흥의 여정에 함께하기를 소망합니다.</p>
     </div>
-    <form method="dialog"><button class="nv-btn red inv-ok">확인</button></form>
+    <form method="dialog">
+      <label class="inv-never"><input type="checkbox" id="inv-never"><span>다시 보지 않기</span></label>
+      <button class="nv-btn red inv-ok">확인</button>
+    </form>
   </dialog>
 
   <!-- 부스 사진 크게 보기: 누른 사진부터, 옆으로 넘겨서 다음 사진 -->
@@ -2337,16 +2352,31 @@
       document.getElementById('lang-tab').setAttribute('aria-expanded', open);
     });
 
-    // 초청의 글: 처음 온 사람에게 한 번 보여주고(본 뒤엔 저장), "초청의 글" 링크로 언제든 다시 열기
+    // 초청의 글: 들어올 때마다 English로 먼저 보여주고, "초청의 글" 링크로 언제든 다시 열기
     const invite = document.getElementById('invite');
-    const openInvite = () => { if (invite.showModal && !invite.open) invite.showModal(); }; // 오래된 휴대폰엔 showModal이 없음 → 건너뜀
+    // 팝업 글은 번역 표(I18N)에서 직접 골라 넣음: 원래 한국어를 기억해 두고 고른 언어로 바꿈
+    const invText = [...invite.querySelectorAll('.inv-title, .inv-body p, .inv-never span, .inv-ok')].map(e => [e, e.textContent.trim()]);
+    function invLang(l) {
+      invText.forEach(([e, ko]) => { e.textContent = l === 'ko' ? ko : (I18N[e.dataset.k || ko] || [])[L[l]] || ko; });
+      invite.querySelectorAll('[data-inv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.inv === l));
+      invite.lang = l;
+    }
+    invite.addEventListener('click', e => {
+      const b = e.target.closest('[data-inv]');
+      if (b) { invLang(b.dataset.inv); setLang(b.dataset.inv); }
+    });
+    // 오래된 휴대폰엔 showModal이 없음 → 건너뜀
+    const openInvite = () => { if (!invite.showModal || invite.open) return; invLang('en'); invite.showModal(); };
     document.addEventListener('click', e => {
       if (!e.target.closest('a[href="#invite"]')) return;
       e.preventDefault();
       openInvite();
     });
-    // 보여준 순간 기록 (닫힘 신호를 안 보내는 브라우저도 있어서)
-    try { if (!localStorage.getItem('pl-invite')) { openInvite(); localStorage.setItem('pl-invite', '1'); } } catch { openInvite(); }
+    // 들어올 때마다 보여줌. "다시 보지 않기"를 체크한 순간 기록 (체크를 풀면 다시 보임)
+    const neverBox = document.getElementById('inv-never');
+    neverBox.addEventListener('change', () => { try { neverBox.checked ? localStorage.setItem('pl-invite-hide', '1') : localStorage.removeItem('pl-invite-hide'); } catch {} });
+    try { neverBox.checked = !!localStorage.getItem('pl-invite-hide'); } catch {}
+    if (!neverBox.checked) openInvite();
 
     // 부스 사진 크게 보기: 로비의 사진(배치도 + 부스 5개)을 누르면 그 사진부터 전체 화면, 옆으로 넘기기
     const escHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
