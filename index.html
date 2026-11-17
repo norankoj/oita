@@ -841,6 +841,73 @@
     .vid-frame.empty::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: 0.2; mix-blend-mode: multiply; }
     /* 푸터 타이포 느낌: 큰 Bebas 제목, 목록은 큰 Bebas 이름 + 옆에 작은 설명 */
     .vid-big { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: clamp(88px, 12vw, 172px); line-height: 0.85; letter-spacing: -0.01em; color: #fff; }
+    /* 1세션 좌석 배치도 (시안 mockup-seatmap.html): 어두운 카드 · 층 탭 · 배치도 · 흰 칸(교회 검색 → 결과)
+       휴대폰: 위에서 아래로 / PC: 왼쪽 제목 · 층 · 검색, 오른쪽 배치도 */
+    .seatmap { scroll-margin-top: 64px; position: relative; display: grid; grid-template-areas: "head" "sess" "floors" "map" "legend" "panel"; gap: 14px; margin: 4px 0 40px; padding: 24px 20px; background: #0e0e0e radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px) 0 0 / 4px 4px; color: #fff; }
+    .sm-head { grid-area: head; } .sm-floors { grid-area: floors; } .sm-map { grid-area: map; } .sm-legend { grid-area: legend; } .sm-panel { grid-area: panel; }
+    .sm-eb { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.06em; line-height: 1; color: var(--accent); }
+    .sm-title { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-top: 4px; }
+    .sm-sub { font-size: 14px; color: rgba(255,255,255,0.55); margin-top: 6px; }
+    /* 세션 탭: 번호 + 요일·때 */
+    .sm-sess { grid-area: sess; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+    .sm-sess button { padding: 7px 2px 8px; background: rgba(255,255,255,0.07); border: 0; color: rgba(255,255,255,0.55); font: inherit; line-height: 1.2; cursor: pointer; word-break: keep-all; }
+    .sm-sess b { display: block; font: 400 26px 'Bebas Neue', sans-serif; letter-spacing: 0.03em; line-height: 1; }
+    .sm-sess small { display: block; font-size: 11px; font-weight: 600; margin-top: 3px; }
+    .sm-sess button.on { background: var(--accent); color: #fff; }
+    .sm-floors { display: grid; grid-template-columns: repeat(4, 1fr); border: 1.5px solid #fff; }
+    .sm-floors button { padding: 10px 0 8px; background: none; border: 0; font: 400 20px 'Bebas Neue', sans-serif; letter-spacing: 0.04em; color: rgba(255,255,255,0.4); cursor: pointer; }
+    .sm-floors button + button { border-left: 1.5px solid rgba(255,255,255,0.35); }
+    .sm-floors button.on { background: #fff; color: #111; }
+    .sm-floors button[disabled] { cursor: default; }
+    .sm-map { width: 100%; height: auto; display: block; }
+    .sm-stage { fill: #fff; }
+    .sm-stage-t { fill: #111; font: 400 30px 'Bebas Neue', sans-serif; letter-spacing: 0.12em; text-anchor: middle; }
+    .sm-door { fill: none; stroke: rgba(255,255,255,0.5); stroke-width: 3; stroke-dasharray: 2 6; stroke-linecap: round; }
+    .sm-door-t { fill: rgba(255,255,255,0.75); font: 400 22px 'Bebas Neue', sans-serif; letter-spacing: 0.05em; text-anchor: middle; }
+    .blk { cursor: pointer; outline: none; }
+    .blk polygon { fill: #2f2f2f; stroke: #0e0e0e; stroke-width: 5; transition: fill 0.15s, opacity 0.15s; }
+    .blk.vip polygon { fill: #3f2626; }
+    .blk.staff polygon { fill: #1f1f1f; stroke: #4a4a4a; stroke-width: 3; stroke-dasharray: 9 7; }
+    .blk text { font: 700 30px var(--font); fill: #fff; text-anchor: middle; pointer-events: none; }
+    .blk tspan { font-size: 21px; font-weight: 600; fill: rgba(255,255,255,0.55); }
+    .blk:hover polygon, .blk:focus-visible polygon { fill: #444; }
+    .blk.sel { filter: drop-shadow(0 0 16px rgba(212,0,0,0.75)); }
+    .blk.sel polygon { fill: var(--accent); stroke: #fff; stroke-width: 5; stroke-dasharray: none; }
+    .blk.sel tspan { fill: #fff; }
+    .seatmap.has-sel .blk:not(.sel) { opacity: 0.28; }
+    .sm-room { fill: none; stroke: #555; stroke-width: 3; stroke-dasharray: 4 6; }
+    .sm-room-t { fill: rgba(255,255,255,0.45); font: 600 20px var(--font); text-anchor: middle; }
+    .sm-badge circle { fill: #fff; } .sm-badge text { fill: var(--accent); font: 400 30px 'Bebas Neue', sans-serif; text-anchor: middle; }
+    .sm-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: rgba(255,255,255,0.6); }
+    .sm-legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; }
+    .lg-church { background: #2f2f2f; } .lg-vip { background: #3f2626; } .lg-staff { background: #1f1f1f; outline: 1.5px dashed #4a4a4a; outline-offset: -1.5px; }
+    /* 흰 칸: 검색 (+ 자주 찾는 교회 · 목록) 또는 결과 */
+    .sm-panel { background: #fff; color: #111; padding: 16px; word-break: keep-all; }
+    .sm-search { display: flex; align-items: center; gap: 10px; height: 54px; padding: 0 14px; border: 1.5px solid #111; cursor: text; }
+    .sm-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: none; font: 500 17px var(--font); color: #111; }
+    .sm-quick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .sm-quick button { padding: 9px 13px; background: #f2efe9; border: 0; font: 600 14px var(--font); color: #111; cursor: pointer; }
+    .sm-list[hidden], .sm-result[hidden], .sm-find[hidden] { display: none; }
+    .sm-sec { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: #9a958e; margin: 18px 0 4px; }
+    .sm-res { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; width: 100%; padding: 13px 0; background: none; border: 0; border-top: 1px solid #ece8e1; text-align: left; font: inherit; color: inherit; cursor: pointer; }
+    .sm-res b { display: block; font-size: 17px; font-weight: 700; } .sm-res small { display: block; font-size: 14px; color: #6e6a64; margin-top: 2px; }
+    .sm-fl { font: 400 20px 'Bebas Neue', sans-serif; padding: 3px 9px 1px; border: 1.5px solid #111; }
+    .sm-none { font-size: 15px; color: #6e6a64; padding: 14px 0 4px; }
+    .sm-rhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .sm-rname { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; color: var(--accent); }
+    .sm-rsub { font-size: 14px; color: #6e6a64; margin-top: 4px; }
+    .sm-rfl { flex-shrink: 0; font: 400 28px 'Bebas Neue', sans-serif; line-height: 1; background: #111; color: #fff; padding: 8px 12px 5px; }
+    .sm-spot { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: baseline; padding: 12px 0; border-top: 1px solid #ece8e1; }
+    .sm-rhead + .sm-spot { margin-top: 12px; }
+    .sm-spot em { font: normal 400 26px 'Bebas Neue', sans-serif; color: var(--accent); line-height: 1; }
+    .sm-spot b { display: block; font-size: 17px; font-weight: 700; } .sm-spot small { display: block; font-size: 14px; color: #6e6a64; margin-top: 2px; }
+    .sm-spot > span { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .sm-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+    .sm-btns button { height: 50px; font: 700 15px var(--font); cursor: pointer; }
+    .sm-btns .k { background: #111; color: #fff; border: 0; } .sm-btns .l { background: none; color: #111; border: 1.5px solid #111; }
+    /* 휴대폰: 화면 끝까지 넓혀 배치도를 크게 */
+    @media (max-width: 600px) { .seatmap { margin-left: calc(-1 * var(--pm)); margin-right: calc(-1 * var(--pm)); } }
+    @media (min-width: 601px) { .seatmap { grid-template-areas: "head map" "sess map" "floors map" "panel map" "panel legend"; grid-template-columns: minmax(300px, 1fr) minmax(0, 1.7fr); grid-template-rows: auto auto auto 1fr auto; align-items: start; column-gap: 40px; padding: 36px; } }
     /* 부스 안내 (로비): 배치도 + 부스 카드. 모바일은 옆으로 넘겨 보기 */
     .booths { margin-top: 40px; scroll-margin-top: 72px; } /* 모바일 뒤로 바 · PC 메뉴 아래 */
     .booth-map { display: block; width: 100%; height: auto; margin-top: 12px; }
@@ -2025,6 +2092,27 @@
   <!-- 좌석안내 -->
   <section id="seating" aria-labelledby="seating-heading">
     <h2 class="info-heading reveal" id="seating-heading"><span class="pc-eb">SEATING</span>좌석안내</h2>
+    <!-- 세션별 좌석 배치도 (시안 mockup-seatmap.html): 세션 탭 · 층 탭 · 배치도 · 교회(조) 검색 → 결과
+         교회(조)를 고르면 앉는 구역이 빨강 + 번호, 구역을 누르면 앉는 교회(조). 내용은 seats.js -->
+    <div class="seatmap" id="seatmap">
+      <div class="sm-head">
+        <p class="sm-eb">SEAT MAP</p>
+        <p class="sm-title" id="sm-title"></p>
+        <p class="sm-sub" id="sm-when"></p>
+      </div>
+      <div class="sm-sess" id="sm-sess" role="tablist" aria-label="세션"></div>
+      <div class="sm-floors" id="sm-floors" role="tablist" aria-label="층"></div>
+      <svg class="sm-map" id="sm-map" viewBox="100 -20 805 680" role="group" aria-label="좌석 배치도"></svg>
+      <p class="sm-legend"><span><i class="lg-church"></i>교회석</span><span><i class="lg-vip"></i>VIP</span><span><i class="lg-staff"></i>스태프 · 사역자</span></p>
+      <div class="sm-panel" aria-live="polite">
+        <div class="sm-find" id="sm-find">
+          <label class="sm-search"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13.5 13.5L18 18" stroke="currentColor" stroke-width="2"/></svg><input type="search" id="sm-q" placeholder="우리 교회 찾기" aria-label="우리 교회 찾기" autocomplete="off"></label>
+          <div class="sm-quick" id="sm-quick"></div>
+          <div class="sm-list" id="sm-list" hidden></div>
+        </div>
+        <div class="sm-result" id="sm-result" hidden></div>
+      </div>
+    </div>
     <div class="reveal" style="transition-delay:0.1s">
       <div class="info-cols">
         <div class="info-col">
@@ -2035,8 +2123,12 @@
               <span class="info-row-val">교회별로 앉습니다</span>
             </li>
             <li class="info-row">
-              <span class="info-row-label">Day 2 · 3 (토 · 주일)</span>
+              <span class="info-row-label">2~5세션 (토 · 주일 오전)</span>
               <span class="info-row-val">조별로 앉습니다</span>
+            </li>
+            <li class="info-row">
+              <span class="info-row-label">6세션 (주일 오후)</span>
+              <span class="info-row-val">교회별로 앉습니다</span>
             </li>
           </ul>
         </div>
@@ -2323,6 +2415,7 @@
   </dialog>
 
   <script src="i18n.js"></script>
+  <script src="seats.js"></script>
   <script>
     // Mobile nav toggle
     const navToggle = document.querySelector('.nav-toggle');
@@ -2414,6 +2507,149 @@
     lb.addEventListener('keydown', e => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') lbTrack.scrollBy({ left: (e.key === 'ArrowRight' ? 1 : -1) * lbTrack.clientWidth, behavior: 'smooth' });
     });
+
+    // ── 좌석 배치도 ── 데이터는 seats.js (SEAT_SESSIONS: 세션 → 구역)
+    // 세션 탭 · 층 탭 · 배치도 · 검색 → 결과. 교회(조)를 고르면 앉는 구역이 빨강 + 번호, 구역을 누르면 앉는 교회(조)
+    const smName = w => Array.isArray(w) ? w[0] : w;
+    const SM_FLOORS = ['1F', '2F', '3F', '4F'];
+    const smNorm = s => s.toLowerCase().replace(/\s+/g, '');
+    // 순서: 숫자 조 → 한글 → 영어, 숫자는 크기순 (2조 < 10조)
+    const smRank = s => /^\d/.test(s) ? 0 : /^[가-힣]/.test(s) ? 1 : 2;
+    const smSort = (a, b) => smRank(a) - smRank(b) || a.localeCompare(b, 'ko', { numeric: true });
+    // 처음 보여줄 세션: 지금(한국 시간) 기준으로 가장 최근에 시작한 세션
+    let smSess = SEAT_SESSIONS.filter(s => !s.from || new Date(s.from + ':00+09:00') <= new Date()).pop();
+    let smFloor = '1F', smSel = null; // smSel: { name } 또는 { block }
+    const smEl = id => document.getElementById(id);
+    const smGroupMode = () => smSess.by === 'group';
+    // 찾을 수 있는 이름: 교회 · 조 + 사역자 (음향 · 하드웨어 · VIP는 담당자만 앉는 자리)
+    const smNames = () => [...new Set(smSess.blocks.filter(b => b.kind === 'church' || b.who[0] === '사역자').flatMap(b => b.who.map(smName)))].sort(smSort);
+    // 그 이름의 자리: 이름이 그대로 적힌 구역 + (조 하나면) 그 조가 들어간 묶음 (예: 13조 → 1~23조)
+    const smMine = (b, n) => b.who.find(w => smName(w) === n || smInGroup(n, smName(w)));
+    const smSpots = n => smSess.blocks.filter(b => smMine(b, n));
+    // 검색: 한국어 이름 + 정식 이름 + 영어 · 일본어 이름, 띄어쓰기 무시
+    const smKey = c => smNorm([c, SM_ALIAS[c] || '', ...(I18N[c] || [])].join(' '));
+    const smFloorsOf = n => [...new Set(smSpots(n).map(b => b.floor))].join(' · ');
+    // 바로가기: 교회별 세션에서 좌석이 많은 교회 5곳
+    const smQuick = () => {
+      if (smGroupMode()) return [];
+      const seats = {};
+      for (const b of smSess.blocks) if (b.kind === 'church') for (const w of b.who) seats[smName(w)] = (seats[smName(w)] || 0) + (Array.isArray(w) ? w[1] : b.seats / b.who.length);
+      return Object.keys(seats).sort((a, b) => seats[b] - seats[a]).slice(0, 5);
+    };
+    function renderSeatMap() {
+      const hits = smSel?.name ? smSpots(smSel.name) : smSel?.block ? [smSel.block] : [];
+      if (hits.length && !hits.some(b => b.floor === smFloor)) smFloor = hits[0].floor; // 다른 층이면 그 층으로
+      smEl('sm-sess').innerHTML = SEAT_SESSIONS.map(s => `<button type="button" role="tab" data-s="${s.key}" aria-selected="${s === smSess}"${s === smSess ? ' class="on"' : ''}><b>${s.key.split('').join('·')}</b><small>${s.tab}</small></button>`).join('');
+      smEl('sm-title').textContent = smSess.title;
+      smEl('sm-when').textContent = smSess.when;
+      smEl('sm-floors').innerHTML = SM_FLOORS.map(f => {
+        const has = smSess.blocks.some(b => b.floor === f);
+        return `<button type="button" role="tab" data-f="${f}" aria-selected="${f === smFloor}"${f === smFloor ? ' class="on"' : ''}${has ? '' : ' disabled'}>${f}</button>`;
+      }).join('');
+      const blocks = smSess.blocks.filter(b => b.floor === smFloor), shown = hits.filter(b => b.floor === smFloor);
+      // 구역 안 글자: 좌석 수 + (넓은 구역만) 조 묶음 또는 교회 이름. 좁은 구역은 숫자만
+      const lines = b => b.who.every(w => smGrp(smName(w))) ? b.who.map(smName) : [b.who.length > 1 ? `${b.who.length}개 교회` : smName(b.who[0])];
+      smEl('sm-map').innerHTML = '<rect x="150" y="-10" width="705" height="78" class="sm-stage"></rect><text x="502" y="42" class="sm-stage-t">STAGE</text>'
+        + SM_DOORS[smFloor].map(([t, x, y, d]) => `<path class="sm-door" d="${d}"/><text x="${x}" y="${y}" class="sm-door-t">${t}</text>`).join('')
+        + (SM_ROOMS[smFloor] || []).map(r => `<polygon class="sm-room" points="${r.pts}"></polygon><text class="sm-room-t" x="${r.lx}" y="${r.ly + 12}">${r.label}</text>`).join('')
+        + blocks.map(b => `<g class="blk ${b.kind}${shown.includes(b) ? ' sel' : ''}" data-b="${b.id}" tabindex="0" role="button" aria-label="${b.where}">`
+          + [].concat(b.pts).map(p => `<polygon points="${p}"></polygon>`).join('')
+          + `<text x="${b.lx}" y="${b.narrow ? b.ly + 10 : b.ly}">${b.seats}${b.narrow ? '' : lines(b).map((l, i) => `<tspan x="${b.lx}" dy="${i ? 24 : 26}">${l}</tspan>`).join('')}</text></g>`).join('')
+        + (smSel?.name && hits.length > 1 ? shown.map(b => `<g class="sm-badge"><circle cx="${b.lx}" cy="${b.ly - 58}" r="22"></circle><text x="${b.lx}" y="${b.ly - 48}">${hits.indexOf(b) + 1}</text></g>`).join('') : '');
+      smEl('seatmap').classList.toggle('has-sel', shown.length > 0);
+      smEl('sm-q').placeholder = smGroupMode() ? '조 번호 · 이름으로 찾기' : '우리 교회 찾기';
+      smEl('sm-q').setAttribute('aria-label', smEl('sm-q').placeholder);
+      // 흰 칸: 고른 게 없으면 검색, 있으면 결과
+      smEl('sm-find').hidden = !!smSel;
+      smEl('sm-result').hidden = !smSel;
+      smEl('sm-quick').innerHTML = smQuick().map(c => `<button type="button" data-c="${c}">${c}</button>`).join('');
+      if (!smSel) return;
+      const btns = `<div class="sm-btns"><button type="button" class="k" data-act="find">${smGroupMode() ? '다른 조 찾기' : '다른 교회 찾기'}</button><button type="button" class="l" data-act="all">배치도 전체</button></div>`;
+      if (smSel.name) {
+        const n = smSel.name;
+        smEl('sm-result').innerHTML = `<div class="sm-rhead"><div><p class="sm-rname">${n}</p>${hits.length > 1 ? `<p class="sm-rsub">${hits.length}곳에 나눠 앉아요</p>` : ''}</div><span class="sm-rfl">${smFloorsOf(n)}</span></div>`
+          + hits.map((b, i) => {
+            const mine = smMine(b, n), cnt = Array.isArray(mine) ? mine[1] : b.who.length === 1 ? b.seats : null;
+            const others = b.who.filter(w => w !== mine).map(smName);
+            const sub = (smName(mine) !== n ? `<small>${smName(mine)}</small>` : '')
+              + (others.length ? `<small><span>${smGroupMode() ? '함께 앉는 곳' : '함께 앉는 교회'}</span>: ${others.map(o => `<span>${o}</span>`).join(' · ')}</small>` : '');
+            return `<div class="sm-spot"><em>${hits.length > 1 ? i + 1 : '·'}</em><div><b>${new Set(hits.map(x => x.floor)).size > 1 ? `${b.floor} · ` : ''}${b.where}</b>${sub}</div><span>${cnt ? `${cnt}석` : `${b.seats}석 구역`}</span></div>`;
+          }).join('') + btns;
+      } else {
+        const b = smSel.block;
+        smEl('sm-result').innerHTML = `<div class="sm-rhead"><div><p class="sm-rname">${b.where}</p><p class="sm-rsub">${b.seats}석</p></div><span class="sm-rfl">${b.floor}</span></div>`
+          + b.who.map(w => `<div class="sm-spot"><em>·</em><div><b>${smName(w)}</b></div><span>${Array.isArray(w) ? `${w[1]}석` : ''}</span></div>`).join('') + btns;
+      }
+    }
+    // 검색 목록: 입력창을 누르면 전체, 글자를 치면 걸러진 결과
+    // 조별 세션: 조 번호(12, 기혼3, EM2)와 사람 이름(조 편성 공개 뒤)으로도 찾음
+    function renderSeatList() {
+      const raw = smEl('sm-q').value, q = smNorm(raw), list = smEl('sm-list');
+      const spots = n => smSpots(n).map(b => `<span>${b.where}</span>`).join(' · ');
+      const row = (n, label = `<b>${n}</b>`, sub = spots(n)) => `<button type="button" class="sm-res" data-c="${n}"><span>${label}<small>${sub}</small></span><span class="sm-fl">${smFloorsOf(n)}</span></button>`;
+      const out = [];
+      const g = smGroupMode() && smGrp(raw);
+      if (g && g.b == null && smSpots(smGrpName(g)).length) out.push(row(smGrpName(g)));
+      if (smGroupMode() && !g && q.length >= 2) {
+        const qe = smNorm(escHtml(raw)); // 명단은 이스케이프돼 옴
+        for (const gr of GROUPS) {
+          const gg = smGrp(gr.name), gn = gg && smGrpName(gg);
+          if (!gn || !smSpots(gn).length) continue;
+          for (const m of gr.members) if (out.length < 30 && smNorm(m.name).includes(qe))
+            out.push(row(gn, `<b data-notr>${m.name}</b>`, `<span>${gn}</span>${m.org ? ` · <span data-notr>${m.org}</span>` : ''}`));
+        }
+      }
+      for (const n of smNames()) if (!q || smKey(n).includes(q)) out.push(row(n));
+      list.innerHTML = `<p class="sm-sec">${q ? '검색 결과' : smGroupMode() ? '전체 목록' : 'ㄱㄴㄷ 전체'}</p>`
+        + (out.length ? out.join('') : `<p class="sm-none">${smGroupMode() ? '찾는 조 · 이름이 없어요' : '찾는 교회가 없어요'}</p>`);
+      list.hidden = false;
+      smEl('sm-quick').hidden = true;
+    }
+    function smPickChurch(c) {
+      smSel = { name: c };
+      smEl('sm-q').value = ''; smEl('sm-q').blur();
+      smEl('sm-list').hidden = true; smEl('sm-quick').hidden = false;
+      renderSeatMap();
+      smEl('seatmap').scrollIntoView({ block: 'start' }); // 휴대폰: 키보드가 닫힌 뒤 배치도부터 보이게
+    }
+    smEl('sm-q').addEventListener('focus', renderSeatList);
+    smEl('sm-q').addEventListener('click', renderSeatList); // 이미 포커스된 상태에서 다시 눌러도 목록이 열리게
+    smEl('sm-q').addEventListener('input', renderSeatList);
+    smEl('sm-find').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (b) smPickChurch(b.dataset.c); });
+    smEl('sm-result').addEventListener('click', e => {
+      const b = e.target.closest('[data-act]');
+      if (!b) return;
+      smSel = null;
+      renderSeatMap();
+      if (b.dataset.act === 'find') smEl('sm-q').focus();
+    });
+    // 세션을 바꾸면: 고른 교회(조)가 그 세션에도 있으면 유지
+    smEl('sm-sess').addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      smSess = SEAT_SESSIONS.find(s => s.key === b.dataset.s);
+      if (!smSel?.name || !smSpots(smSel.name).length) smSel = null;
+      smEl('sm-list').hidden = true; smEl('sm-quick').hidden = false; smEl('sm-q').value = '';
+      renderSeatMap();
+    });
+    smEl('sm-floors').addEventListener('click', e => {
+      const b = e.target.closest('button:not([disabled])');
+      if (!b) return;
+      smFloor = b.dataset.f;
+      // 고른 교회가 그 층에 없으면(또는 구역을 골랐으면) 선택 해제
+      if (smSel?.block || (smSel?.name && !smSpots(smSel.name).some(x => x.floor === smFloor))) smSel = null;
+      renderSeatMap();
+    });
+    const smPick = e => {
+      const g = e.target.closest('.blk');
+      if (!g) return;
+      const b = smSess.blocks.find(x => x.id === g.dataset.b);
+      smSel = smSel?.block === b ? null : { block: b };
+      renderSeatMap();
+    };
+    smEl('sm-map').addEventListener('click', smPick);
+    smEl('sm-map').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); smPick(e); } });
+    renderSeatMap();
 
     // ── 일정 ── PC 3단 / 모바일 타임라인 / 홈의 "지금 순서"가 모두 여기서 나옴
     // t: 표시 시간 · name · sub: 보조 설명 · note: ※ 안내
@@ -2526,7 +2762,7 @@
       { f: '1F', name: '메인홀 · 등록 데스크 · 로비 부스', map: '', rows: [
         ['화장실', '정문 로비 우측 · 메인홀 입구 좌측'],
         ['이동동선', '정문 → 등록 데스크 → 메인홀'],
-        ['좌석', '금 교회별 · 토/주일 조별'],
+        ['좌석', '1·6세션 교회별 · 2~5세션 조별'],
         ['로비 부스', '굿즈 부스 · 안내데스크'] ] },
       { f: '2F', name: '메인홀 2층 자유석 · 식사 공간', map: '', rows: [
         ['화장실', '계단 옆 복도'],
@@ -2541,7 +2777,7 @@
     const GUIDE_LINKS = [
       ['#invite', '초청의 글', 'The-B 그룹과 함께 여러분을 초대합니다'],
       ['#groups', '조 편성', '내 조 · 모임 장소 확인'],
-      ['#seating', '좌석', '금 교회별 · 토/주일 조별'],
+      ['#seating', '좌석', '세션별 좌석 배치도'],
       ['#lobby', '로비 · 등록 데스크', 'Day 1 17:00부터 1층 정문 로비'],
       ['#venue', '오는 길', '벳부역에서 약 10분'],
       ['#faq', '자주 묻는 질문', '화장실 · 분실물 · 의료부스'],
