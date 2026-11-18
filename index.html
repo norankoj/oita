@@ -2590,7 +2590,7 @@
             out.push(row(gn, `<b data-notr>${m.name}</b>`, `<span>${gn}</span>${m.org ? ` · <span data-notr>${m.org}</span>` : ''}`));
         }
       }
-      for (const n of smNames()) if (!q || smKey(n).includes(q)) out.push(row(n));
+      for (const n of smNames()) if ((!q || smKey(n).includes(q)) && !(g && n === smGrpName(g))) out.push(row(n)); // 위에서 이미 보여준 조는 빼기
       list.innerHTML = `<p class="sm-sec">${q ? '검색 결과' : smGroupMode() ? '전체 목록' : 'ㄱㄴㄷ 전체'}</p>`
         + (out.length ? out.join('') : `<p class="sm-none">${smGroupMode() ? '찾는 조 · 이름이 없어요' : '찾는 교회가 없어요'}</p>`);
       list.hidden = false;
