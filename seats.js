@@ -56,7 +56,7 @@ const SM_JP_GROUP = ['도쿄 어웨이크닝', '리버 밸리', ['후쿠오카',
 // locked: true면 배치도를 가리고 '세션 시작 전 공개됩니다'만 보여줌 (수정 중)
 // by: 교회별(church) · 조별(group) / title · when: 제목 · 시간 / tab: 탭 글자 / from: 이 시각(KST)부터 이 세션을 먼저 보여줌
 const SEAT_SESSIONS = [
-  { key: '1', tab: '금 저녁', title: '1세션 좌석 배치', when: '금 18:00 · 교회별로 앉아요', by: 'church', blocks: [...SM_FIXED,
+  { key: '1', locked: true, tab: '금 저녁', title: '1세션 좌석 배치', when: '금 18:00 · 교회별로 앉아요', by: 'church', blocks: [...SM_FIXED,
     ['1F', 'jp', 80, SM_JP], ['1F', 'center', 220, ['조이풀']],
     ['1F', 'left', 73, ['Kingdom', '아쉬레', '시온', 'Paz', 'Evergreen', 'Shemen', '얼라이브', '동서남북', '프뉴마', ['레디', 2]]],
     ['1F', 'lsmall', 15, ['한동대', '더 스톤']], ['1F', 'rwall', 55, ['뉴웨이', ['레디', 2], ['조이풀', 33]]],
@@ -84,7 +84,7 @@ const SEAT_SESSIONS = [
     ['2F', 'lb', 131, ['기혼1~10조', '59~60조']], ['2F', 'rr', 72, ['50~58조']],
     ['3F', 'lb', 95, ['28~37조']], ['3F', 'rr', 55, ['38~43조']],
     ['4F', 'l4', 20, ['44~46조']], ['4F', 'r4', 20, ['47~49조']]] },
-  { key: '6', tab: '주일 오후', title: '6세션 좌석 배치', when: '주일 14:00 · 교회별로 앉아요', by: 'church', from: '2026-11-22T12:00', blocks: [...SM_FIXED,
+  { key: '6', locked: true, tab: '주일 오후', title: '6세션 좌석 배치', when: '주일 14:00 · 교회별로 앉아요', by: 'church', from: '2026-11-22T12:00', blocks: [...SM_FIXED,
     ['1F', 'jpBig', 180, SM_JP], ['1F', 'centerBack', 120, ['수원하나']],
     ['1F', 'left', 73, ['아쉬레', 'Kingdom', '시온', 'Paz', 'Evergreen', '리버 밸리', 'Shemen', '도쿄온누리', '예성', 'CG', '동서남북', '부산하나', '레디', '인 크라이스트', '프뉴마']],
     ['1F', 'lsmall', 15, ['한동대', '더 스톤']], ['1F', 'rwall', 55, ['뉴웨이', '주나임', '강변하비스트']],
