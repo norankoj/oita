@@ -843,7 +843,7 @@
     .vid-big { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: clamp(88px, 12vw, 172px); line-height: 0.85; letter-spacing: -0.01em; color: #fff; }
     /* 1세션 좌석 배치도 (시안 mockup-seatmap.html): 어두운 카드 · 층 탭 · 배치도 · 흰 칸(교회 검색 → 결과)
        휴대폰: 위에서 아래로 / PC: 왼쪽 제목 · 층 · 검색, 오른쪽 배치도 */
-    .seatmap { scroll-margin-top: 64px; position: relative; display: grid; grid-template-areas: "head" "sess" "floors" "map" "legend" "panel"; gap: 14px; margin: 4px 0 40px; padding: 24px 20px; background: #0e0e0e radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px) 0 0 / 4px 4px; color: #fff; }
+    .seatmap { scroll-margin-top: 64px; position: relative; display: grid; grid-template-areas: "head" "sess" "panel" "floors" "map" "legend"; gap: 14px; margin: 4px 0 40px; padding: 24px 20px; background: #0e0e0e radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px) 0 0 / 4px 4px; color: #fff; }
     .sm-head { grid-area: head; } .sm-floors { grid-area: floors; } .sm-map { grid-area: map; } .sm-legend { grid-area: legend; } .sm-panel { grid-area: panel; }
     .sm-eb { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.06em; line-height: 1; color: var(--accent); }
     .sm-title { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-top: 4px; }
@@ -901,6 +901,7 @@
     .sm-rsub { font-size: 14px; color: #6e6a64; margin-top: 4px; }
     .sm-rfl { flex-shrink: 0; font: 400 28px 'Bebas Neue', sans-serif; line-height: 1; background: #111; color: #fff; padding: 8px 12px 5px; }
     .sm-spot { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: baseline; padding: 12px 0; border-top: 1px solid #ece8e1; }
+    .sm-spot.plain { grid-template-columns: 1fr auto; } /* 번호 없는 줄: 점 대신 칸을 비움 */
     .sm-rhead + .sm-spot { margin-top: 12px; }
     .sm-spot em { font: normal 400 26px 'Bebas Neue', sans-serif; color: var(--accent); line-height: 1; }
     .sm-spot b { display: block; font-size: 17px; font-weight: 700; } .sm-spot small { display: block; font-size: 14px; color: #6e6a64; margin-top: 2px; }
@@ -2574,12 +2575,12 @@
             const others = b.who.filter(w => w !== mine).map(smName);
             const sub = (smName(mine) !== n ? `<small>${smName(mine)}</small>` : '')
               + (others.length ? `<small><span>${smGroupMode() ? '함께 앉는 곳' : '함께 앉는 교회'}</span>: ${others.map(o => `<span>${o}</span>`).join(' · ')}</small>` : '');
-            return `<div class="sm-spot"><em>${hits.length > 1 ? i + 1 : '·'}</em><div><b>${new Set(hits.map(x => x.floor)).size > 1 ? `${b.floor} · ` : ''}${b.where}</b>${sub}</div><span>${cnt ? `${cnt}석` : `${b.seats}석 구역`}</span></div>`;
+            return `<div class="sm-spot${hits.length > 1 ? '' : ' plain'}">${hits.length > 1 ? `<em>${i + 1}</em>` : ''}<div><b>${new Set(hits.map(x => x.floor)).size > 1 ? `${b.floor} · ` : ''}${b.where}</b>${sub}</div><span>${cnt ? `${cnt}석` : `${b.seats}석 구역`}</span></div>`;
           }).join('') + btns;
       } else {
         const b = smSel.block;
         smEl('sm-result').innerHTML = `<div class="sm-rhead"><div><p class="sm-rname">${b.where}</p><p class="sm-rsub">${b.seats}석</p></div><span class="sm-rfl">${b.floor}</span></div>`
-          + b.who.map(w => `<div class="sm-spot"><em>·</em><div><b>${smName(w)}</b></div><span>${Array.isArray(w) ? `${w[1]}석` : ''}</span></div>`).join('') + btns;
+          + b.who.map(w => `<div class="sm-spot plain"><div><b>${smName(w)}</b></div><span>${Array.isArray(w) ? `${w[1]}석` : ''}</span></div>`).join('') + btns;
       }
     }
     // 검색 목록: 입력창을 누르면 전체, 글자를 치면 걸러진 결과
