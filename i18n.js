@@ -271,6 +271,7 @@ const I18N = {
   'Day 1 (금) · 1세션 좌석 배치': ['Day 1 (Fri) · Session 1 seating', 'Day 1(金)・第1セッション座席'],
   '1층 · 교회를 누르면 앉는 자리가 표시돼요': ['1F · Tap your church to see where you sit', '1階・教会を押すと座席の場所が表示されます'],
   '교회를 누르면 앉는 자리가 표시돼요': ['Tap your church to see where you sit', '教会を押すと座席の場所が表示されます'],
+  '세션 시작 전 공개됩니다': ['Will be revealed before the session starts', 'セッション開始前に公開されます'],
   '1층 좌석 배치도': ['1F seating map', '1階座席表'],
   '1세션 좌석 배치': ['Session 1 seating', '第1セッション 座席'],
   'Day 1 · 금 18:00 · 교회별로 앉아요': ['Day 1 · Fri 18:00 · Seated by church', 'Day 1・金 18:00・教会ごとに着席'],

@@ -860,6 +860,9 @@
     .sm-floors button.on { background: #fff; color: #111; }
     .sm-floors button[disabled] { cursor: default; }
     .sm-map { width: 100%; height: auto; display: block; }
+    /* 아직 공개 전인 세션: 층 탭 · 범례 · 검색 숨김 */
+    .seatmap.locked .sm-floors, .seatmap.locked .sm-legend, .seatmap.locked .sm-panel { display: none; }
+    .sm-lock-t { fill: rgba(255,255,255,0.75); font: 700 34px var(--font); text-anchor: middle; }
     .sm-stage { fill: #fff; }
     .sm-stage-t { fill: #111; font: 400 30px 'Bebas Neue', sans-serif; letter-spacing: 0.12em; text-anchor: middle; }
     .sm-door { fill: none; stroke: rgba(255,255,255,0.5); stroke-width: 3; stroke-dasharray: 2 6; stroke-linecap: round; }
@@ -2533,6 +2536,13 @@
       smEl('sm-sess').innerHTML = SEAT_SESSIONS.map(s => `<button type="button" role="tab" data-s="${s.key}" aria-selected="${s === smSess}"${s === smSess ? ' class="on"' : ''}><b>${s.key.split('').join('·')}</b><small>${s.tab}</small></button>`).join('');
       smEl('sm-title').textContent = smSess.title;
       smEl('sm-when').textContent = smSess.when;
+      smEl('seatmap').classList.toggle('locked', !!smSess.locked);
+      if (smSess.locked) { // 공개 전: 무대 + 안내 문구만
+        smSel = null;
+        smEl('seatmap').classList.remove('has-sel');
+        smEl('sm-map').innerHTML = '<rect x="150" y="-10" width="705" height="78" class="sm-stage"></rect><text x="502" y="42" class="sm-stage-t">STAGE</text><text x="502" y="340" class="sm-lock-t">세션 시작 전 공개됩니다</text>';
+        return;
+      }
       smEl('sm-floors').innerHTML = SM_FLOORS.map(f => {
         const has = smSess.blocks.some(b => b.floor === f);
         return `<button type="button" role="tab" data-f="${f}" aria-selected="${f === smFloor}"${f === smFloor ? ' class="on"' : ''}${has ? '' : ' disabled'}>${f}</button>`;
