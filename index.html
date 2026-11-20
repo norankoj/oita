@@ -1753,7 +1753,7 @@
     <ul class="nav-links" id="nav-links">
       <li><a href="#notice">행사안내</a></li>
       <li><a href="#schedule">일정</a></li>
-      <li><a href="#groups">조 편성</a></li>
+      <li><a href="#seating">좌석</a></li>
       <li><a href="#venue">오는 길</a></li>
       <li><a href="#teaser">영상</a></li>
     </ul>
@@ -1839,13 +1839,12 @@
   <div class="mob-quick">
   <p class="mob-quick-label">빠른 이동</p>
   <nav class="mob-home-grid" aria-label="빠른 이동">
-    <!-- 일정은 위 "일정 보기" 버튼과 겹쳐서, 첫 칸은 조 편성 -->
-    <a href="#groups" class="mob-home-tile red">
-      <span class="mob-home-tile-name">조 편성</span>
-      <span class="mob-home-tile-sub">내 조 찾기</span>
+    <!-- 일정은 위 "일정 보기" 버튼과 겹쳐서, 첫 칸은 좌석 배치 (조 편성은 닫아 둠) -->
+    <a href="#seating" class="mob-home-tile red">
+      <span class="mob-home-tile-name">좌석 배치도</span>
+      <span class="mob-home-tile-sub">세션별 좌석 배치도</span>
       <span class="mob-home-tile-arr">→</span>
     </a>
-    <!-- 조 편성이 확정되면 이 타일을 #groups "조 편성 / 내 조 확인"으로 되돌리기 -->
     <a href="#notice" class="mob-home-tile">
       <span class="mob-home-tile-name">공지</span>
       <span class="mob-home-tile-sub" id="notice-count">공지사항</span>
@@ -2004,7 +2003,8 @@
   </div>
 
   <!-- 조 편성 -->
-  <section id="groups" aria-labelledby="groups-heading">
+  <!-- 조 편성이 실시간으로 바뀌어서 닫아 둠 (11.20). 다시 열려면 style 지우고 메뉴 · 타일 · 바로가기를 #groups로 되돌리기 -->
+  <section id="groups" aria-labelledby="groups-heading" style="display:none">
     <!-- 제목 · 검색 · 조별/교회별 · 연 교회 이름은 스크롤해도 위에 고정 -->
     <div class="grp-head">
       <div class="groups-layout">
@@ -2336,7 +2336,7 @@
       <nav class="footer-links" aria-label="Footer links">
         <a href="#notice">행사안내</a>
         <a href="#schedule">일정</a>
-        <a href="#groups">조 편성</a>
+        <a href="#seating">좌석</a>
         <a href="#meals">식사</a>
         <a href="#quicknav">층별</a>
         <a href="#venue">오는 길</a>
@@ -2777,7 +2777,6 @@
     // 행사안내 세부 화면 바로가기 [이동할 곳, 이름, 설명] — 안내 화면과 공지 "전체" 목록에서 같이 씀
     const GUIDE_LINKS = [
       ['#invite', '초청의 글', 'The-B 그룹과 함께 여러분을 초대합니다'],
-      ['#groups', '조 편성', '내 조 · 모임 장소 확인'],
       ['#seating', '좌석', '세션별 좌석 배치도'],
       ['#lobby', '로비 · 등록 데스크', 'Day 1 17:00부터 1층 정문 로비'],
       ['#venue', '오는 길', '벳부역에서 약 10분'],
@@ -2911,9 +2910,6 @@
         body: '식사는 총 3끼 제공됩니다. 세부 메뉴와 장소는 추후 공지됩니다.',
         facts: [['제공', '토 점심 · 저녁, 일 점심']],
         link: ['#meals', '식사 안내 보기'] },
-      { id: 1, cat: '안내', date: '11.11', title: '조 편성은 11월 20일(금) 오전에 공개됩니다',
-        body: '공개되면 조 편성 페이지에서 이름으로 내 조를 찾을 수 있습니다.',
-        link: ['#groups', '조 편성 보기'] },
     ];
     // 읽음 표시는 각자 휴대폰에만 저장
     const read = (() => { try { return new Set(JSON.parse(localStorage.getItem('pl-read')) || []); } catch { return new Set(); } })();
