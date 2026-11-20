@@ -357,6 +357,8 @@ const I18N = {
   '리버 밸리': ['River Valley', 'リバーバレー'],
   '후쿠오카': ['Fukuoka', '福岡'],
   '도쿄온누리': ['Tokyo Onnuri', '東京オンヌリ'],
+  '에이멘': ['Amen', 'エイメン'],
+  '생명샘': ['Living Spring', 'センミョンセム'],
   // 좌석 배치 PPT 이미지
   '우리 교회는 어디?': ['Where is my church?', '私の教会はどこ?'],
   '우리 조는 어디?': ['Where is my group?', '私のグループはどこ?'],
