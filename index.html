@@ -910,7 +910,19 @@
     .sm-btns button { height: 50px; font: 700 15px var(--font); cursor: pointer; }
     .sm-btns .k { background: #111; color: #fff; border: 0; } .sm-btns .l { background: none; color: #111; border: 1.5px solid #111; }
     /* 휴대폰: 화면 끝까지 넓혀 배치도를 크게 */
-    @media (max-width: 600px) { .seatmap { margin-left: calc(-1 * var(--pm)); margin-right: calc(-1 * var(--pm)); } }
+    @media (max-width: 600px) {
+      .seatmap { margin-left: calc(-1 * var(--pm)); margin-right: calc(-1 * var(--pm)); gap: 10px; padding: 18px 16px; }
+      /* 위쪽을 낮게: 배치도가 첫 화면에 들어오게 */
+      .sm-eb { display: none; }
+      .sm-title { font-size: 20px; margin-top: 0; } .sm-sub { font-size: 13px; margin-top: 2px; }
+      .sm-sess button { padding: 5px 2px 6px; } .sm-sess b { font-size: 20px; } .sm-sess small { font-size: 10px; margin-top: 1px; }
+      .sm-floors button { padding: 7px 0 5px; font-size: 18px; }
+      /* 교회(조)를 고르면 결과 칸은 배치도 아래로 */
+      .seatmap.picked { grid-template-areas: "head" "sess" "floors" "map" "panel" "legend"; }
+      .sm-floors { scroll-margin-top: calc(60px + env(safe-area-inset-top)); } /* 위 뒤로 바 아래 */
+    }
+    /* 검색 목록: 페이지를 늘리지 않고 칸 안에서 스크롤 */
+    .sm-list { max-height: 45vh; overflow-y: auto; overscroll-behavior: contain; }
     @media (min-width: 601px) { .seatmap { grid-template-areas: "head map" "sess map" "floors map" "panel map" "panel legend"; grid-template-columns: minmax(300px, 1fr) minmax(0, 1.7fr); grid-template-rows: auto auto auto 1fr auto; align-items: start; column-gap: 40px; padding: 36px; } }
     /* 부스 안내 (로비): 배치도 + 부스 카드. 모바일은 옆으로 넘겨 보기 */
     .booths { margin-top: 40px; scroll-margin-top: 72px; } /* 모바일 뒤로 바 · PC 메뉴 아래 */
@@ -2564,6 +2576,7 @@
       smEl('sm-q').placeholder = smGroupMode() ? '조 번호 · 이름으로 찾기' : '우리 교회 찾기';
       smEl('sm-q').setAttribute('aria-label', smEl('sm-q').placeholder);
       // 흰 칸: 고른 게 없으면 검색, 있으면 결과
+      smEl('seatmap').classList.toggle('picked', !!smSel);
       smEl('sm-find').hidden = !!smSel;
       smEl('sm-result').hidden = !smSel;
       smEl('sm-quick').innerHTML = smQuick().map(c => `<button type="button" data-c="${c}">${c}</button>`).join('');
@@ -2614,7 +2627,8 @@
       smEl('sm-q').value = ''; smEl('sm-q').blur();
       smEl('sm-list').hidden = true; smEl('sm-quick').hidden = false;
       renderSeatMap();
-      smEl('seatmap').scrollIntoView({ block: 'start' }); // 휴대폰: 키보드가 닫힌 뒤 배치도부터 보이게
+      // 휴대폰: 층 탭부터 (배치도 → 결과), PC: 카드 맨 위
+      smEl(matchMedia('(max-width: 600px)').matches ? 'sm-floors' : 'seatmap').scrollIntoView({ block: 'start' });
     }
     smEl('sm-q').addEventListener('focus', renderSeatList);
     smEl('sm-q').addEventListener('click', renderSeatList); // 이미 포커스된 상태에서 다시 눌러도 목록이 열리게
